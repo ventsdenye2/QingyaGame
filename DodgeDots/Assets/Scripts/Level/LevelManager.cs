@@ -69,9 +69,9 @@ namespace DodgeDots.Level
             switch (type)
             {
                 case LevelType.BossBattle:
-                    // Boss战：启用边界限制
-                    playerController.SetBoundsRestriction(true);
-                    if (gameConfig != null)
+                    // Boss战：只在未使用自定义边界时设置边界大小
+                    // 如果使用了自定义边界，则保持PlayerController中的customBounds设置
+                    if (gameConfig != null && !playerController.GetUseCustomBounds())
                     {
                         playerController.SetBounds(gameConfig.bossBattleBounds);
                     }

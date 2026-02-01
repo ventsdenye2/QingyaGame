@@ -326,7 +326,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   restrictToBounds: 1
-  controlMode: 0
+  useCustomBounds: 1
+  customBounds: {x: 960, y: 540}
+  boundsScale: 0.95
+  controlMode: 1
   gameConfig: {fileID: 11400000, guid: 1877b4648c7996b4d9f7b3a60acfff44, type: 2}
 --- !u!58 &707947443
 CircleCollider2D:
@@ -371,7 +374,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 707947439}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -494,9 +497,11 @@ MonoBehaviour:
   phaseHealthThresholds:
   - 0.7
   - 0.4
-  attackInterval: 2
-  circlePatternBulletCount: 12
-  bulletSpeed: 3
+  attackConfig: {fileID: 0}
+  dialogueConfig: {fileID: 0}
+  attackInterval: 1
+  circlePatternBulletCount: 100
+  bulletSpeed: 8
   bulletDamage: 10
 --- !u!61 &989204361
 BoxCollider2D:
@@ -682,7 +687,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668dd02f2b04d574c8cbbe11dfcf24c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 4575700922554334577, guid: b8424c6613c7a9f40947195305fd5ebe, type: 3}
+  defaultBulletPrefab: {fileID: 4575700922554334577, guid: b8424c6613c7a9f40947195305fd5ebe, type: 3}
+  bulletTypes:
+  - config: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    prefab: {fileID: 4575700922554334577, guid: 71ff6d1e8421b2449aa55a2c0fa2e3b1, type: 3}
   initialPoolSize: 100
   maxPoolSize: 500
   gameConfig: {fileID: 11400000, guid: 1877b4648c7996b4d9f7b3a60acfff44, type: 2}

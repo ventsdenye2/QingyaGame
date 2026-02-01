@@ -5,30 +5,55 @@ namespace DodgeDots.Bullet
 {
     /// <summary>
     /// 基础弹幕类
+    /// 支持配置系统和行为扩展
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(SpriteRenderer))]
     public class Bullet : MonoBehaviour
     {
-        [Header("弹幕设置")]
+        [Header("弹幕配置")]
+        [SerializeField] private BulletConfig config;
+
+        [Header("运行时设置（可覆盖配置）")]
         [SerializeField] private float damage = 10f;
         [SerializeField] private float speed = 5f;
-        [SerializeField] private float lifetime = 10f; // 生命周期，超时自动回收
+        [SerializeField] private float lifetime = 10f;
 
         private Rigidbody2D _rb;
+        private SpriteRenderer _spriteRenderer;
+        private CircleCollider2D _collider;
         private Vector2 _direction;
         private float _currentLifetime;
         private bool _isActive;
-        private Team _team; // 弹幕所属阵营
+        private Team _team;
+        private IBulletBehavior[] _behaviors;
+        private int _pierceCount = 0; // 当前穿透次数
 
+        // 公共属性
         public float Damage => damage;
+        public float Speed => speed;
+        public Vector2 Direction => _direction;
         public bool IsActive => _isActive;
         public Team Team => _team;
+        public BulletConfig Config => config;
 
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _rb.gravityScale = 0; // 弹幕不受重力影响
+
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _collider = GetComponent<CircleCollider2D>();
+
+            // 获取所有行为组件
+            _behaviors = GetComponents<IBulletBehavior>();
+
+            // 如果有配置，应用配置
+            if (config != null)
+            {
+                ApplyConfig(config);
+            }
         }
 
         private void Update()
@@ -36,11 +61,27 @@ namespace DodgeDots.Bullet
             if (!_isActive) return;
 
             // 更新生命周期
-            _currentLifetime -= Time.deltaTime;
-            if (_currentLifetime <= 0)
+            if (lifetime > 0)
             {
-                Deactivate();
+                _currentLifetime -= Time.deltaTime;
+                if (_currentLifetime <= 0)
+                {
+                    Deactivate();
+                    return;
+                }
             }
+
+            // 调用所有行为的Update
+            if (_behaviors != null)
+            {
+                foreach (var behavior in _behaviors)
+                {
+                    behavior.OnUpdate();
+                }
+            }
+
+            // 更新视觉效果
+            UpdateVisuals();
         }
 
         private void FixedUpdate()
@@ -52,7 +93,41 @@ namespace DodgeDots.Bullet
         }
 
         /// <summary>
-        /// 初始化弹幕
+        /// 初始化弹幕（使用配置）
+        /// </summary>
+        public void Initialize(Vector2 position, Vector2 direction, Team team, BulletConfig bulletConfig = null)
+        {
+            transform.position = position;
+            _direction = direction.normalized;
+            _team = team;
+
+            // 应用配置
+            if (bulletConfig != null)
+            {
+                ApplyConfig(bulletConfig);
+            }
+            else if (config != null)
+            {
+                ApplyConfig(config);
+            }
+
+            _currentLifetime = lifetime;
+            _pierceCount = 0;
+            _isActive = true;
+            gameObject.SetActive(true);
+
+            // 初始化所有行为
+            if (_behaviors != null)
+            {
+                foreach (var behavior in _behaviors)
+                {
+                    behavior.Initialize(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 初始化弹幕（兼容旧版本，使用参数覆盖）
         /// </summary>
         public void Initialize(Vector2 position, Vector2 direction, Team team, float speed = -1, float damage = -1)
         {
@@ -64,8 +139,18 @@ namespace DodgeDots.Bullet
             if (damage > 0) this.damage = damage;
 
             _currentLifetime = lifetime;
+            _pierceCount = 0;
             _isActive = true;
             gameObject.SetActive(true);
+
+            // 初始化所有行为
+            if (_behaviors != null)
+            {
+                foreach (var behavior in _behaviors)
+                {
+                    behavior.Initialize(this);
+                }
+            }
         }
 
         /// <summary>
@@ -75,6 +160,17 @@ namespace DodgeDots.Bullet
         {
             _isActive = false;
             _rb.velocity = Vector2.zero;
+            _pierceCount = 0;
+
+            // 重置所有行为
+            if (_behaviors != null)
+            {
+                foreach (var behavior in _behaviors)
+                {
+                    behavior.Reset();
+                }
+            }
+
             gameObject.SetActive(false);
         }
 
@@ -82,8 +178,15 @@ namespace DodgeDots.Bullet
         {
             if (!_isActive) return;
 
+            // 检查是否是边界
+            if (other.CompareTag("Boundary"))
+            {
+                HandleBoundaryCollision(other);
+                return;
+            }
+
             // 阵营检测：避免误伤
-            bool isEnemy = other.CompareTag("Enemy") || other.CompareTag("Boss");
+            bool isEnemy = other.CompareTag("Boss"); // 暂时只检查Boss标签，避免Enemy标签未定义错误
             bool isPlayer = other.CompareTag("Player");
 
             // 玩家阵营的弹幕只能伤害敌人
@@ -95,8 +198,38 @@ namespace DodgeDots.Bullet
             var damageable = other.GetComponent<IDamageable>();
             if (damageable != null && damageable.CanTakeDamage)
             {
+                // 先让行为系统处理碰撞
+                bool behaviorHandled = false;
+                if (_behaviors != null)
+                {
+                    foreach (var behavior in _behaviors)
+                    {
+                        if (behavior.OnTargetHit(other))
+                        {
+                            behaviorHandled = true;
+                        }
+                    }
+                }
+
+                // 造成伤害
                 damageable.TakeDamage(damage, gameObject);
-                Deactivate();
+
+                // 如果行为系统处理了碰撞，不销毁子弹
+                if (behaviorHandled) return;
+
+                // 检查穿透
+                if (config != null && config.isPiercing)
+                {
+                    _pierceCount++;
+                    if (config.maxPierceCount > 0 && _pierceCount >= config.maxPierceCount)
+                    {
+                        Deactivate();
+                    }
+                }
+                else
+                {
+                    Deactivate();
+                }
             }
         }
 
@@ -122,6 +255,116 @@ namespace DodgeDots.Bullet
         public void SetDamage(float newDamage)
         {
             damage = newDamage;
+        }
+
+        /// <summary>
+        /// 应用配置到子弹
+        /// </summary>
+        private void ApplyConfig(BulletConfig bulletConfig)
+        {
+            if (bulletConfig == null) return;
+
+            config = bulletConfig;
+
+            // 应用基础属性
+            speed = bulletConfig.defaultSpeed;
+            damage = bulletConfig.defaultDamage;
+            lifetime = bulletConfig.lifetime;
+
+            // 应用视觉效果
+            if (_spriteRenderer != null)
+            {
+                if (bulletConfig.sprite != null)
+                    _spriteRenderer.sprite = bulletConfig.sprite;
+
+                _spriteRenderer.color = bulletConfig.color;
+                _spriteRenderer.sortingLayerName = bulletConfig.sortingLayer;
+                _spriteRenderer.sortingOrder = bulletConfig.sortingOrder;
+            }
+
+            // 应用缩放
+            transform.localScale = new Vector3(bulletConfig.scale.x, bulletConfig.scale.y, 1f);
+
+            // 应用碰撞器大小
+            if (_collider != null)
+            {
+                _collider.radius = bulletConfig.colliderRadius;
+            }
+        }
+
+        /// <summary>
+        /// 更新视觉效果
+        /// </summary>
+        private void UpdateVisuals()
+        {
+            if (config == null) return;
+
+            // 旋转效果
+            if (config.rotationSpeed != 0)
+            {
+                transform.Rotate(0, 0, config.rotationSpeed * Time.deltaTime);
+            }
+
+            // 朝向移动方向
+            if (config.faceDirection && _direction != Vector2.zero)
+            {
+                float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0, 0, angle);
+            }
+        }
+
+        /// <summary>
+        /// 处理边界碰撞
+        /// </summary>
+        private void HandleBoundaryCollision(Collider2D boundary)
+        {
+            // 计算边界法线
+            Vector2 normal = CalculateBoundaryNormal(boundary);
+
+            // 让行为系统处理边界碰撞
+            bool behaviorHandled = false;
+            if (_behaviors != null)
+            {
+                foreach (var behavior in _behaviors)
+                {
+                    if (behavior.OnBoundaryHit(normal))
+                    {
+                        behaviorHandled = true;
+                    }
+                }
+            }
+
+            // 如果行为系统没有处理，默认销毁子弹
+            if (!behaviorHandled)
+            {
+                Deactivate();
+            }
+        }
+
+        /// <summary>
+        /// 计算边界法线
+        /// </summary>
+        private Vector2 CalculateBoundaryNormal(Collider2D boundary)
+        {
+            // 简单实现：根据子弹位置和边界中心计算法线
+            Vector2 bulletPos = transform.position;
+            Vector2 boundaryCenter = boundary.bounds.center;
+            Vector2 direction = (bulletPos - boundaryCenter).normalized;
+
+            // 判断是哪个边界（上下左右）
+            float absX = Mathf.Abs(direction.x);
+            float absY = Mathf.Abs(direction.y);
+
+            if (absX > absY)
+            {
+                // 左右边界
+                return new Vector2(Mathf.Sign(direction.x), 0);
+            }
+            else
+            {
+                // 上下边界
+                return new Vector2(0, Mathf.Sign(direction.y));
+            }
         }
     }
 }

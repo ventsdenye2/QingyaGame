@@ -17,7 +17,6 @@ namespace DodgeDots.Enemy
         [SerializeField] private float bulletDamage = 10f;
 
         private float _attackTimer;
-        private BulletManager _bulletManager;
 
         protected override void Awake()
         {
@@ -27,18 +26,7 @@ namespace DodgeDots.Enemy
         protected override void Start()
         {
             base.Start();
-
-            // 在Start中获取BulletManager，确保BulletManager已经初始化
-            _bulletManager = BulletManager.Instance;
-
-            if (_bulletManager == null)
-            {
-                Debug.LogError("BulletManager.Instance 为 null！请确保场景中有 BulletManager 组件。");
-            }
-            else
-            {
-                Debug.Log("BulletManager 初始化成功");
-            }
+            _attackTimer = attackInterval;
         }
 
         private void Update()

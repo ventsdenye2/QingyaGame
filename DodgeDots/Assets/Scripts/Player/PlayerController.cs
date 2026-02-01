@@ -21,6 +21,9 @@ namespace DodgeDots.Player
         [Header("移动设置")]
         [SerializeField] private float moveSpeed = 5f;
         [SerializeField] private bool restrictToBounds = true;
+        [SerializeField] private bool useCustomBounds = false; // 是否使用自定义边界
+        [SerializeField] private Vector2 customBounds = new Vector2(960f, 540f); // 自定义边界（1920x1080关卡的半边界）
+        [SerializeField] private float boundsScale = 0.95f; // 边界缩放因子（仅在自动计算时使用）
         [SerializeField] private ControlMode controlMode = ControlMode.Keyboard;
 
         [Header("引用")]
@@ -30,17 +33,52 @@ namespace DodgeDots.Player
         private Vector2 _moveInput;
         private Vector2 _bounds;
         private Camera _mainCamera;
+        private Vector2 _mouseTargetPosition; // 鼠标模式下的目标位置
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _mainCamera = Camera.main;
 
-            // 如果配置了GameConfig，使用配置的速度和边界
-            if (gameConfig != null)
+            // 确定边界大小
+            if (useCustomBounds)
             {
+                // 使用自定义边界
+                _bounds = customBounds;
+            }
+            else if (gameConfig != null)
+            {
+                // 使用GameConfig配置的边界
                 moveSpeed = gameConfig.playerMoveSpeed;
                 _bounds = gameConfig.bossBattleBounds / 2f;
+            }
+            else
+            {
+                // 自动计算边界（基于相机视口）
+                if (_mainCamera != null && restrictToBounds)
+                {
+                    float height = _mainCamera.orthographicSize;
+                    float width = height * _mainCamera.aspect;
+                    _bounds = new Vector2(width, height) * boundsScale;
+                }
+                else
+                {
+                    // 如果没有相机或不限制边界，使用一个大的默认值
+                    _bounds = new Vector2(100f, 100f);
+                }
+            }
+
+            // 调试日志
+            Debug.Log($"PlayerController 初始化: controlMode={controlMode}, moveSpeed={moveSpeed}, " +
+                      $"restrictToBounds={restrictToBounds}, bounds={_bounds}, " +
+                      $"camera={((_mainCamera != null) ? _mainCamera.name : "null")}, " +
+                      $"rigidbodyType={_rigidbody.bodyType}");
+
+            // 检查Rigidbody2D设置
+            if (controlMode == ControlMode.Mouse && _rigidbody.bodyType != RigidbodyType2D.Kinematic)
+            {
+                Debug.LogWarning("PlayerController: 鼠标控制模式建议将Rigidbody2D的Body Type设置为Kinematic，" +
+                                 "否则物理引擎可能会干扰移动。当前类型: " + _rigidbody.bodyType);
             }
         }
 
@@ -88,25 +126,28 @@ namespace DodgeDots.Player
         /// </summary>
         private void HandleMouseInput()
         {
-            if (_mainCamera == null) return;
+            if (_mainCamera == null)
+            {
+                Debug.LogWarning("PlayerController: 相机为null，无法处理鼠标输入");
+                return;
+            }
 
             // 获取鼠标世界坐标
             Vector3 mouseWorldPos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
             mouseWorldPos.z = 0;
 
-            // 计算从玩家到鼠标的方向
-            Vector2 direction = (mouseWorldPos - transform.position).normalized;
+            // 计算目标位置
+            _mouseTargetPosition = mouseWorldPos;
 
-            // 计算距离，如果距离很近就停止移动
-            float distance = Vector2.Distance(transform.position, mouseWorldPos);
-            if (distance < 0.1f)
+            // 如果启用边界限制，限制目标位置
+            if (restrictToBounds)
             {
-                _moveInput = Vector2.zero;
+                _mouseTargetPosition.x = Mathf.Clamp(_mouseTargetPosition.x, -_bounds.x, _bounds.x);
+                _mouseTargetPosition.y = Mathf.Clamp(_mouseTargetPosition.y, -_bounds.y, _bounds.y);
             }
-            else
-            {
-                _moveInput = direction;
-            }
+
+            // 清空移动输入，因为鼠标模式不使用方向输入
+            _moveInput = Vector2.zero;
         }
 
         /// <summary>
@@ -114,16 +155,25 @@ namespace DodgeDots.Player
         /// </summary>
         private void HandleMovement()
         {
-            Vector2 velocity = _moveInput * moveSpeed;
-            _rigidbody.velocity = velocity;
-
-            // 如果启用边界限制，限制玩家位置
-            if (restrictToBounds)
+            if (controlMode == ControlMode.Mouse)
             {
-                Vector2 clampedPosition = _rigidbody.position;
-                clampedPosition.x = Mathf.Clamp(clampedPosition.x, -_bounds.x, _bounds.x);
-                clampedPosition.y = Mathf.Clamp(clampedPosition.y, -_bounds.y, _bounds.y);
-                _rigidbody.position = clampedPosition;
+                // 鼠标模式：直接设置位置
+                _rigidbody.MovePosition(_mouseTargetPosition);
+            }
+            else
+            {
+                // 键盘模式：使用速度移动
+                Vector2 velocity = _moveInput * moveSpeed;
+                _rigidbody.velocity = velocity;
+
+                // 如果启用边界限制，限制玩家位置
+                if (restrictToBounds)
+                {
+                    Vector2 clampedPosition = _rigidbody.position;
+                    clampedPosition.x = Mathf.Clamp(clampedPosition.x, -_bounds.x, _bounds.x);
+                    clampedPosition.y = Mathf.Clamp(clampedPosition.y, -_bounds.y, _bounds.y);
+                    _rigidbody.position = clampedPosition;
+                }
             }
         }
 
@@ -173,6 +223,14 @@ namespace DodgeDots.Player
         public ControlMode GetControlMode()
         {
             return controlMode;
+        }
+
+        /// <summary>
+        /// 获取是否使用自定义边界
+        /// </summary>
+        public bool GetUseCustomBounds()
+        {
+            return useCustomBounds;
         }
     }
 }
