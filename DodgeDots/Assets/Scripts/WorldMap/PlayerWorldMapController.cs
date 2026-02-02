@@ -24,6 +24,7 @@ namespace DodgeDots.WorldMap
         private Vector3 _targetPosition;
         private bool _isMoving = false;
         private Rigidbody2D _rigidbody2D;
+        private Vector2 _keyboardMovement = Vector2.zero;
 
         private void Start()
         {
@@ -53,8 +54,12 @@ namespace DodgeDots.WorldMap
         private void Update()
         {
             HandleInput();
-            HandleMovement();
             HandleCameraFollow();
+        }
+
+        private void FixedUpdate()
+        {
+            HandleMovement();
         }
 
         /// <summary>
@@ -81,17 +86,15 @@ namespace DodgeDots.WorldMap
                     Debug.Log($"鼠标世界坐标: {mouseWorldPos}, 玩家位置: {transform.position}");
                 }
             }
-            // 键盘输入
-            else if (useKeyboardInput && !_isMoving)
+            // 键盘输入 - 只在Update中读取输入，不直接移动
+            else if (useKeyboardInput)
             {
-                float horizontal = Input.GetAxisRaw("Horizontal");
-                float vertical = Input.GetAxisRaw("Vertical");
-
-                if (horizontal != 0 || vertical != 0)
-                {
-                    Vector3 direction = new Vector3(horizontal, vertical, 0).normalized;
-                    _targetPosition = transform.position + direction * moveSpeed * Time.deltaTime;
-                }
+                // 1. 在 Update 中只读取输入（保证手感流畅）
+                _keyboardMovement.x = Input.GetAxisRaw("Horizontal");
+                _keyboardMovement.y = Input.GetAxisRaw("Vertical");
+                
+                // 标准化向量，防止斜向移动变快
+                _keyboardMovement = _keyboardMovement.normalized;
             }
         }
 
@@ -102,7 +105,7 @@ namespace DodgeDots.WorldMap
         {
             if (useMouseInput)
             {
-                // 鼠标模式：直接跟随鼠标位置
+                // 鼠标模式：直接跟随鼠标位置（保留原有方式）
                 float distance = Vector3.Distance(transform.position, _targetPosition);
 
                 // 如果有 Rigidbody2D，使用物理引擎的方式移动
@@ -117,33 +120,23 @@ namespace DodgeDots.WorldMap
 
                 _isMoving = distance > 0.01f;
             }
-            else
+            else if (useKeyboardInput)
             {
-                // 键盘模式：以固定速度移动
-                if (Vector3.Distance(transform.position, _targetPosition) > 0.01f)
+                // 键盘模式：使用 velocity 移动
+                if (_rigidbody2D != null)
                 {
-                    Vector3 newPosition = Vector3.MoveTowards(
-                        transform.position,
-                        _targetPosition,
-                        moveSpeed * Time.deltaTime
-                    );
-
-                    // 如果有 Rigidbody2D，使用物理引擎的方式移动
-                    if (_rigidbody2D != null)
-                    {
-                        _rigidbody2D.position = newPosition;
-                    }
-                    else
-                    {
-                        transform.position = newPosition;
-                    }
-
-                    _isMoving = true;
+                    // 2. 在 FixedUpdate 中应用物理移动
+                    // 直接修改速度是 Dynamic 刚体最稳健的方法，它会自动处理滑墙
+                    _rigidbody2D.velocity = _keyboardMovement * moveSpeed;
                 }
                 else
                 {
-                    _isMoving = false;
+                    // 如果没有 Rigidbody2D，使用 transform 直接移动
+                    Vector3 newPosition = transform.position + (Vector3)_keyboardMovement * moveSpeed * Time.fixedDeltaTime;
+                    transform.position = newPosition;
                 }
+
+                _isMoving = _keyboardMovement.magnitude > 0.01f;
             }
         }
 
