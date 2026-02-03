@@ -154,7 +154,7 @@ namespace DodgeDots.Enemy
             // 触发阶段文案
             if (dialogueConfig != null)
             {
-                var dialogue = dialogueConfig.GetDialogueByPhase(_currentPhase);
+                BossPhaseDialogue dialogue = dialogueConfig.GetDialogueByPhase(_currentPhase);
                 if (dialogue != null)
                 {
                     OnPhaseDialogue?.Invoke(dialogue);
