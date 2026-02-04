@@ -69,6 +69,13 @@ namespace DodgeDots.Bullet
             Vector2 reflectedDirection = Vector2.Reflect(currentDirection, normal);
             _bullet.SetDirection(reflectedDirection);
 
+            // 关键修复：将子弹位置推回到边界内部
+            // 沿着法线方向向内推一小段距离，防止子弹穿过边界
+            float pushDistance = 0.1f; // 推回距离
+            Vector2 currentPos = _bullet.transform.position;
+            Vector2 newPos = currentPos + normal * pushDistance;
+            _bullet.transform.position = newPos;
+
             // 速度衰减
             if (speedDecay < 1f)
             {
@@ -83,7 +90,7 @@ namespace DodgeDots.Bullet
                 _spriteRenderer.color = bounceColorGradient.Evaluate(t);
             }
 
-            Debug.Log($"子弹反弹！第 {_bounceCount} 次反弹");
+            Debug.Log($"子弹反弹！第 {_bounceCount} 次反弹，法线: {normal}");
             return true; // 处理了碰撞，不销毁子弹
         }
 
