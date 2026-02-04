@@ -46,6 +46,9 @@ namespace DodgeDots.Enemy
         protected Dictionary<EmitterType, EmitterPoint> _emitters;
         protected EmitterPoint _defaultEmitter;
 
+        // 节拍驱动模式：若启用，boss 不会自动执行攻击循环，仅响应 TriggerBeatAttack()
+        [System.NonSerialized] public bool beatDrivenMode = false;
+
         public float CurrentHealth => _currentHealth;
         public float MaxHealth => maxHealth;
         public bool IsAlive => _currentHealth > 0;
@@ -155,6 +158,13 @@ namespace DodgeDots.Enemy
         {
             SetState(BossState.Fighting);
             OnBattleStart();
+
+            // 如果启用了节拍驱动模式，不启动自动攻击循环，由外部节拍控制器驱动
+            if (beatDrivenMode)
+            {
+                Debug.Log("[BossBase] Beat-driven mode enabled. Waiting for TriggerBeatAttack() calls instead of auto attack loop.");
+                return;
+            }
 
             // 如果有攻击配置，启动攻击循环
             if (attackConfig != null && attackConfig.attackSequence != null && attackConfig.attackSequence.Length > 0)
@@ -457,6 +467,40 @@ namespace DodgeDots.Enemy
         {
             Debug.LogWarning($"自定义移动 {attackData.customMoveId} 未实现");
             yield return null;
+        }
+
+        /// <summary>
+        /// 由节拍控制器触发，立即执行当前攻击序列的下一个攻击
+        /// </summary>
+        public virtual void TriggerBeatAttack()
+        {
+            if (_currentState != BossState.Fighting || attackConfig == null || attackConfig.attackSequence == null || attackConfig.attackSequence.Length == 0)
+            {
+                Debug.LogWarning("[BossBase] Cannot trigger beat attack: not in Fighting state or no attack config");
+                return;
+            }
+
+            // 获取当前攻击数据
+            BossAttackData currentAttack = attackConfig.attackSequence[_currentAttackIndex];
+            
+            // 直接执行攻击（不经过延迟协程）
+            ExecuteAttack(currentAttack);
+            
+            Debug.Log($"[BossBase] TriggerBeatAttack executed attack #{_currentAttackIndex}");
+
+            // 准备下一个攻击
+            _currentAttackIndex++;
+            if (_currentAttackIndex >= attackConfig.attackSequence.Length)
+            {
+                if (attackConfig.loopSequence)
+                {
+                    _currentAttackIndex = 0;
+                }
+                else
+                {
+                    _currentAttackIndex = attackConfig.attackSequence.Length - 1; // 停留在最后一个
+                }
+            }
         }
 
         // 以下方法由子类实现具体的Boss行为

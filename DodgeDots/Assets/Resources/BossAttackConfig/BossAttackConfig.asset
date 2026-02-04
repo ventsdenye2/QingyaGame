@@ -15,13 +15,34 @@ MonoBehaviour:
   configName: Boss Attack Config
   attackSequence:
   - attackName: test1
-    delayBeforeAttack: 1
+    delayBeforeAttack: 0
     emitterType: 0
     useMultipleEmitters: 1
-    multipleEmitters: 0000000002000000
+    multipleEmitters: 00000000
     attackType: 1
     bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
     circleCount: 0
+    circleStartAngle: 0
+    fanCount: 10
+    fanSpreadAngle: 60
+    fanCenterAngle: 270
+    singleDirection: 0
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 0
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 20
     circleStartAngle: 0
     fanCount: 10
     fanSpreadAngle: 30
@@ -35,14 +56,14 @@ MonoBehaviour:
     moveDirection: 0
     moveDistance: 0
     customMoveId: 0
-  - attackName: test2
-    delayBeforeAttack: 1
+  - attackName: test3
+    delayBeforeAttack: 0
     emitterType: 0
     useMultipleEmitters: 1
-    multipleEmitters: 0000000001000000
-    attackType: 1
+    multipleEmitters: 02000000
+    attackType: 0
     bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
-    circleCount: 0
+    circleCount: 20
     circleStartAngle: 0
     fanCount: 10
     fanSpreadAngle: 30
@@ -57,4 +78,4 @@ MonoBehaviour:
     moveDistance: 0
     customMoveId: 0
   loopSequence: 1
-  delayAfterLoop: 1
+  delayAfterLoop: 0

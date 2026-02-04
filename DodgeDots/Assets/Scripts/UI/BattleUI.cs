@@ -18,6 +18,11 @@ namespace DodgeDots.UI
         [SerializeField] private TextMeshProUGUI bossNameText;
         [SerializeField] private Color healthBarColor = Color.red;
 
+        [Header("玩家血条")]
+        [SerializeField] private Image playerHealthBar;
+        [SerializeField] private TextMeshProUGUI playerHealthText;
+        [SerializeField] private Color playerHealthBarColor = Color.green;
+
         [Header("玩家能量条")]
         [SerializeField] private Image playerEnergyBar;
         [SerializeField] private TextMeshProUGUI playerEnergyText;
@@ -86,6 +91,12 @@ namespace DodgeDots.UI
                 Debug.Log("BattleUI: 已绑定Boss事件");
             }
 
+            if (playerHealth != null)
+            {
+                playerHealth.OnHealthChanged += UpdatePlayerHealthBar;
+                Debug.Log("BattleUI: 已绑定玩家血条事件");
+            }
+
             if (playerEnergy != null)
             {
                 playerEnergy.OnEnergyChanged += UpdatePlayerEnergyBar;
@@ -125,6 +136,11 @@ namespace DodgeDots.UI
                 boss.OnStateChanged -= OnBossStateChanged;
             }
 
+            if (playerHealth != null)
+            {
+                playerHealth.OnHealthChanged -= UpdatePlayerHealthBar;
+            }
+
             if (playerEnergy != null)
             {
                 playerEnergy.OnEnergyChanged -= UpdatePlayerEnergyBar;
@@ -140,7 +156,7 @@ namespace DodgeDots.UI
 
         private void Update()
         {
-            // 实时更新血条（防止事件失火）
+            // 实时更新Boss血条（防止事件失火）
             if (boss != null && boss.IsAlive)
             {
                 float fillAmount = boss.CurrentHealth / boss.MaxHealth;
@@ -152,6 +168,21 @@ namespace DodgeDots.UI
                 if (bossHealthText != null)
                 {
                     bossHealthText.text = $"{boss.CurrentHealth:F0} / {boss.MaxHealth:F0}";
+                }
+            }
+
+            // 实时更新玩家血条
+            if (playerHealth != null && playerHealth.IsAlive)
+            {
+                float fillAmount = playerHealth.CurrentHealth / playerHealth.MaxHealth;
+                if (playerHealthBar != null)
+                {
+                    playerHealthBar.fillAmount = fillAmount;
+                }
+
+                if (playerHealthText != null)
+                {
+                    playerHealthText.text = $"{playerHealth.CurrentHealth:F0} / {playerHealth.MaxHealth:F0}";
                 }
             }
 
@@ -168,6 +199,25 @@ namespace DodgeDots.UI
                 {
                     playerEnergyText.text = $"{playerEnergy.CurrentEnergy:F0} / {playerEnergy.MaxEnergy:F0}";
                 }
+            }
+        }
+
+        /// <summary>
+        /// 更新玩家血条
+        /// </summary>
+        private void UpdatePlayerHealthBar(float currentHealth, float maxHealth)
+        {
+            if (playerHealthBar != null)
+            {
+                float fillAmount = Mathf.Max(0, currentHealth / maxHealth);
+                playerHealthBar.fillAmount = fillAmount;
+                playerHealthBar.color = playerHealthBarColor;
+                Debug.Log($"UpdatePlayerHealthBar: {currentHealth:F0} / {maxHealth:F0}, fillAmount: {fillAmount:F2}");
+            }
+
+            if (playerHealthText != null)
+            {
+                playerHealthText.text = $"{Mathf.Max(0, currentHealth):F0} / {maxHealth:F0}";
             }
         }
 
