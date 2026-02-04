@@ -42,6 +42,10 @@ namespace DodgeDots.Enemy
         protected Coroutine _attackCoroutine;
         protected int _currentAttackIndex;
 
+        // 发射源管理
+        protected Dictionary<EmitterType, EmitterPoint> _emitters;
+        protected EmitterPoint _defaultEmitter;
+
         public float CurrentHealth => _currentHealth;
         public float MaxHealth => maxHealth;
         public bool IsAlive => _currentHealth > 0;
@@ -73,7 +77,41 @@ namespace DodgeDots.Enemy
                 Debug.LogError("BulletManager未找到！请确保场景中存在BulletManager组件。");
             }
 
+            // 初始化发射源
+            InitializeEmitters();
+
             // 子类可以重写此方法进行初始化
+        }
+
+        /// <summary>
+        /// 初始化发射源
+        /// 自动查找Boss身上所有的EmitterPoint组件并注册
+        /// </summary>
+        protected virtual void InitializeEmitters()
+        {
+            _emitters = new Dictionary<EmitterType, EmitterPoint>();
+
+            // 查找所有子物体上的EmitterPoint组件
+            EmitterPoint[] emitterPoints = GetComponentsInChildren<EmitterPoint>();
+
+            foreach (EmitterPoint emitter in emitterPoints)
+            {
+                if (!_emitters.ContainsKey(emitter.EmitterType))
+                {
+                    _emitters.Add(emitter.EmitterType, emitter);
+                    Debug.Log($"注册发射源: {emitter.EmitterType} at {emitter.name}");
+                }
+                else
+                {
+                    Debug.LogWarning($"发射源类型 {emitter.EmitterType} 已存在，跳过 {emitter.name}");
+                }
+            }
+
+            // 如果没有找到MainCore，使用Boss自身位置作为默认发射源
+            if (!_emitters.ContainsKey(EmitterType.MainCore))
+            {
+                Debug.LogWarning("未找到MainCore发射源，将使用Boss自身位置作为默认发射源");
+            }
         }
 
         public virtual void TakeDamage(float damage, GameObject source = null)
@@ -242,6 +280,21 @@ namespace DodgeDots.Enemy
         }
 
         /// <summary>
+        /// 获取发射源位置
+        /// </summary>
+        protected virtual Vector2 GetEmitterPosition(EmitterType emitterType)
+        {
+            if (_emitters != null && _emitters.TryGetValue(emitterType, out EmitterPoint emitter))
+            {
+                return emitter.Position;
+            }
+
+            // 如果找不到指定的发射源，使用Boss自身位置
+            Debug.LogWarning($"未找到发射源 {emitterType}，使用Boss自身位置");
+            return transform.position;
+        }
+
+        /// <summary>
         /// 执行攻击
         /// </summary>
         protected virtual void ExecuteAttack(BossAttackData attackData)
@@ -252,7 +305,27 @@ namespace DodgeDots.Enemy
                 return;
             }
 
-            Vector2 bossPosition = transform.position;
+            // 支持多发射源同时发射
+            if (attackData.useMultipleEmitters && attackData.multipleEmitters != null && attackData.multipleEmitters.Length > 0)
+            {
+                foreach (EmitterType emitterType in attackData.multipleEmitters)
+                {
+                    ExecuteSingleEmitterAttack(attackData, emitterType);
+                }
+            }
+            else
+            {
+                // 单发射源发射
+                ExecuteSingleEmitterAttack(attackData, attackData.emitterType);
+            }
+        }
+
+        /// <summary>
+        /// 从单个发射源执行攻击
+        /// </summary>
+        protected virtual void ExecuteSingleEmitterAttack(BossAttackData attackData, EmitterType emitterType)
+        {
+            Vector2 bossPosition = GetEmitterPosition(emitterType);
 
             switch (attackData.attackType)
             {

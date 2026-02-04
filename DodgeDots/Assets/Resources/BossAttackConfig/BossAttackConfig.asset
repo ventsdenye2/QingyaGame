@@ -14,15 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configName: Boss Attack Config
   attackSequence:
-  - attackName: 
-    delayBeforeAttack: 0
-    attackType: 0
-    bulletConfig: {fileID: 0}
+  - attackName: test1
+    delayBeforeAttack: 1
+    emitterType: 0
+    useMultipleEmitters: 1
+    multipleEmitters: 0000000002000000
+    attackType: 1
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
     circleCount: 0
     circleStartAngle: 0
-    fanCount: 0
-    fanSpreadAngle: 0
-    fanCenterAngle: 0
+    fanCount: 10
+    fanSpreadAngle: 30
+    fanCenterAngle: 270
     singleDirection: 0
     customAttackId: 0
     moveType: 0
@@ -32,15 +35,18 @@ MonoBehaviour:
     moveDirection: 0
     moveDistance: 0
     customMoveId: 0
-  - attackName: 
-    delayBeforeAttack: 0
-    attackType: 0
-    bulletConfig: {fileID: 0}
+  - attackName: test2
+    delayBeforeAttack: 1
+    emitterType: 0
+    useMultipleEmitters: 1
+    multipleEmitters: 0000000001000000
+    attackType: 1
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
     circleCount: 0
     circleStartAngle: 0
-    fanCount: 0
-    fanSpreadAngle: 0
-    fanCenterAngle: 0
+    fanCount: 10
+    fanSpreadAngle: 30
+    fanCenterAngle: 270
     singleDirection: 0
     customAttackId: 0
     moveType: 0
@@ -51,4 +57,4 @@ MonoBehaviour:
     moveDistance: 0
     customMoveId: 0
   loopSequence: 1
-  delayAfterLoop: 2
+  delayAfterLoop: 1

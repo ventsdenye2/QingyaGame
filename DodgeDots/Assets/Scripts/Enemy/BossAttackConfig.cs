@@ -65,6 +65,16 @@ namespace DodgeDots.Enemy
         [Tooltip("执行此攻击前的延迟时间（秒）")]
         public float delayBeforeAttack = 1f;
 
+        [Header("发射源设置")]
+        [Tooltip("从哪个发射源发射弹幕")]
+        public EmitterType emitterType = EmitterType.MainCore;
+
+        [Tooltip("是否同时从多个发射源发射")]
+        public bool useMultipleEmitters = false;
+
+        [Tooltip("多发射源列表（仅当useMultipleEmitters为true时有效）")]
+        public EmitterType[] multipleEmitters = new EmitterType[0];
+
         [Header("攻击类型")]
         [Tooltip("攻击类型")]
         public BossAttackType attackType = BossAttackType.Circle;

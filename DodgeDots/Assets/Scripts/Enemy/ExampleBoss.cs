@@ -6,17 +6,17 @@ using DodgeDots.Bullet;
 namespace DodgeDots.Enemy
 {
     /// <summary>
-    /// 示例Boss实现，展示如何使用Boss框架
+    /// 示例Boss实现，展示如何使用Boss框架和多发射源系统
+    /// 使用BossAttackConfig配置攻击序列，支持多发射源
     /// </summary>
     public class ExampleBoss : BossBase
     {
-        [Header("攻击设置")]
-        [SerializeField] private float attackInterval = 2f;
-        [SerializeField] private int circlePatternBulletCount = 12;
-        [SerializeField] private float bulletSpeed = 3f;
-        [SerializeField] private float bulletDamage = 10f;
+        [Header("阶段配置")]
+        [Tooltip("第二阶段的攻击配置（可选）")]
+        [SerializeField] private BossAttackConfig phase1AttackConfig;
 
-        private float _attackTimer;
+        [Tooltip("第三阶段的攻击配置（可选）")]
+        [SerializeField] private BossAttackConfig phase2AttackConfig;
 
         protected override void Awake()
         {
@@ -26,109 +26,54 @@ namespace DodgeDots.Enemy
         protected override void Start()
         {
             base.Start();
-            _attackTimer = attackInterval;
-        }
-
-        private void Update()
-        {
-            if (_currentState != BossState.Fighting) return;
-
-            // 攻击计时器
-            _attackTimer -= Time.deltaTime;
-            if (_attackTimer <= 0)
-            {
-                PerformAttack();
-                _attackTimer = attackInterval;
-            }
+            // 攻击逻辑现在由BossAttackConfig配置驱动
         }
 
         protected override void OnBattleStart()
         {
-            Debug.Log($"{bossName} 战斗开始！");
-            _attackTimer = attackInterval;
+            Debug.Log($"{bossName} 战斗开始！使用配置驱动的攻击系统");
+            // 攻击循环由BossBase自动启动，使用attackConfig配置
         }
 
         protected override void OnPhaseEnter(int phase)
         {
             Debug.Log($"{bossName} 进入阶段 {phase}");
 
-            // 根据阶段调整难度
+            // 根据阶段切换攻击配置
             switch (phase)
             {
                 case 1:
-                    // 第二阶段：增加弹幕数量
-                    circlePatternBulletCount = 16;
-                    attackInterval = 1.5f;
+                    // 第二阶段：使用phase1AttackConfig（如果配置了）
+                    if (phase1AttackConfig != null)
+                    {
+                        attackConfig = phase1AttackConfig;
+                        RestartAttackLoop();
+                        Debug.Log("切换到第二阶段攻击配置");
+                    }
                     break;
+
                 case 2:
-                    // 第三阶段：进一步增加难度
-                    circlePatternBulletCount = 20;
-                    attackInterval = 1f;
-                    bulletSpeed = 4f;
+                    // 第三阶段：使用phase2AttackConfig（如果配置了）
+                    if (phase2AttackConfig != null)
+                    {
+                        attackConfig = phase2AttackConfig;
+                        RestartAttackLoop();
+                        Debug.Log("切换到第三阶段攻击配置");
+                    }
                     break;
             }
         }
 
         /// <summary>
-        /// 执行攻击
+        /// 重启攻击循环（用于切换攻击配置）
         /// </summary>
-        private void PerformAttack()
+        private void RestartAttackLoop()
         {
-            Debug.Log($"PerformAttack 被调用，_bulletManager = {(_bulletManager == null ? "null" : "not null")}");
-
-            if (_bulletManager == null)
+            StopAttackLoop();
+            _currentAttackIndex = 0;
+            if (attackConfig != null && _currentState == BossState.Fighting)
             {
-                Debug.LogError("_bulletManager 为 null，无法发射子弹！");
-                return;
-            }
-
-            Debug.Log($"准备发射弹幕，阶段：{_currentPhase}，位置：{transform.position}");
-
-            // 根据阶段使用不同的攻击模式
-            switch (_currentPhase)
-            {
-                case 0:
-                    // 第一阶段：简单圆形弹幕
-                    _bulletManager.SpawnCirclePattern(
-                        transform.position,
-                        circlePatternBulletCount,
-                        Core.Team.Enemy,
-                        bulletSpeed,
-                        bulletDamage
-                    );
-                    break;
-
-                case 1:
-                    // 第二阶段：旋转圆形弹幕
-                    float rotationAngle = Time.time * 30f;
-                    _bulletManager.SpawnCirclePattern(
-                        transform.position,
-                        circlePatternBulletCount,
-                        Core.Team.Enemy,
-                        bulletSpeed,
-                        bulletDamage,
-                        rotationAngle
-                    );
-                    break;
-
-                case 2:
-                    // 第三阶段：双重圆形弹幕
-                    _bulletManager.SpawnCirclePattern(
-                        transform.position,
-                        circlePatternBulletCount,
-                        Core.Team.Enemy,
-                        bulletSpeed,
-                        bulletDamage
-                    );
-                    _bulletManager.SpawnCirclePattern(
-                        transform.position,
-                        circlePatternBulletCount / 2,
-                        Core.Team.Enemy,
-                        bulletSpeed * 0.7f,
-                        bulletDamage,
-                        Time.time * 45f
-                    );
-                    break;
+                _attackCoroutine = StartCoroutine(AttackLoopCoroutine());
             }
         }
 
@@ -136,9 +81,7 @@ namespace DodgeDots.Enemy
         {
             base.OnBossDefeated();
             Debug.Log($"{bossName} 被击败！");
-
-            // 停止所有攻击
-            _attackTimer = float.MaxValue;
+            // 攻击循环已由base.OnBossDefeated()自动停止
         }
     }
 }
