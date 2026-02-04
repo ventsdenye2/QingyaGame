@@ -92,6 +92,40 @@ namespace DodgeDots.Enemy
     }
 
     /// <summary>
+    /// 发射源移动数据
+    /// 定义单个发射源的移动行为
+    /// </summary>
+    [System.Serializable]
+    public class EmitterMoveData
+    {
+        [Header("发射源")]
+        [Tooltip("要移动的发射源")]
+        public EmitterType emitterType = EmitterType.MainCore;
+
+        [Header("移动设置")]
+        [Tooltip("移动类型")]
+        public BossMoveType moveType = BossMoveType.None;
+
+        [Tooltip("移动持续时间（秒）")]
+        public float moveDuration = 1f;
+
+        [Tooltip("移动速度")]
+        public float moveSpeed = 5f;
+
+        [Tooltip("目标位置（仅当moveType为ToPosition时有效）")]
+        public Vector2 targetPosition = Vector2.zero;
+
+        [Tooltip("移动方向（仅当moveType为ByDirection时有效，0=右，90=上，180=左，270=下）")]
+        public float moveDirection = 0f;
+
+        [Tooltip("移动距离（仅当moveType为ByDirection时有效）")]
+        public float moveDistance = 5f;
+
+        [Tooltip("自定义移动ID（仅当moveType为Custom时有效）")]
+        public int customMoveId = 0;
+    }
+
+    /// <summary>
     /// Boss单个攻击数据
     /// 定义了Boss的一次攻击行为
     /// </summary>
@@ -121,6 +155,13 @@ namespace DodgeDots.Enemy
 
         [Tooltip("子攻击列表（仅当useComboAttack为true时有效）")]
         public SubAttackData[] subAttacks = new SubAttackData[0];
+
+        [Header("发射源移动设置")]
+        [Tooltip("是否移动发射源（而不是Boss主体）")]
+        public bool moveEmitters = false;
+
+        [Tooltip("发射源移动配置列表（仅当moveEmitters为true时有效）")]
+        public EmitterMoveData[] emitterMoves = new EmitterMoveData[0];
 
         [Header("攻击类型（单一攻击模式）")]
         [Tooltip("攻击类型")]
@@ -187,6 +228,17 @@ namespace DodgeDots.Enemy
         [Header("配置信息")]
         [Tooltip("配置名称")]
         public string configName = "Boss Attack Config";
+
+        [Header("音频设置")]
+        [Tooltip("背景音乐（在攻击循环开始时播放）")]
+        public AudioClip backgroundMusic;
+
+        [Tooltip("音乐音量（0-1）")]
+        [Range(0f, 1f)]
+        public float musicVolume = 0.7f;
+
+        [Tooltip("是否循环播放音乐")]
+        public bool loopMusic = true;
 
         [Header("攻击序列")]
         [Tooltip("Boss的攻击序列，会按顺序循环执行")]

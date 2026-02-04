@@ -35,6 +35,9 @@ namespace DodgeDots.Enemy
         [Header("文案配置")]
         [SerializeField] protected BossDialogueConfig dialogueConfig;
 
+        [Header("音频设置")]
+        [SerializeField] protected AudioSource audioSource;
+
         protected float _currentHealth;
         protected BossState _currentState;
         protected int _currentPhase;
@@ -76,6 +79,17 @@ namespace DodgeDots.Enemy
             if (_bulletManager == null)
             {
                 Debug.LogError("BulletManager未找到！请确保场景中存在BulletManager组件。");
+            }
+
+            // 初始化AudioSource
+            if (audioSource == null)
+            {
+                audioSource = GetComponent<AudioSource>();
+                if (audioSource == null)
+                {
+                    audioSource = gameObject.AddComponent<AudioSource>();
+                    audioSource.playOnAwake = false;
+                }
             }
 
             // 初始化发射源
@@ -229,8 +243,38 @@ namespace DodgeDots.Enemy
         protected virtual void OnBossDefeated()
         {
             StopAttackLoop();
+            StopBackgroundMusic();
             SetState(BossState.Defeated);
             OnDeath?.Invoke();
+        }
+
+        /// <summary>
+        /// 播放背景音乐
+        /// </summary>
+        protected virtual void PlayBackgroundMusic()
+        {
+            if (audioSource == null || attackConfig == null || attackConfig.backgroundMusic == null)
+            {
+                return;
+            }
+
+            audioSource.clip = attackConfig.backgroundMusic;
+            audioSource.volume = attackConfig.musicVolume;
+            audioSource.loop = attackConfig.loopMusic;
+            audioSource.Play();
+
+            Debug.Log($"播放背景音乐: {attackConfig.backgroundMusic.name}");
+        }
+
+        /// <summary>
+        /// 停止背景音乐
+        /// </summary>
+        protected virtual void StopBackgroundMusic()
+        {
+            if (audioSource != null && audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
         }
 
         /// <summary>
@@ -238,6 +282,9 @@ namespace DodgeDots.Enemy
         /// </summary>
         protected virtual IEnumerator AttackLoopCoroutine()
         {
+            // 播放背景音乐
+            PlayBackgroundMusic();
+
             while (_currentState == BossState.Fighting && attackConfig != null)
             {
                 // 执行当前攻击
@@ -279,10 +326,19 @@ namespace DodgeDots.Enemy
                 yield return new WaitForSeconds(attackData.delayBeforeAttack);
             }
 
-            // 如果有移动配置，同时执行移动和攻击
+            // 如果有Boss主体移动配置，执行Boss移动
             if (attackData.moveType != BossMoveType.None)
             {
                 StartCoroutine(ExecuteMoveCoroutine(attackData));
+            }
+
+            // 如果有发射源移动配置，执行发射源移动
+            if (attackData.moveEmitters && attackData.emitterMoves != null && attackData.emitterMoves.Length > 0)
+            {
+                foreach (EmitterMoveData emitterMove in attackData.emitterMoves)
+                {
+                    StartCoroutine(ExecuteEmitterMoveCoroutine(emitterMove));
+                }
             }
 
             // 执行攻击
@@ -525,6 +581,61 @@ namespace DodgeDots.Enemy
         {
             Debug.LogWarning($"自定义移动 {attackData.customMoveId} 未实现");
             yield return null;
+        }
+
+        /// <summary>
+        /// 执行发射源移动的协程
+        /// </summary>
+        protected virtual IEnumerator ExecuteEmitterMoveCoroutine(EmitterMoveData emitterMove)
+        {
+            // 获取发射源
+            if (_emitters == null || !_emitters.TryGetValue(emitterMove.emitterType, out EmitterPoint emitter))
+            {
+                Debug.LogWarning($"未找到发射源 {emitterMove.emitterType}，无法执行移动");
+                yield break;
+            }
+
+            Transform emitterTransform = emitter.transform;
+            Vector3 startPosition = emitterTransform.position;
+            float elapsedTime = 0f;
+
+            switch (emitterMove.moveType)
+            {
+                case BossMoveType.ToPosition:
+                    // 移动到目标位置
+                    while (elapsedTime < emitterMove.moveDuration)
+                    {
+                        elapsedTime += Time.deltaTime;
+                        float t = elapsedTime / emitterMove.moveDuration;
+                        emitterTransform.position = Vector3.Lerp(startPosition, emitterMove.targetPosition, t);
+                        yield return null;
+                    }
+                    emitterTransform.position = emitterMove.targetPosition;
+                    break;
+
+                case BossMoveType.ByDirection:
+                    // 沿方向移动
+                    Vector2 direction = new Vector2(
+                        Mathf.Cos(emitterMove.moveDirection * Mathf.Deg2Rad),
+                        Mathf.Sin(emitterMove.moveDirection * Mathf.Deg2Rad)
+                    );
+                    Vector3 targetPos = startPosition + (Vector3)(direction * emitterMove.moveDistance);
+
+                    while (elapsedTime < emitterMove.moveDuration)
+                    {
+                        elapsedTime += Time.deltaTime;
+                        float t = elapsedTime / emitterMove.moveDuration;
+                        emitterTransform.position = Vector3.Lerp(startPosition, targetPos, t);
+                        yield return null;
+                    }
+                    emitterTransform.position = targetPos;
+                    break;
+
+                case BossMoveType.Custom:
+                    // 自定义移动暂不支持发射源
+                    Debug.LogWarning($"发射源移动暂不支持Custom类型");
+                    break;
+            }
         }
 
         // 以下方法由子类实现具体的Boss行为
