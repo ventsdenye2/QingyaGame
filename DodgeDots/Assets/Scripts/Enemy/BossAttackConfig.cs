@@ -52,6 +52,46 @@ namespace DodgeDots.Enemy
     }
 
     /// <summary>
+    /// 子攻击数据
+    /// 定义单个攻击模式的具体参数
+    /// </summary>
+    [System.Serializable]
+    public class SubAttackData
+    {
+        [Header("攻击类型")]
+        [Tooltip("攻击类型")]
+        public BossAttackType attackType = BossAttackType.Circle;
+
+        [Tooltip("使用的子弹配置")]
+        public BulletConfig bulletConfig;
+
+        [Header("圆形弹幕参数")]
+        [Tooltip("圆形弹幕的子弹数量")]
+        public int circleCount = 12;
+
+        [Tooltip("圆形弹幕的起始角度")]
+        public float circleStartAngle = 0f;
+
+        [Header("扇形弹幕参数")]
+        [Tooltip("扇形弹幕的子弹数量")]
+        public int fanCount = 5;
+
+        [Tooltip("扇形弹幕的扩散角度")]
+        public float fanSpreadAngle = 60f;
+
+        [Tooltip("扇形弹幕的中心方向（0=右，90=上，180=左，270=下）")]
+        public float fanCenterAngle = 270f;
+
+        [Header("单发子弹参数")]
+        [Tooltip("单发子弹的方向角度（0=右，90=上，180=左，270=下）")]
+        public float singleDirection = 270f;
+
+        [Header("自定义攻击参数")]
+        [Tooltip("自定义攻击的ID（用于在Boss子类中识别）")]
+        public int customAttackId = 0;
+    }
+
+    /// <summary>
     /// Boss单个攻击数据
     /// 定义了Boss的一次攻击行为
     /// </summary>
@@ -75,7 +115,14 @@ namespace DodgeDots.Enemy
         [Tooltip("多发射源列表（仅当useMultipleEmitters为true时有效）")]
         public EmitterType[] multipleEmitters = new EmitterType[0];
 
-        [Header("攻击类型")]
+        [Header("组合攻击设置")]
+        [Tooltip("是否使用组合攻击（同时发射多种弹幕模式）")]
+        public bool useComboAttack = false;
+
+        [Tooltip("子攻击列表（仅当useComboAttack为true时有效）")]
+        public SubAttackData[] subAttacks = new SubAttackData[0];
+
+        [Header("攻击类型（单一攻击模式）")]
         [Tooltip("攻击类型")]
         public BossAttackType attackType = BossAttackType.Circle;
 

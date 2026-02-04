@@ -337,6 +337,17 @@ namespace DodgeDots.Enemy
         {
             Vector2 bossPosition = GetEmitterPosition(emitterType);
 
+            // 如果使用组合攻击，执行所有子攻击
+            if (attackData.useComboAttack && attackData.subAttacks != null && attackData.subAttacks.Length > 0)
+            {
+                foreach (SubAttackData subAttack in attackData.subAttacks)
+                {
+                    ExecuteSubAttack(subAttack, bossPosition);
+                }
+                return;
+            }
+
+            // 否则执行单一攻击模式
             switch (attackData.attackType)
             {
                 case BossAttackType.Circle:
@@ -379,6 +390,63 @@ namespace DodgeDots.Enemy
 
                 case BossAttackType.Custom:
                     OnCustomAttack(attackData);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 执行单个子攻击
+        /// </summary>
+        protected virtual void ExecuteSubAttack(SubAttackData subAttack, Vector2 position)
+        {
+            if (_bulletManager == null || subAttack == null)
+            {
+                return;
+            }
+
+            switch (subAttack.attackType)
+            {
+                case BossAttackType.Circle:
+                    _bulletManager.SpawnCirclePattern(
+                        position,
+                        subAttack.circleCount,
+                        Team.Enemy,
+                        subAttack.bulletConfig,
+                        subAttack.circleStartAngle
+                    );
+                    break;
+
+                case BossAttackType.Fan:
+                    Vector2 fanDirection = new Vector2(
+                        Mathf.Cos(subAttack.fanCenterAngle * Mathf.Deg2Rad),
+                        Mathf.Sin(subAttack.fanCenterAngle * Mathf.Deg2Rad)
+                    );
+                    _bulletManager.SpawnFanPattern(
+                        position,
+                        fanDirection,
+                        subAttack.fanCount,
+                        subAttack.fanSpreadAngle,
+                        Team.Enemy,
+                        subAttack.bulletConfig
+                    );
+                    break;
+
+                case BossAttackType.Single:
+                    Vector2 singleDirection = new Vector2(
+                        Mathf.Cos(subAttack.singleDirection * Mathf.Deg2Rad),
+                        Mathf.Sin(subAttack.singleDirection * Mathf.Deg2Rad)
+                    );
+                    _bulletManager.SpawnBullet(
+                        position,
+                        singleDirection,
+                        Team.Enemy,
+                        subAttack.bulletConfig
+                    );
+                    break;
+
+                case BossAttackType.Custom:
+                    // 自定义攻击暂不支持子攻击
+                    Debug.LogWarning($"子攻击不支持Custom类型");
                     break;
             }
         }
