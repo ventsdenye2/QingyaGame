@@ -346,25 +346,41 @@ namespace DodgeDots.Bullet
         /// </summary>
         private Vector2 CalculateBoundaryNormal(Collider2D boundary)
         {
-            // 简单实现：根据子弹位置和边界中心计算法线
-            Vector2 bulletPos = transform.position;
-            Vector2 boundaryCenter = boundary.bounds.center;
-            Vector2 direction = (bulletPos - boundaryCenter).normalized;
-
-            // 判断是哪个边界（上下左右）
-            float absX = Mathf.Abs(direction.x);
-            float absY = Mathf.Abs(direction.y);
-
-            if (absX > absY)
+            // ?? Physics2D.Distance ?????????????????
+            if (_collider != null)
             {
-                // 左右边界
-                return new Vector2(Mathf.Sign(direction.x), 0);
+                var dist = Physics2D.Distance(_collider, boundary);
+                if (dist.isOverlapped && dist.normal != Vector2.zero)
+                {
+                    Vector2 normal = dist.normal.normalized;
+                    // ?????????????????????
+                    if (Vector2.Dot(normal, _direction) > 0f)
+                    {
+                        normal = -normal;
+                    }
+                    return normal;
+                }
+            }
+
+            // fallback????????????
+            Vector2 bulletPos = transform.position;
+            Vector2 closest = boundary.ClosestPoint(bulletPos);
+            Vector2 fallbackNormal = (bulletPos - closest);
+            if (fallbackNormal.sqrMagnitude < 0.0001f)
+            {
+                fallbackNormal = -_direction;
             }
             else
             {
-                // 上下边界
-                return new Vector2(0, Mathf.Sign(direction.y));
+                fallbackNormal = fallbackNormal.normalized;
             }
+
+            if (Vector2.Dot(fallbackNormal, _direction) > 0f)
+            {
+                fallbackNormal = -fallbackNormal;
+            }
+
+            return fallbackNormal;
         }
     }
 }

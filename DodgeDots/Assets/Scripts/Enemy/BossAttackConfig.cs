@@ -11,6 +11,9 @@ namespace DodgeDots.Enemy
         Circle,         // 圆形弹幕
         Fan,            // 扇形弹幕
         Single,         // 单发子弹
+        Spiral,         // 螺旋弹幕
+        Flower,         // 花型弹幕
+        Aiming,         // 自机狙（瞄准玩家）
         Custom          // 自定义攻击（需要在Boss子类中实现）
     }
 
@@ -85,6 +88,42 @@ namespace DodgeDots.Enemy
         [Header("单发子弹参数")]
         [Tooltip("单发子弹的方向角度（0=右，90=上，180=左，270=下）")]
         public float singleDirection = 270f;
+
+        [Header("螺旋弹幕参数")]
+        [Tooltip("螺旋的总子弹数量")]
+        public int spiralBulletCount = 36;
+
+        [Tooltip("螺旋的圈数")]
+        public float spiralTurns = 3f;
+
+        [Tooltip("螺旋起始角度")]
+        public float spiralStartAngle = 0f;
+
+        [Tooltip("螺旋半径增长速度")]
+        public float spiralRadiusGrowth = 0.5f;
+
+        [Header("花型弹幕参数")]
+        [Tooltip("花瓣数量")]
+        public int flowerPetals = 5;
+
+        [Tooltip("每个花瓣的子弹数量")]
+        public int flowerBulletsPerPetal = 3;
+
+        [Tooltip("花瓣扩散角度")]
+        public float flowerPetalSpread = 30f;
+
+        [Tooltip("花型起始角度")]
+        public float flowerStartAngle = 0f;
+
+        [Header("自机狙参数")]
+        [Tooltip("自机狙的子弹数量")]
+        public int aimingBulletCount = 1;
+
+        [Tooltip("自机狙的扩散角度（0=精确瞄准）")]
+        public float aimingSpreadAngle = 0f;
+
+        [Tooltip("是否预判玩家移动")]
+        public bool aimingPredictMovement = false;
 
         [Header("自定义攻击参数")]
         [Tooltip("自定义攻击的ID（用于在Boss子类中识别）")]
@@ -190,6 +229,42 @@ namespace DodgeDots.Enemy
         [Header("单发子弹参数")]
         [Tooltip("单发子弹的方向角度（0=右，90=上，180=左，270=下）")]
         public float singleDirection = 270f;
+
+        [Header("螺旋弹幕参数")]
+        [Tooltip("螺旋的总子弹数量")]
+        public int spiralBulletCount = 36;
+
+        [Tooltip("螺旋的圈数")]
+        public float spiralTurns = 3f;
+
+        [Tooltip("螺旋起始角度")]
+        public float spiralStartAngle = 0f;
+
+        [Tooltip("螺旋半径增长速度")]
+        public float spiralRadiusGrowth = 0.5f;
+
+        [Header("花型弹幕参数")]
+        [Tooltip("花瓣数量")]
+        public int flowerPetals = 5;
+
+        [Tooltip("每个花瓣的子弹数量")]
+        public int flowerBulletsPerPetal = 3;
+
+        [Tooltip("花瓣扩散角度")]
+        public float flowerPetalSpread = 30f;
+
+        [Tooltip("花型起始角度")]
+        public float flowerStartAngle = 0f;
+
+        [Header("自机狙参数")]
+        [Tooltip("自机狙的子弹数量")]
+        public int aimingBulletCount = 1;
+
+        [Tooltip("自机狙的扩散角度（0=精确瞄准）")]
+        public float aimingSpreadAngle = 0f;
+
+        [Tooltip("是否预判玩家移动")]
+        public bool aimingPredictMovement = false;
 
         [Header("自定义攻击参数")]
         [Tooltip("自定义攻击的ID（用于在Boss子类中识别）")]

@@ -444,6 +444,18 @@ namespace DodgeDots.Enemy
                     );
                     break;
 
+                case BossAttackType.Spiral:
+                    SpawnSpiralPattern(bossPosition, attackData);
+                    break;
+
+                case BossAttackType.Flower:
+                    SpawnFlowerPattern(bossPosition, attackData);
+                    break;
+
+                case BossAttackType.Aiming:
+                    SpawnAimingPattern(bossPosition, attackData);
+                    break;
+
                 case BossAttackType.Custom:
                     OnCustomAttack(attackData);
                     break;
@@ -500,10 +512,267 @@ namespace DodgeDots.Enemy
                     );
                     break;
 
+                case BossAttackType.Spiral:
+                    SpawnSpiralPattern(position, subAttack);
+                    break;
+
+                case BossAttackType.Flower:
+                    SpawnFlowerPattern(position, subAttack);
+                    break;
+
+                case BossAttackType.Aiming:
+                    SpawnAimingPattern(position, subAttack);
+                    break;
+
                 case BossAttackType.Custom:
                     // 自定义攻击暂不支持子攻击
                     Debug.LogWarning($"子攻击不支持Custom类型");
                     break;
+            }
+        }
+
+        /// <summary>
+        /// 生成螺旋弹幕
+        /// </summary>
+        protected virtual void SpawnSpiralPattern(Vector2 position, SubAttackData subAttack)
+        {
+            if (_bulletManager == null || subAttack.bulletConfig == null)
+            {
+                return;
+            }
+
+            float angleStep = (360f * subAttack.spiralTurns) / subAttack.spiralBulletCount;
+            float currentAngle = subAttack.spiralStartAngle;
+
+            for (int i = 0; i < subAttack.spiralBulletCount; i++)
+            {
+                // 计算螺旋半径（随角度增长）
+                float radius = (i / (float)subAttack.spiralBulletCount) * subAttack.spiralRadiusGrowth;
+
+                // 计算子弹方向
+                float angleRad = currentAngle * Mathf.Deg2Rad;
+                Vector2 direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
+
+                // 计算子弹起始位置（在螺旋线上）
+                Vector2 spawnPos = position + direction * radius;
+
+                // 发射子弹
+                _bulletManager.SpawnBullet(spawnPos, direction, Team.Enemy, subAttack.bulletConfig);
+
+                currentAngle += angleStep;
+            }
+        }
+
+        /// <summary>
+        /// 生成花型弹幕
+        /// </summary>
+        protected virtual void SpawnFlowerPattern(Vector2 position, SubAttackData subAttack)
+        {
+            if (_bulletManager == null || subAttack.bulletConfig == null)
+            {
+                return;
+            }
+
+            // 计算每个花瓣之间的角度
+            float petalAngleStep = 360f / subAttack.flowerPetals;
+
+            for (int petal = 0; petal < subAttack.flowerPetals; petal++)
+            {
+                // 计算花瓣的中心角度
+                float petalCenterAngle = subAttack.flowerStartAngle + (petal * petalAngleStep);
+
+                // 在每个花瓣内发射多个子弹
+                for (int bullet = 0; bullet < subAttack.flowerBulletsPerPetal; bullet++)
+                {
+                    // 计算子弹在花瓣内的偏移角度
+                    float offset = 0f;
+                    if (subAttack.flowerBulletsPerPetal > 1)
+                    {
+                        offset = Mathf.Lerp(
+                            -subAttack.flowerPetalSpread / 2f,
+                            subAttack.flowerPetalSpread / 2f,
+                            bullet / (float)(subAttack.flowerBulletsPerPetal - 1)
+                        );
+                    }
+
+                    float finalAngle = petalCenterAngle + offset;
+                    float angleRad = finalAngle * Mathf.Deg2Rad;
+                    Vector2 direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
+
+                    _bulletManager.SpawnBullet(position, direction, Team.Enemy, subAttack.bulletConfig);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 生成自机狙弹幕（瞄准玩家）
+        /// </summary>
+        protected virtual void SpawnAimingPattern(Vector2 position, SubAttackData subAttack)
+        {
+            if (_bulletManager == null || subAttack.bulletConfig == null)
+            {
+                return;
+            }
+
+            // 查找玩家
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player == null)
+            {
+                Debug.LogWarning("未找到玩家，无法执行自机狙攻击");
+                return;
+            }
+
+            // 计算瞄准方向
+            Vector2 playerPos = player.transform.position;
+            Vector2 aimDirection = (playerPos - position).normalized;
+
+            // 如果需要预判玩家移动
+            if (subAttack.aimingPredictMovement)
+            {
+                Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+                if (playerRb != null)
+                {
+                    // 简单的预判：假设子弹速度，计算到达时间，预测玩家位置
+                    float bulletSpeed = subAttack.bulletConfig != null ? subAttack.bulletConfig.defaultSpeed : 5f;
+                    float distance = Vector2.Distance(position, playerPos);
+                    float timeToReach = distance / bulletSpeed;
+                    Vector2 predictedPos = playerPos + playerRb.velocity * timeToReach;
+                    aimDirection = (predictedPos - position).normalized;
+                }
+            }
+
+            // 计算瞄准角度
+            float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+
+            // 发射子弹
+            if (subAttack.aimingBulletCount == 1 && subAttack.aimingSpreadAngle == 0f)
+            {
+                // 精确瞄准，单发
+                _bulletManager.SpawnBullet(position, aimDirection, Team.Enemy, subAttack.bulletConfig);
+            }
+            else
+            {
+                // 有扩散角度或多发子弹
+                float startAngle = aimAngle - (subAttack.aimingSpreadAngle / 2f);
+                float angleStep = subAttack.aimingBulletCount > 1
+                    ? subAttack.aimingSpreadAngle / (subAttack.aimingBulletCount - 1)
+                    : 0f;
+
+                for (int i = 0; i < subAttack.aimingBulletCount; i++)
+                {
+                    float currentAngle = startAngle + (angleStep * i);
+                    float angleRad = currentAngle * Mathf.Deg2Rad;
+                    Vector2 direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
+                    _bulletManager.SpawnBullet(position, direction, Team.Enemy, subAttack.bulletConfig);
+                }
+            }
+        }
+
+        // 重载方法：支持BossAttackData参数
+        protected virtual void SpawnSpiralPattern(Vector2 position, BossAttackData attackData)
+        {
+            if (_bulletManager == null || attackData.bulletConfig == null)
+            {
+                return;
+            }
+
+            float angleStep = (360f * attackData.spiralTurns) / attackData.spiralBulletCount;
+            float currentAngle = attackData.spiralStartAngle;
+
+            for (int i = 0; i < attackData.spiralBulletCount; i++)
+            {
+                float radius = (i / (float)attackData.spiralBulletCount) * attackData.spiralRadiusGrowth;
+                float angleRad = currentAngle * Mathf.Deg2Rad;
+                Vector2 direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
+                Vector2 spawnPos = position + direction * radius;
+                _bulletManager.SpawnBullet(spawnPos, direction, Team.Enemy, attackData.bulletConfig);
+                currentAngle += angleStep;
+            }
+        }
+
+        protected virtual void SpawnFlowerPattern(Vector2 position, BossAttackData attackData)
+        {
+            if (_bulletManager == null || attackData.bulletConfig == null)
+            {
+                return;
+            }
+
+            float petalAngleStep = 360f / attackData.flowerPetals;
+
+            for (int petal = 0; petal < attackData.flowerPetals; petal++)
+            {
+                float petalCenterAngle = attackData.flowerStartAngle + (petal * petalAngleStep);
+
+                for (int bullet = 0; bullet < attackData.flowerBulletsPerPetal; bullet++)
+                {
+                    float offset = 0f;
+                    if (attackData.flowerBulletsPerPetal > 1)
+                    {
+                        offset = Mathf.Lerp(
+                            -attackData.flowerPetalSpread / 2f,
+                            attackData.flowerPetalSpread / 2f,
+                            bullet / (float)(attackData.flowerBulletsPerPetal - 1)
+                        );
+                    }
+
+                    float finalAngle = petalCenterAngle + offset;
+                    float angleRad = finalAngle * Mathf.Deg2Rad;
+                    Vector2 direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
+                    _bulletManager.SpawnBullet(position, direction, Team.Enemy, attackData.bulletConfig);
+                }
+            }
+        }
+
+        protected virtual void SpawnAimingPattern(Vector2 position, BossAttackData attackData)
+        {
+            if (_bulletManager == null || attackData.bulletConfig == null)
+            {
+                return;
+            }
+
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player == null)
+            {
+                Debug.LogWarning("未找到玩家，无法执行自机狙攻击");
+                return;
+            }
+
+            Vector2 playerPos = player.transform.position;
+            Vector2 aimDirection = (playerPos - position).normalized;
+
+            if (attackData.aimingPredictMovement)
+            {
+                Rigidbody2D playerRb = player.GetComponent<Rigidbody2D>();
+                if (playerRb != null)
+                {
+                    float bulletSpeed = attackData.bulletConfig != null ? attackData.bulletConfig.defaultSpeed : 5f;
+                    float distance = Vector2.Distance(position, playerPos);
+                    float timeToReach = distance / bulletSpeed;
+                    Vector2 predictedPos = playerPos + playerRb.velocity * timeToReach;
+                    aimDirection = (predictedPos - position).normalized;
+                }
+            }
+
+            float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+
+            if (attackData.aimingBulletCount == 1 && attackData.aimingSpreadAngle == 0f)
+            {
+                _bulletManager.SpawnBullet(position, aimDirection, Team.Enemy, attackData.bulletConfig);
+            }
+            else
+            {
+                float startAngle = aimAngle - (attackData.aimingSpreadAngle / 2f);
+                float angleStep = attackData.aimingBulletCount > 1
+                    ? attackData.aimingSpreadAngle / (attackData.aimingBulletCount - 1)
+                    : 0f;
+
+                for (int i = 0; i < attackData.aimingBulletCount; i++)
+                {
+                    float currentAngle = startAngle + (angleStep * i);
+                    float angleRad = currentAngle * Mathf.Deg2Rad;
+                    Vector2 direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
+                    _bulletManager.SpawnBullet(position, direction, Team.Enemy, attackData.bulletConfig);
+                }
             }
         }
 
