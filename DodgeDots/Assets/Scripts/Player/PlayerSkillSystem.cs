@@ -13,8 +13,6 @@ namespace DodgeDots.Player
         [Header("技能设置")]
         [SerializeField] private float skillDuration = 3f;             // 技能持续时间（秒）
         [SerializeField] private float skillDamage = 30f;              // 技能对Boss的伤害
-        [SerializeField] private float damageCheckInterval = 0.1f;     // 每隔多久检查一次碰撞（秒）
-        [SerializeField] private float skillActivationRadius = 1f;     // 技能激活范围（与Boss碰撞范围）
 
         [Header("视觉效果")]
         [SerializeField] private SpriteRenderer spriteRenderer;        // 用于显示技能激活的视觉效果
@@ -27,6 +25,8 @@ namespace DodgeDots.Player
         private bool _isSkillActive = false;
         private Coroutine _skillCoroutine;
         private GameObject _bossGameObject;
+        private Vector2 _lastFramePosition;  // 上一帧的位置
+        private Collider2D _lastContactBoss;     // 上一帧接触的Boss，用于判断是否新接触
 
         public bool IsSkillActive => _isSkillActive;
 
@@ -89,6 +89,7 @@ namespace DodgeDots.Player
                 StopCoroutine(_skillCoroutine);
             }
 
+            Debug.Log("技能激活！");
             _skillCoroutine = StartCoroutine(SkillActiveCoroutine());
         }
 
@@ -106,18 +107,21 @@ namespace DodgeDots.Player
                 spriteRenderer.color = skillActiveColor;
             }
 
+            // 记录初始位置
+            _lastFramePosition = transform.position;
+            _lastContactBoss = null;  // 重置上一帧接触记录
+
             float elapsedTime = 0f;
 
             while (elapsedTime < skillDuration)
             {
                 elapsedTime += Time.deltaTime;
 
-                // 每隔damageCheckInterval秒检查一次与Boss的碰撞
-                if (Mathf.FloorToInt(elapsedTime / damageCheckInterval) !=
-                    Mathf.FloorToInt((elapsedTime - Time.deltaTime) / damageCheckInterval))
-                {
-                    CheckCollisionWithBoss();
-                }
+                // 每帧检查一次与Boss的碰撞（改为更频繁）
+                CheckCollisionWithBoss();
+
+                // 更新上一帧位置
+                _lastFramePosition = transform.position;
 
                 yield return null;
             }
@@ -134,23 +138,68 @@ namespace DodgeDots.Player
 
         /// <summary>
         /// 检查与Boss的碰撞
+        /// 检测玩家碰撞体是否真正与Boss碰撞体接触
+        /// 每次从"未接触"变为"接触"时造成一次伤害
         /// </summary>
         private void CheckCollisionWithBoss()
         {
-            // 使用物理射线或圆形碰撞体检测
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, skillActivationRadius);
-
-            foreach (Collider2D col in colliders)
+            if (_collider == null)
             {
+                Debug.LogWarning("[技能检测] 玩家没有CircleCollider2D组件");
+                return;
+            }
+
+            Debug.Log($"[技能检测] 检测玩家碰撞体与Boss的接触");
+
+            // 使用OverlapCircle检测玩家周围是否有Boss
+            // 范围使用碰撞体半径作为基础
+            float detectionRadius = _collider.radius;
+            Vector2 playerPos = transform.position;
+            
+            Collider2D[] hits = Physics2D.OverlapCircleAll(playerPos, detectionRadius);
+
+            Debug.Log($"[技能检测] 玩家位置: {playerPos}, 检测范围: {detectionRadius}, 找到 {hits.Length} 个碰撞体");
+
+            // 本帧是否接触到Boss
+            Collider2D currentContactBoss = null;
+
+            foreach (Collider2D col in hits)
+            {
+                if (col == null || col == _collider)
+                {
+                    continue;
+                }
+
+                Debug.Log($"[技能检测] 检测到碰撞体: {col.gameObject.name}, 标签: {col.tag}");
+
                 // 检查是否是Boss
                 Enemy.BossBase boss = col.GetComponent<Enemy.BossBase>();
                 if (boss != null)
                 {
-                    // 对Boss造成伤害
-                    boss.TakeDamage(skillDamage, gameObject);
-                    Debug.Log($"技能命中Boss！造成 {skillDamage} 点伤害");
+                    Debug.Log($"[技能检测] 找到Boss! Boss当前状态: {boss.CurrentState}, CanTakeDamage: {boss.CanTakeDamage}");
+                    
+                    currentContactBoss = col;
+                    
+                    // 只有当从"未接触"变为"接触"时才造成伤害（新的接触）
+                    if (col != _lastContactBoss)
+                    {
+                        Debug.Log($"[技能检测] 新接触Boss，造成伤害: {skillDamage}");
+                        
+                        // 对Boss造成伤害
+                        boss.TakeDamage(skillDamage, gameObject);
+                        Debug.Log($"技能命中Boss！造成 {skillDamage} 点伤害，Boss血量: {boss.CurrentHealth}/{boss.MaxHealth}");
+                    }
+                    else
+                    {
+                        Debug.Log($"[技能检测] 继续接触同一个Boss，本帧不造成伤害");
+                    }
+                    
+                    break; // 找到Boss后退出循环
                 }
             }
+
+            // 更新上一帧的接触状态
+            _lastContactBoss = currentContactBoss;
         }
 
         /// <summary>

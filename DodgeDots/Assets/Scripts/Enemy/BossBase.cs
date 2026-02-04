@@ -27,7 +27,7 @@ namespace DodgeDots.Enemy
         [SerializeField] protected string bossName = "Boss";
 
         [Header("阶段设置")]
-        [SerializeField] protected List<float> phaseHealthThresholds = new List<float> { 0.7f, 0.4f };
+        [SerializeField] protected List<float> phaseHealthThresholds = new List<float> { 0.7f, 0.3f };
 
         [Header("攻击配置")]
         [SerializeField] protected BossAttackConfig attackConfig;
@@ -52,6 +52,7 @@ namespace DodgeDots.Enemy
         public bool CanTakeDamage => _currentState == BossState.Fighting;
         public BossState CurrentState => _currentState;
         public int CurrentPhase => _currentPhase;
+        public string BossName => bossName;
 
         public event Action<float, float> OnHealthChanged;
         public event Action OnDeath;
@@ -167,17 +168,26 @@ namespace DodgeDots.Enemy
         /// </summary>
         protected virtual void CheckPhaseTransition(float previousHealth, float currentHealth)
         {
-            float previousHealthPercent = previousHealth / maxHealth;
             float currentHealthPercent = currentHealth / maxHealth;
 
+            // 遍历所有阶段阈值，找到当前应该处于的最高阶段
+            int targetPhase = 0;
             for (int i = 0; i < phaseHealthThresholds.Count; i++)
             {
-                if (previousHealthPercent > phaseHealthThresholds[i] &&
-                    currentHealthPercent <= phaseHealthThresholds[i])
+                if (currentHealthPercent <= phaseHealthThresholds[i])
                 {
-                    EnterPhase(i + 1);
-                    break;
+                    targetPhase = i + 1;
                 }
+                else
+                {
+                    break; // 因为列表是降序的，一旦血量比例高于某个阈值就可以停止
+                }
+            }
+
+            // 只有当进入新阶段时才触发
+            if (targetPhase > _currentPhase)
+            {
+                EnterPhase(targetPhase);
             }
         }
 

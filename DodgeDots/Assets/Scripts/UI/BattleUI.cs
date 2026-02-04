@@ -34,8 +34,6 @@ namespace DodgeDots.UI
         [SerializeField] private PlayerEnergy playerEnergy;
         [SerializeField] private PlayerSkillSystem playerSkill;
 
-        private bool _skillReady = true;
-
         private void Start()
         {
             // 自动查找Boss（如果没有手动设置）
@@ -103,7 +101,8 @@ namespace DodgeDots.UI
             // 初始化显示
             if (boss != null && bossNameText != null)
             {
-                bossNameText.text = "Boss";
+                // 从Boss配置中读取Boss的实际名称
+                bossNameText.text = boss.BossName;
             }
 
             if (boss != null)
@@ -244,7 +243,6 @@ namespace DodgeDots.UI
         /// </summary>
         private void OnEnergyFull()
         {
-            _skillReady = true;
             if (skillStatusText != null)
             {
                 skillStatusText.text = "准备就绪";
@@ -257,7 +255,6 @@ namespace DodgeDots.UI
         /// </summary>
         private void OnSkillStarted()
         {
-            _skillReady = false;
             if (skillStatusText != null)
             {
                 skillStatusText.text = "技能释放中...";

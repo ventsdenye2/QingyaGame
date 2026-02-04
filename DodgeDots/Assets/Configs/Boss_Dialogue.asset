@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configName: Boss Dialogue Config
   phaseDialogues:
-  - phaseId: 0
-    phaseName: "\u521D\u59CB\u9636\u6BB5"
-    dialogueText: "battle start\uFF01"
+  - phaseId: 2
+    phaseName: "\u6700\u7EC8\u9636\u6BB5"
+    dialogueText: "\u6211\u4F1A\u53D8\u5F97\u66F4\u5F3A\uFF01"
     dialogueDuration: 3
     pauseGameForDialogue: 0
   - phaseId: 1
     phaseName: "\u7B2C\u4E8C\u9636\u6BB5"
-    dialogueText: "i will be stronger\uFF01"
+    dialogueText: "\u770B\u6765\u4F60\u8FD8\u6709\u70B9\u5B9E\u529B"
     dialogueDuration: 3
     pauseGameForDialogue: 0

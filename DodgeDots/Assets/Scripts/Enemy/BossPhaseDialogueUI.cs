@@ -19,6 +19,12 @@ namespace DodgeDots.UI
         [SerializeField] private TextMeshProUGUI phaseNameText;
         [SerializeField] private TextMeshProUGUI dialogueText;
         
+        [Header("字体设置")]
+        [SerializeField] private TMP_FontAsset phaseFontAsset;
+        [SerializeField] private TMP_FontAsset dialogueFontAsset;
+        [SerializeField] private float phaseNameFontSize = 60f;
+        [SerializeField] private float dialogueFontSize = 40f;
+        
         [Header("动画设置")]
         [SerializeField] private float fadeInDuration = 0.3f;
         [SerializeField] private float fadeOutDuration = 0.3f;
@@ -83,6 +89,14 @@ namespace DodgeDots.UI
             if (phaseNameText != null)
             {
                 phaseNameText.text = dialogue.phaseName;
+                
+                // 应用字体设置
+                if (phaseFontAsset != null)
+                {
+                    phaseNameText.font = phaseFontAsset;
+                }
+                phaseNameText.fontSize = phaseNameFontSize;
+                
                 Debug.Log($"设置阶段名称: {dialogue.phaseName}");
             }
             else
@@ -93,6 +107,14 @@ namespace DodgeDots.UI
             if (dialogueText != null)
             {
                 dialogueText.text = dialogue.dialogueText;
+                
+                // 应用字体设置
+                if (dialogueFontAsset != null)
+                {
+                    dialogueText.font = dialogueFontAsset;
+                }
+                dialogueText.fontSize = dialogueFontSize;
+                
                 Debug.Log($"设置对话文本: {dialogue.dialogueText}");
             }
             else
