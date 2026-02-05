@@ -69,9 +69,8 @@ namespace DodgeDots.Enemy
         /// </summary>
         private void RestartAttackLoop()
         {
-            // 停止旧的攻击循环和音乐
+            // 停止旧的攻击循环
             StopAttackLoop();
-            StopBackgroundMusic();
 
             _currentAttackIndex = 0;
             if (attackConfig != null && _currentState == BossState.Fighting)
