@@ -38,8 +38,8 @@ MonoBehaviour:
     bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
     circleCount: 0
     circleStartAngle: 0
-    fanCount: 10
-    fanSpreadAngle: 60
+    fanCount: 6
+    fanSpreadAngle: 90
     fanCenterAngle: 270
     singleDirection: 0
     spiralBulletCount: 36
@@ -72,7 +72,7 @@ MonoBehaviour:
     emitterMoves: []
     attackType: 0
     bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
-    circleCount: 20
+    circleCount: 10
     circleStartAngle: 0
     fanCount: 10
     fanSpreadAngle: 30
@@ -108,7 +108,7 @@ MonoBehaviour:
     emitterMoves: []
     attackType: 0
     bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
-    circleCount: 20
+    circleCount: 10
     circleStartAngle: 0
     fanCount: 10
     fanSpreadAngle: 30

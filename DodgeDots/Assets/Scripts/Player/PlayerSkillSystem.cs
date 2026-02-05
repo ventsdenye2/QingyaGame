@@ -10,16 +10,26 @@ namespace DodgeDots.Player
     /// </summary>
     public class PlayerSkillSystem : MonoBehaviour
     {
-        [Header("技能设置")]
+        [Header("攻击技能")]
         [SerializeField] private float skillDuration = 3f;             // 技能持续时间（秒）
         [SerializeField] private float skillDamage = 30f;              // 技能对Boss的伤害
+        [SerializeField] private float skillEnergyCost = 60f;          // 攻击技能消耗能量
 
-        [Header("视觉效果")]
+        [Header("攻击视觉效果")]
+        [SerializeField] private Sprite attackActiveSprite;
+
+        [Header("护盾技能")]
+        [SerializeField] private float shieldDuration = 3f;            // 护盾持续时间（秒）
+        [SerializeField] private float shieldEnergyCost = 60f;         // 护盾消耗能量
+
+        [Header("护盾视觉效果")]
         [SerializeField] private SpriteRenderer spriteRenderer;        // 用于显示技能激活的视觉效果
+        [SerializeField] private Sprite skillActiveSprite;
         [SerializeField] private Color skillActiveColor = Color.yellow;
         [SerializeField] private Color skillInactiveColor = Color.white;
 
         private PlayerEnergy _playerEnergy;
+        private PlayerHealth _playerHealth;
         private Rigidbody2D _rigidbody;
         private CircleCollider2D _collider;
         private bool _isSkillActive = false;
@@ -27,6 +37,15 @@ namespace DodgeDots.Player
         private GameObject _bossGameObject;
         private Vector2 _lastFramePosition;  // 上一帧的位置
         private Collider2D _lastContactBoss;     // 上一帧接触的Boss，用于判断是否新接触
+        private Sprite _originalSprite;
+        private SkillType _activeSkillType = SkillType.None;
+
+        private enum SkillType
+        {
+            None,
+            Attack,
+            Shield
+        }
 
         public bool IsSkillActive => _isSkillActive;
 
@@ -36,6 +55,7 @@ namespace DodgeDots.Player
         private void Start()
         {
             _playerEnergy = GetComponent<PlayerEnergy>();
+            _playerHealth = GetComponent<PlayerHealth>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<CircleCollider2D>();
 
@@ -47,64 +67,72 @@ namespace DodgeDots.Player
             // 初始化UI颜色
             if (spriteRenderer != null)
             {
+                _originalSprite = spriteRenderer.sprite;
                 spriteRenderer.color = skillInactiveColor;
             }
         }
 
         private void Update()
         {
-            // 监听鼠标左键点击
+            // 监听鼠标左键点击（攻击技能）
             if (Input.GetMouseButtonDown(0))
             {
-                TryActivateSkill();
+                TryActivateAttackSkill();
+            }
+
+            // 监听鼠标右键点击（护盾技能）
+            if (Input.GetMouseButtonDown(1))
+            {
+                TryActivateShieldSkill();
             }
         }
 
         /// <summary>
         /// 尝试激活技能
         /// </summary>
-        private void TryActivateSkill()
+        private void TryActivateAttackSkill()
         {
             if (_isSkillActive)
             {
                 return; // 技能正在进行中，无法再次激活
             }
 
-            if (!_playerEnergy.TryConsumeEnergy(_playerEnergy.MaxEnergy))
+            if (_playerEnergy == null || !_playerEnergy.TryConsumeEnergy(skillEnergyCost))
             {
                 Debug.Log("能量不足，无法释放技能！");
                 return;
             }
 
-            ActivateSkill();
+            ActivateAttackSkill();
         }
 
         /// <summary>
-        /// 激活技能
+        /// 激活攻击技能
         /// </summary>
-        private void ActivateSkill()
+        private void ActivateAttackSkill()
         {
             if (_skillCoroutine != null)
             {
                 StopCoroutine(_skillCoroutine);
             }
 
-            Debug.Log("技能激活！");
-            _skillCoroutine = StartCoroutine(SkillActiveCoroutine());
+            Debug.Log("攻击技能激活！");
+            _skillCoroutine = StartCoroutine(AttackSkillCoroutine());
         }
 
         /// <summary>
-        /// 技能激活协程
+        /// 攻击技能激活协程
         /// </summary>
-        private IEnumerator SkillActiveCoroutine()
+        private IEnumerator AttackSkillCoroutine()
         {
             _isSkillActive = true;
+            _activeSkillType = SkillType.Attack;
             OnSkillStarted?.Invoke();
 
-            // 改变视觉效果
-            if (spriteRenderer != null)
+            // 攻击技能视觉效果
+            if (spriteRenderer != null && attackActiveSprite != null)
             {
-                spriteRenderer.color = skillActiveColor;
+                spriteRenderer.sprite = attackActiveSprite;
             }
 
             // 记录初始位置
@@ -126,14 +154,76 @@ namespace DodgeDots.Player
                 yield return null;
             }
 
-            _isSkillActive = false;
-            OnSkillEnded?.Invoke();
+            EndCurrentSkill();
+        }
 
-            // 恢复视觉效果
+        /// <summary>
+        /// 尝试激活护盾技能
+        /// </summary>
+        private void TryActivateShieldSkill()
+        {
+            if (_isSkillActive)
+            {
+                return; // 技能正在进行中，无法再次激活
+            }
+
+            if (_playerEnergy == null || !_playerEnergy.TryConsumeEnergy(shieldEnergyCost))
+            {
+                Debug.Log("能量不足，无法释放护盾！");
+                return;
+            }
+
+            ActivateShieldSkill();
+        }
+
+        /// <summary>
+        /// 激活护盾技能
+        /// </summary>
+        private void ActivateShieldSkill()
+        {
+            if (_skillCoroutine != null)
+            {
+                StopCoroutine(_skillCoroutine);
+            }
+
+            Debug.Log("护盾技能激活！");
+            _skillCoroutine = StartCoroutine(ShieldSkillCoroutine());
+        }
+
+        /// <summary>
+        /// 护盾技能激活协程
+        /// </summary>
+        private IEnumerator ShieldSkillCoroutine()
+        {
+            _isSkillActive = true;
+            _activeSkillType = SkillType.Shield;
+            OnSkillStarted?.Invoke();
+
+            // 改变护盾视觉效果
             if (spriteRenderer != null)
             {
-                spriteRenderer.color = skillInactiveColor;
+                if (skillActiveSprite != null)
+                {
+                    spriteRenderer.sprite = skillActiveSprite;
+                }
+                else
+                {
+                    spriteRenderer.color = skillActiveColor;
+                }
             }
+            if (_playerHealth != null)
+            {
+                _playerHealth.SetSkillInvincible(true);
+            }
+
+            float elapsedTime = 0f;
+            while (elapsedTime < shieldDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            EndCurrentSkill();
         }
 
         /// <summary>
@@ -213,13 +303,7 @@ namespace DodgeDots.Player
                 _skillCoroutine = null;
             }
 
-            _isSkillActive = false;
-            OnSkillEnded?.Invoke();
-
-            if (spriteRenderer != null)
-            {
-                spriteRenderer.color = skillInactiveColor;
-            }
+            EndCurrentSkill();
         }
 
         /// <summary>
@@ -236,6 +320,29 @@ namespace DodgeDots.Player
         public void SetSkillDamage(float damage)
         {
             skillDamage = damage;
+        }
+
+        /// <summary>
+        /// 结束当前技能并清理状态
+        /// </summary>
+        private void EndCurrentSkill()
+        {
+            _isSkillActive = false;
+            _activeSkillType = SkillType.None;
+            OnSkillEnded?.Invoke();
+
+            if (spriteRenderer != null)
+            {
+                if (_originalSprite != null)
+                {
+                    spriteRenderer.sprite = _originalSprite;
+                }
+                spriteRenderer.color = skillInactiveColor;
+            }
+            if (_playerHealth != null)
+            {
+                _playerHealth.SetSkillInvincible(false);
+            }
         }
     }
 }

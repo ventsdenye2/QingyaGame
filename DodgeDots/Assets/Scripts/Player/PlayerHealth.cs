@@ -15,12 +15,13 @@ namespace DodgeDots.Player
 
         private float _currentHealth;
         private bool _isInvincible;
+        private bool _isSkillInvincible;
         private float _invincibleTimer;
 
         public float CurrentHealth => _currentHealth;
         public float MaxHealth => maxHealth;
         public bool IsAlive => _currentHealth > 0;
-        public bool CanTakeDamage => !_isInvincible && IsAlive;
+        public bool CanTakeDamage => !_isInvincible && !_isSkillInvincible && IsAlive;
 
         public event Action<float, float> OnHealthChanged;
         public event Action OnDeath;
@@ -83,6 +84,7 @@ namespace DodgeDots.Player
             _currentHealth = maxHealth;
             _isInvincible = false;
             _invincibleTimer = 0;
+            _isSkillInvincible = false;
             OnHealthChanged?.Invoke(_currentHealth, maxHealth);
         }
 
@@ -100,5 +102,13 @@ namespace DodgeDots.Player
         /// 是否处于无敌状态
         /// </summary>
         public bool IsInvincible => _isInvincible;
+
+        /// <summary>
+        /// 设置技能无敌（护盾）
+        /// </summary>
+        public void SetSkillInvincible(bool active)
+        {
+            _isSkillInvincible = active;
+        }
     }
 }
