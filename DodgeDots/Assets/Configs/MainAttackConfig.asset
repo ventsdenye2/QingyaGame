@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4dda17a1a10b5d34f89034de616807f7, type: 3}
-  m_Name: BossAttackConfig
+  m_Name: MainAttackConfig
   m_EditorClassIdentifier: 
   configName: Boss Attack Config
   backgroundMusic: {fileID: 8300000, guid: cc11ec2ab9fae5740ac749a3e3c29d30, type: 3}
@@ -50,8 +50,8 @@ MonoBehaviour:
     flowerBulletsPerPetal: 3
     flowerPetalSpread: 30
     flowerStartAngle: 0
-    aimingBulletCount: 10
-    aimingSpreadAngle: 10
+    aimingBulletCount: 3
+    aimingSpreadAngle: 30
     aimingPredictMovement: 1
     customAttackId: 0
     moveType: 0
@@ -65,43 +65,7 @@ MonoBehaviour:
     delayBeforeAttack: 0
     emitterType: 0
     useMultipleEmitters: 1
-    multipleEmitters: 01000000
-    useComboAttack: 0
-    subAttacks: []
-    moveEmitters: 0
-    emitterMoves: []
-    attackType: 0
-    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
-    circleCount: 10
-    circleStartAngle: 0
-    fanCount: 10
-    fanSpreadAngle: 30
-    fanCenterAngle: 270
-    singleDirection: 0
-    spiralBulletCount: 36
-    spiralTurns: 3
-    spiralStartAngle: 0
-    spiralRadiusGrowth: 0.5
-    flowerPetals: 5
-    flowerBulletsPerPetal: 3
-    flowerPetalSpread: 30
-    flowerStartAngle: 0
-    aimingBulletCount: 1
-    aimingSpreadAngle: 0
-    aimingPredictMovement: 0
-    customAttackId: 0
-    moveType: 0
-    moveDuration: 0
-    moveSpeed: 0
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 0
-    customMoveId: 0
-  - attackName: test3
-    delayBeforeAttack: 0
-    emitterType: 0
-    useMultipleEmitters: 1
-    multipleEmitters: 02000000
+    multipleEmitters: 00000000
     useComboAttack: 0
     subAttacks: []
     moveEmitters: 0

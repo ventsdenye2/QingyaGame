@@ -392,6 +392,20 @@ namespace DodgeDots.Enemy
         }
 
         /// <summary>
+        /// 公开执行某个攻击数据（用于外部节拍驱动）
+        /// </summary>
+        public void ExecuteAttackData(BossAttackData attackData)
+        {
+            if (_currentState != BossState.Fighting || attackData == null)
+            {
+                Debug.LogWarning("[BossBase] Cannot execute attack data: not in Fighting state or attackData is null");
+                return;
+            }
+
+            ExecuteAttack(attackData);
+        }
+
+        /// <summary>
         /// 从单个发射源执行攻击
         /// </summary>
         protected virtual void ExecuteSingleEmitterAttack(BossAttackData attackData, EmitterType emitterType)

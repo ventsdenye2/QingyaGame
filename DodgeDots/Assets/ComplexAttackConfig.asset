@@ -1,0 +1,1077 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dda17a1a10b5d34f89034de616807f7, type: 3}
+  m_Name: ComplexAttackConfig
+  m_EditorClassIdentifier: 
+  configName: Boss Attack Config
+  backgroundMusic: {fileID: 8300000, guid: cc11ec2ab9fae5740ac749a3e3c29d30, type: 3}
+  musicVolume: 0.7
+  loopMusic: 1
+  attackSequence:
+  - attackName: test1
+    delayBeforeAttack: 0
+    emitterType: 1
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 0
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 2
+    useMultipleEmitters: 1
+    multipleEmitters: 02000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 0
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test1
+    delayBeforeAttack: 0
+    emitterType: 1
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 30
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 2
+    useMultipleEmitters: 1
+    multipleEmitters: 02000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 30
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test1
+    delayBeforeAttack: 0
+    emitterType: 1
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 60
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 2
+    useMultipleEmitters: 1
+    multipleEmitters: 02000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 60
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test1
+    delayBeforeAttack: 0
+    emitterType: 1
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 90
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 2
+    useMultipleEmitters: 1
+    multipleEmitters: 02000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 90
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test1
+    delayBeforeAttack: 0
+    emitterType: 1
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 120
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 2
+    useMultipleEmitters: 1
+    multipleEmitters: 02000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 120
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test1
+    delayBeforeAttack: 0
+    emitterType: 1
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 150
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 2
+    useMultipleEmitters: 1
+    multipleEmitters: 02000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 150
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test1
+    delayBeforeAttack: 0
+    emitterType: 1
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 180
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 2
+    useMultipleEmitters: 1
+    multipleEmitters: 02000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 180
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test1
+    delayBeforeAttack: 0
+    emitterType: 1
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 210
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 2
+    useMultipleEmitters: 1
+    multipleEmitters: 02000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 210
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test1
+    delayBeforeAttack: 0
+    emitterType: 1
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 240
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 2
+    useMultipleEmitters: 1
+    multipleEmitters: 02000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 240
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test1
+    delayBeforeAttack: 0
+    emitterType: 1
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 270
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 2
+    useMultipleEmitters: 1
+    multipleEmitters: 02000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 270
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test1
+    delayBeforeAttack: 0
+    emitterType: 1
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 300
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 2
+    useMultipleEmitters: 1
+    multipleEmitters: 02000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 300
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test1
+    delayBeforeAttack: 0
+    emitterType: 1
+    useMultipleEmitters: 1
+    multipleEmitters: 01000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 330
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  - attackName: test2
+    delayBeforeAttack: 0
+    emitterType: 2
+    useMultipleEmitters: 1
+    multipleEmitters: 02000000
+    useComboAttack: 0
+    subAttacks: []
+    moveEmitters: 1
+    emitterMoves:
+    - emitterType: 0
+      moveType: 0
+      moveDuration: 0
+      moveSpeed: 0
+      targetPosition: {x: 0, y: 0}
+      moveDirection: 0
+      moveDistance: 0
+      customMoveId: 0
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    circleCount: 2
+    circleStartAngle: 330
+    fanCount: 6
+    fanSpreadAngle: 90
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
+    customAttackId: 0
+    moveType: 0
+    moveDuration: 0
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    customMoveId: 0
+  loopSequence: 1
+  delayAfterLoop: 0

@@ -639,13 +639,23 @@ MonoBehaviour:
   skillDuration: 3
   skillDamage: 10
   skillEnergyCost: 60
+  bossHealthThreshold: 100
+  homingBulletConfig: {fileID: 0}
+  homingTurnSpeed: 360
+  homingBurstCount: 10
+  homingBurstInterval: 0.05
+  instantSkillSpriteDuration: 0.2
   attackActiveSprite: {fileID: 4303423874142921733, guid: 6ed38972fd0f4024c91aca33394d3cdd, type: 3}
+  homingActiveSprite: {fileID: 0}
   shieldDuration: 3
   shieldEnergyCost: 60
   spriteRenderer: {fileID: 0}
   skillActiveSprite: {fileID: -5203770946779173145, guid: 90f53065140625242aaa6c9e55fcf2f3, type: 3}
   skillActiveColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   skillInactiveColor: {r: 1, g: 1, b: 1, a: 1}
+  resurrectionWaitTime: 1
+  hasResurrection: 1
+  resurrectionSprite: {fileID: 0}
 --- !u!114 &470546305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1614,6 +1624,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 742541596}
   m_CullTransparentMesh: 1
+--- !u!1 &831197424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 831197426}
+  - component: {fileID: 831197425}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_Main
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &831197425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831197424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 703368361}
+  beatMap: {fileID: 11400000, guid: e77726d741e77314f91fc91a35a491ef, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: 0
+--- !u!4 &831197426
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831197424}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &850304489
 GameObject:
   m_ObjectHideFlags: 0
@@ -2158,6 +2217,7 @@ MonoBehaviour:
   playerWeapon: {fileID: 470546308}
   autoStartBattle: 1
   battleStartDelay: 1
+  playerDeathDelay: 2
 --- !u!4 &1254693993
 Transform:
   m_ObjectHideFlags: 0
@@ -2577,6 +2637,55 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -533}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1582452471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1582452473}
+  - component: {fileID: 1582452472}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_Complex
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1582452472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582452471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 703368361}
+  beatMap: {fileID: 11400000, guid: 0e18e38b72ac7c44ca33af1adb2cbeb5, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: 0
+--- !u!4 &1582452473
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1582452471}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1625151301
 GameObject:
   m_ObjectHideFlags: 0
@@ -3149,7 +3258,9 @@ GameObject:
   - component: {fileID: 2017841196}
   - component: {fileID: 2017841195}
   - component: {fileID: 2017841194}
+  - component: {fileID: 2017841200}
   - component: {fileID: 2017841199}
+  - component: {fileID: 2017841201}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -3328,7 +3439,7 @@ Transform:
   m_GameObject: {fileID: 2017841192}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 3.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3344,12 +3455,215 @@ MonoBehaviour:
   m_GameObject: {fileID: 2017841192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc2fca52f880e4a41b237dc78e43c6b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e554d8d305786948ba763a2fe6345b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1582452472}
+  bossBase: {fileID: 2017841193}
+  attackConfig: {fileID: 11400000, guid: 78efd3b4144357d428bdf5109979dbd4, type: 2}
+  attackEveryNBeats: 1
+--- !u!114 &2017841200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017841192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e554d8d305786948ba763a2fe6345b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 831197425}
+  bossBase: {fileID: 2017841193}
+  attackConfig: {fileID: 11400000, guid: 02c7644e8d9b9b9469f9ac9e073d1857, type: 2}
+  attackEveryNBeats: 1
+--- !u!114 &2017841201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2017841192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11174b7529c39eb4ca50eb212e3496d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bgmManager: {fileID: 703368361}
+  startOffsetSeconds: 0
+  waitForBgmStart: 1
   bossBase: {fileID: 2017841193}
-  skillEveryNBeats: 1
+  emittersIndependent: 1
+  events:
+  - timeSeconds: 20
+    target: 1
+    emitterType: 0
+    moveType: 2
+    moveDuration: 2.25
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 5.5
+    circleCenterOffset: {x: 0, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 90
+    pointAOffset: {x: 0, y: 0}
+    pointBOffset: {x: 2, y: 0}
+  - timeSeconds: 22.25
+    target: 1
+    emitterType: 0
+    moveType: 2
+    moveDuration: 4.5
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 180
+    moveDistance: 11
+    circleCenterOffset: {x: 0, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 90
+    pointAOffset: {x: 0, y: 0}
+    pointBOffset: {x: 2, y: 0}
+  - timeSeconds: 26.75
+    target: 1
+    emitterType: 0
+    moveType: 2
+    moveDuration: 4.5
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 11
+    circleCenterOffset: {x: 0, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 90
+    pointAOffset: {x: 0, y: 0}
+    pointBOffset: {x: 2, y: 0}
+  - timeSeconds: 31.25
+    target: 1
+    emitterType: 0
+    moveType: 2
+    moveDuration: 4.5
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 180
+    moveDistance: 11
+    circleCenterOffset: {x: 0, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 90
+    pointAOffset: {x: 0, y: 0}
+    pointBOffset: {x: 2, y: 0}
+  - timeSeconds: 35.75
+    target: 1
+    emitterType: 0
+    moveType: 2
+    moveDuration: 2.25
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 5.5
+    circleCenterOffset: {x: 0, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 90
+    pointAOffset: {x: 0, y: 0}
+    pointBOffset: {x: 2, y: 0}
+  - timeSeconds: 38
+    target: 1
+    emitterType: 0
+    moveType: 3
+    moveDuration: 140
+    moveSpeed: 0
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 5.5
+    circleCenterOffset: {x: 0, y: -3}
+    circleRadius: 0
+    circleAngularSpeed: 90
+    pointAOffset: {x: 0, y: 0}
+    pointBOffset: {x: 0, y: 0}
+  - timeSeconds: 57
+    target: 1
+    emitterType: 1
+    moveType: 4
+    moveDuration: 18
+    moveSpeed: 2
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    circleCenterOffset: {x: 0, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 0
+    pointAOffset: {x: 0, y: 2}
+    pointBOffset: {x: 0, y: -2}
+  - timeSeconds: 57
+    target: 1
+    emitterType: 2
+    moveType: 4
+    moveDuration: 18
+    moveSpeed: 2
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    circleCenterOffset: {x: 0, y: -3}
+    circleRadius: 0
+    circleAngularSpeed: 0
+    pointAOffset: {x: 0, y: 2}
+    pointBOffset: {x: 0, y: -2}
+  - timeSeconds: 77.5
+    target: 1
+    emitterType: 2
+    moveType: 4
+    moveDuration: 35
+    moveSpeed: 2
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    circleCenterOffset: {x: 0, y: -3}
+    circleRadius: 0
+    circleAngularSpeed: 0
+    pointAOffset: {x: -1, y: 2}
+    pointBOffset: {x: 1, y: -2}
+  - timeSeconds: 77.5
+    target: 1
+    emitterType: 1
+    moveType: 4
+    moveDuration: 35
+    moveSpeed: 2
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    circleCenterOffset: {x: 0, y: 3}
+    circleRadius: 0
+    circleAngularSpeed: 0
+    pointAOffset: {x: -1, y: -2}
+    pointBOffset: {x: 1, y: 2}
+  - timeSeconds: 116
+    target: 1
+    emitterType: 1
+    moveType: 3
+    moveDuration: 20
+    moveSpeed: 2
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    circleCenterOffset: {x: 2, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 60
+    pointAOffset: {x: -1, y: 3}
+    pointBOffset: {x: 1, y: -3}
+  - timeSeconds: 116
+    target: 1
+    emitterType: 2
+    moveType: 3
+    moveDuration: 20
+    moveSpeed: 2
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 0
+    moveDistance: 0
+    circleCenterOffset: {x: -2, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 60
+    pointAOffset: {x: -1, y: -3}
+    pointBOffset: {x: 1, y: 3}
 --- !u!1 &2139245474
 GameObject:
   m_ObjectHideFlags: 0
@@ -3430,3 +3744,5 @@ SceneRoots:
   - {fileID: 656703215}
   - {fileID: 1396940712}
   - {fileID: 703368362}
+  - {fileID: 831197426}
+  - {fileID: 1582452473}
