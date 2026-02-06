@@ -41,6 +41,7 @@ namespace DodgeDots.Enemy
         [System.NonSerialized] protected BulletManager _bulletManager;
         protected Coroutine _attackCoroutine;
         protected int _currentAttackIndex;
+        protected Transform _playerTransform;
 
         // 发射源管理
         protected Dictionary<EmitterType, EmitterPoint> _emitters;
@@ -83,6 +84,7 @@ namespace DodgeDots.Enemy
 
             // 初始化发射源
             InitializeEmitters();
+            CachePlayerTransform();
 
             // 子类可以重写此方法进行初始化
         }
@@ -315,6 +317,55 @@ namespace DodgeDots.Enemy
         }
 
         /// <summary>
+        /// 缂撳瓨Player Transform
+        /// </summary>
+        protected virtual void CachePlayerTransform()
+        {
+            if (_playerTransform != null) return;
+
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            if (playerObject != null)
+            {
+                _playerTransform = playerObject.transform;
+            }
+        }
+
+        /// <summary>
+        /// 鑾峰彇鐬勫噯鏂瑰悜锛堝彲閫夐娴嬭€佸緱鍒扮殑浣嶇疆锛?
+        /// </summary>
+        protected virtual Vector2 GetAimingDirection(Vector2 origin, bool predictMovement, BulletConfig config)
+        {
+            CachePlayerTransform();
+            if (_playerTransform == null)
+            {
+                Debug.LogWarning("Aiming attack failed: Player transform not found.");
+                return Vector2.up;
+            }
+
+            Vector2 targetPosition = _playerTransform.position;
+
+            if (predictMovement)
+            {
+                Rigidbody2D playerBody = _playerTransform.GetComponent<Rigidbody2D>();
+                if (playerBody != null)
+                {
+                    float bulletSpeed = (config != null && config.defaultSpeed > 0f) ? config.defaultSpeed : 5f;
+                    float distance = Vector2.Distance(origin, targetPosition);
+                    float leadTime = bulletSpeed > 0.01f ? distance / bulletSpeed : 0f;
+                    targetPosition += playerBody.velocity * leadTime;
+                }
+            }
+
+            Vector2 direction = targetPosition - origin;
+            if (direction.sqrMagnitude < 0.0001f)
+            {
+                return Vector2.up;
+            }
+
+            return direction.normalized;
+        }
+
+        /// <summary>
         /// 执行攻击
         /// </summary>
         protected virtual void ExecuteAttack(BossAttackData attackData)
@@ -382,6 +433,22 @@ namespace DodgeDots.Enemy
                     _bulletManager.SpawnBullet(
                         bossPosition,
                         singleDirection,
+                        Team.Enemy,
+                        attackData.bulletConfig
+                    );
+                    break;
+
+                case BossAttackType.Aiming:
+                    Vector2 aimDirection = GetAimingDirection(
+                        bossPosition,
+                        attackData.aimingPredictMovement,
+                        attackData.bulletConfig
+                    );
+                    _bulletManager.SpawnFanPattern(
+                        bossPosition,
+                        aimDirection,
+                        attackData.aimingBulletCount,
+                        attackData.aimingSpreadAngle,
                         Team.Enemy,
                         attackData.bulletConfig
                     );

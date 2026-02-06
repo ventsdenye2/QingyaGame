@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using DodgeDots.Bullet;
+using DodgeDots.Core;
 
 namespace DodgeDots.Player
 {
@@ -14,9 +16,18 @@ namespace DodgeDots.Player
         [SerializeField] private float skillDuration = 3f;             // 技能持续时间（秒）
         [SerializeField] private float skillDamage = 30f;              // 技能对Boss的伤害
         [SerializeField] private float skillEnergyCost = 60f;          // 攻击技能消耗能量
+        [SerializeField] private float bossHealthThreshold = 100f;     // Boss血量阈值（大于此值时改为发射追踪弹）
+
+        [Header("追踪弹幕技能")]
+        [SerializeField] private BulletConfig homingBulletConfig;
+        [SerializeField] private float homingTurnSpeed = 360f;         // 追踪转向速度（度/秒）
+        [SerializeField] private int homingBurstCount = 10;            // 连发数量
+        [SerializeField] private float homingBurstInterval = 0.05f;    // 连发间隔（秒）
+        [SerializeField] private float instantSkillSpriteDuration = 0.2f;
 
         [Header("攻击视觉效果")]
         [SerializeField] private Sprite attackActiveSprite;
+        [SerializeField] private Sprite homingActiveSprite;
 
         [Header("护盾技能")]
         [SerializeField] private float shieldDuration = 3f;            // 护盾持续时间（秒）
@@ -28,23 +39,35 @@ namespace DodgeDots.Player
         [SerializeField] private Color skillActiveColor = Color.yellow;
         [SerializeField] private Color skillInactiveColor = Color.white;
 
+        [Header("复活技能")]
+        [SerializeField] private float resurrectionWaitTime = 1f;     // 复活等待时间（秒）
+        [SerializeField] private bool hasResurrection = true;         // 本关卡是否有复活机会
+        [SerializeField] private Sprite resurrectionSprite;           // 复活时的立绘
+
         private PlayerEnergy _playerEnergy;
         private PlayerHealth _playerHealth;
+        private PlayerSkillManager _skillManager;
         private Rigidbody2D _rigidbody;
         private CircleCollider2D _collider;
         private bool _isSkillActive = false;
         private Coroutine _skillCoroutine;
+        private Coroutine _instantSkillVisualCoroutine;
         private GameObject _bossGameObject;
+        private Enemy.BossBase _boss;
         private Vector2 _lastFramePosition;  // 上一帧的位置
         private Collider2D _lastContactBoss;     // 上一帧接触的Boss，用于判断是否新接触
         private Sprite _originalSprite;
         private SkillType _activeSkillType = SkillType.None;
+        private bool _resurrectionUsed = false; // 本关卡复活是否已使用
+        private Coroutine _resurrectionCoroutine; // 复活协程
 
         private enum SkillType
         {
             None,
             Attack,
-            Shield
+            AttackHoming,
+            Shield,
+            Resurrection
         }
 
         public bool IsSkillActive => _isSkillActive;
@@ -56,6 +79,7 @@ namespace DodgeDots.Player
         {
             _playerEnergy = GetComponent<PlayerEnergy>();
             _playerHealth = GetComponent<PlayerHealth>();
+            _skillManager = GetComponent<PlayerSkillManager>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<CircleCollider2D>();
 
@@ -70,6 +94,14 @@ namespace DodgeDots.Player
                 _originalSprite = spriteRenderer.sprite;
                 spriteRenderer.color = skillInactiveColor;
             }
+
+            // 监听玩家死亡事件，自动触发复活
+            if (_playerHealth != null)
+            {
+                _playerHealth.OnDeath += OnPlayerDeath;
+            }
+
+            CacheBossReference();
         }
 
         private void Update()
@@ -87,6 +119,15 @@ namespace DodgeDots.Player
             }
         }
 
+        private void OnDestroy()
+        {
+            // 取消监听死亡事件
+            if (_playerHealth != null)
+            {
+                _playerHealth.OnDeath -= OnPlayerDeath;
+            }
+        }
+
         /// <summary>
         /// 尝试激活技能
         /// </summary>
@@ -97,9 +138,30 @@ namespace DodgeDots.Player
                 return; // 技能正在进行中，无法再次激活
             }
 
+            CacheBossReference();
+            bool useHoming = _boss != null && _boss.CurrentHealth > bossHealthThreshold;
+
+            if (useHoming && !HasSkill(PlayerSkillType.AttackHoming))
+            {
+                Debug.Log("攻击技能(追踪)未启用，无法释放。");
+                return;
+            }
+
+            if (!useHoming && !HasSkill(PlayerSkillType.AttackMelee))
+            {
+                Debug.Log("攻击技能(近战)未启用，无法释放。");
+                return;
+            }
+
             if (_playerEnergy == null || !_playerEnergy.TryConsumeEnergy(skillEnergyCost))
             {
                 Debug.Log("能量不足，无法释放技能！");
+                return;
+            }
+
+            if (useHoming)
+            {
+                StartCoroutine(FireHomingShotBurst(_boss));
                 return;
             }
 
@@ -129,10 +191,11 @@ namespace DodgeDots.Player
             _activeSkillType = SkillType.Attack;
             OnSkillStarted?.Invoke();
 
-            // 攻击技能视觉效果
-            if (spriteRenderer != null && attackActiveSprite != null)
+            ApplySkillVisual(PlayerSkillType.AttackMelee);
+
+            if (_playerHealth != null)
             {
-                spriteRenderer.sprite = attackActiveSprite;
+                _playerHealth.SetSkillInvincible(true);
             }
 
             // 记录初始位置
@@ -157,6 +220,64 @@ namespace DodgeDots.Player
             EndCurrentSkill();
         }
 
+        private IEnumerator FireHomingShotBurst(Enemy.BossBase boss)
+        {
+            if (BulletManager.Instance == null)
+            {
+                Debug.LogWarning("BulletManager未初始化，无法发射追踪弹幕。");
+                yield break;
+            }
+
+            int count = Mathf.Max(1, homingBurstCount);
+            float interval = Mathf.Max(0f, homingBurstInterval);
+
+            for (int i = 0; i < count; i++)
+            {
+                Vector2 origin = transform.position;
+                Vector2 direction = (boss.transform.position - transform.position).normalized;
+
+                var bullet = BulletManager.Instance.SpawnBullet(origin, direction, Team.Player, homingBulletConfig);
+                if (bullet == null)
+                {
+                    Debug.LogWarning("生成追踪弹幕失败。");
+                    yield break;
+                }
+
+                var homing = bullet.GetComponent<HomingBulletBehavior>();
+                if (homing == null)
+                {
+                    homing = bullet.gameObject.AddComponent<HomingBulletBehavior>();
+                }
+
+                homing.Configure(boss.transform, homingTurnSpeed);
+
+                if (interval > 0f && i < count - 1)
+                {
+                    yield return new WaitForSeconds(interval);
+                }
+            }
+
+            PlayInstantSkillVisual(PlayerSkillType.AttackHoming);
+
+            // 发射追踪弹幕不进入技能持续状态，也不赋予无敌
+        }
+
+        private void CacheBossReference()
+        {
+            if (_boss != null) return;
+
+            _bossGameObject = GameObject.FindGameObjectWithTag("Boss");
+            if (_bossGameObject != null)
+            {
+                _boss = _bossGameObject.GetComponent<Enemy.BossBase>();
+            }
+
+            if (_boss == null)
+            {
+                _boss = FindObjectOfType<Enemy.BossBase>();
+            }
+        }
+
         /// <summary>
         /// 尝试激活护盾技能
         /// </summary>
@@ -170,6 +291,12 @@ namespace DodgeDots.Player
             if (_playerEnergy == null || !_playerEnergy.TryConsumeEnergy(shieldEnergyCost))
             {
                 Debug.Log("能量不足，无法释放护盾！");
+                return;
+            }
+
+            if (!HasSkill(PlayerSkillType.Shield))
+            {
+                Debug.Log("护盾技能未启用，无法释放。");
                 return;
             }
 
@@ -198,6 +325,8 @@ namespace DodgeDots.Player
             _isSkillActive = true;
             _activeSkillType = SkillType.Shield;
             OnSkillStarted?.Invoke();
+
+            ApplySkillVisual(PlayerSkillType.Shield);
 
             // 改变护盾视觉效果
             if (spriteRenderer != null)
@@ -343,6 +472,178 @@ namespace DodgeDots.Player
             {
                 _playerHealth.SetSkillInvincible(false);
             }
+        }
+
+        /// <summary>
+        /// 玩家死亡后自动触发复活
+        /// </summary>
+        private void OnPlayerDeath()
+        {
+            // 如果已使用复活机会或本关卡没有复活机会，则不复活
+            if (_resurrectionUsed || !hasResurrection)
+            {
+                Debug.Log("[复活技能] 复活机会已用尽或不可用。");
+                return;
+            }
+
+            // 检查是否有复活技能
+            if (!HasSkill(PlayerSkillType.Resurrection))
+            {
+                Debug.Log("[复活技能] 复活技能未启用，无法复活。");
+                return;
+            }
+
+            Debug.Log("[复活技能] 检测到玩家死亡，触发复活机制");
+
+            // 启动复活协程
+            if (_resurrectionCoroutine != null)
+            {
+                StopCoroutine(_resurrectionCoroutine);
+            }
+            _resurrectionCoroutine = StartCoroutine(ResurrectionCoroutine());
+        }
+
+        /// <summary>
+        /// 复活协程
+        /// </summary>
+        private IEnumerator ResurrectionCoroutine()
+        {
+            Debug.Log("[复活技能] 开始复活流程，等待时间：" + resurrectionWaitTime + "秒");
+
+            // 等待指定时间
+            yield return new WaitForSeconds(resurrectionWaitTime);
+
+            // 获取当前鼠标位置
+            Vector3 resurrectionPosition = GetMouseWorldPosition();
+
+            // 复活玩家
+            if (_playerHealth != null)
+            {
+                _playerHealth.Resurrect();
+                Debug.Log("[复活技能] 玩家复活在位置：" + resurrectionPosition);
+            }
+
+            // 移动玩家到鼠标位置
+            if (_rigidbody != null)
+            {
+                _rigidbody.position = resurrectionPosition;
+            }
+
+            // 切换复活立绘
+            if (spriteRenderer != null && resurrectionSprite != null)
+            {
+                spriteRenderer.sprite = resurrectionSprite;
+                Debug.Log("[复活技能] 已切换为复活立绘");
+            }
+
+            // 标记复活已使用
+            _resurrectionUsed = true;
+
+            // 通知BossBattleLevel玩家已复活，继续战斗
+            NotifyBattleResumed();
+
+            _resurrectionCoroutine = null;
+        }
+
+        /// <summary>
+        /// 通知战斗关卡玩家已复活
+        /// </summary>
+        private void NotifyBattleResumed()
+        {
+            var battleLevel = FindObjectOfType<DodgeDots.Level.BossBattleLevel>();
+            if (battleLevel != null)
+            {
+                battleLevel.ResumeBattle();
+                Debug.Log("[复活技能] 已通知战斗关卡继续");
+            }
+        }
+
+        /// <summary>
+        /// 获取鼠标的世界坐标
+        /// </summary>
+        private Vector3 GetMouseWorldPosition()
+        {
+            Camera mainCamera = Camera.main;
+            if (mainCamera == null)
+            {
+                Debug.LogWarning("[复活技能] 主相机为null，使用玩家当前位置");
+                return transform.position;
+            }
+
+            Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            mouseWorldPos.z = 0;
+            return mouseWorldPos;
+        }
+
+        /// <summary>
+        /// 重置复活机会（关卡开始时调用）
+        /// </summary>
+        public void ResetResurrection()
+        {
+            _resurrectionUsed = false;
+            Debug.Log("[复活技能] 复活机会已重置");
+        }
+
+        /// <summary>
+        /// 检查是否有可用的复活机会
+        /// </summary>
+        public bool HasAvailableResurrection()
+        {
+            return !_resurrectionUsed && hasResurrection && HasSkill(PlayerSkillType.Resurrection);
+        }
+
+        private bool HasSkill(PlayerSkillType skillType)
+        {
+            if (_skillManager == null) return true;
+            return _skillManager.HasSkill(skillType);
+        }
+
+        private void ApplySkillVisual(PlayerSkillType skillType)
+        {
+            if (spriteRenderer == null) return;
+
+            Sprite targetSprite = null;
+            switch (skillType)
+            {
+                case PlayerSkillType.AttackMelee:
+                    targetSprite = attackActiveSprite;
+                    break;
+                case PlayerSkillType.AttackHoming:
+                    targetSprite = homingActiveSprite;
+                    break;
+                case PlayerSkillType.Shield:
+                    targetSprite = skillActiveSprite;
+                    break;
+            }
+
+            if (targetSprite != null)
+            {
+                spriteRenderer.sprite = targetSprite;
+            }
+        }
+
+        private void PlayInstantSkillVisual(PlayerSkillType skillType)
+        {
+            if (spriteRenderer == null) return;
+
+            if (_instantSkillVisualCoroutine != null)
+            {
+                StopCoroutine(_instantSkillVisualCoroutine);
+            }
+
+            _instantSkillVisualCoroutine = StartCoroutine(InstantSkillVisualCoroutine(skillType));
+        }
+
+        private IEnumerator InstantSkillVisualCoroutine(PlayerSkillType skillType)
+        {
+            ApplySkillVisual(skillType);
+            yield return new WaitForSeconds(Mathf.Max(0f, instantSkillSpriteDuration));
+
+            if (_originalSprite != null)
+            {
+                spriteRenderer.sprite = _originalSprite;
+            }
+            spriteRenderer.color = skillInactiveColor;
         }
     }
 }

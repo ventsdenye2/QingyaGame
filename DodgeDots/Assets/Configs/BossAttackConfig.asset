@@ -34,7 +34,7 @@ MonoBehaviour:
       moveDirection: 0
       moveDistance: 0
       customMoveId: 0
-    attackType: 1
+    attackType: 5
     bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
     circleCount: 0
     circleStartAngle: 0
@@ -50,9 +50,9 @@ MonoBehaviour:
     flowerBulletsPerPetal: 3
     flowerPetalSpread: 30
     flowerStartAngle: 0
-    aimingBulletCount: 1
-    aimingSpreadAngle: 0
-    aimingPredictMovement: 0
+    aimingBulletCount: 10
+    aimingSpreadAngle: 10
+    aimingPredictMovement: 1
     customAttackId: 0
     moveType: 0
     moveDuration: 0

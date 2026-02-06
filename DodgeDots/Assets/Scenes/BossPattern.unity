@@ -1477,7 +1477,7 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: 3a576a7c25bacd14ba5d08f891b296b4, type: 3}
   bpm: 120
   startDelaySeconds: 0.2
-  beatMap: {fileID: 11400000, guid: fcf37fcfd3be69d448c276f2c244c60d, type: 2}
+  beatMap: {fileID: 11400000, guid: 95bf0d4087069804f905ee86ece5ff85, type: 2}
 --- !u!4 &703368362
 Transform:
   m_ObjectHideFlags: 0
@@ -3348,7 +3348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgmManager: {fileID: 703368361}
-  bossBase: {fileID: 0}
+  bossBase: {fileID: 2017841193}
   skillEveryNBeats: 1
 --- !u!1 &2139245474
 GameObject:

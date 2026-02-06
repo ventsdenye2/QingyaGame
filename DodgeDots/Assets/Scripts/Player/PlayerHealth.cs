@@ -28,6 +28,7 @@ namespace DodgeDots.Player
         public event Action OnDamageTaken;
         public event Action OnInvincibleStart;
         public event Action OnInvincibleEnd;
+        public event Action OnResurrected; // 復活事件
 
         private void Awake()
         {
@@ -109,6 +110,21 @@ namespace DodgeDots.Player
         public void SetSkillInvincible(bool active)
         {
             _isSkillInvincible = active;
+        }
+
+        /// <summary>
+        /// 复活玩家
+        /// </summary>
+        public void Resurrect()
+        {
+            if (IsAlive) return; // 只有死亡才能复活
+
+            _currentHealth = maxHealth;
+            _isInvincible = false;
+            _invincibleTimer = 0;
+            _isSkillInvincible = false;
+            OnHealthChanged?.Invoke(_currentHealth, maxHealth);
+            OnResurrected?.Invoke();
         }
     }
 }

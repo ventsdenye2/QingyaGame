@@ -20,9 +20,11 @@ namespace DodgeDots.Level
         [Header("关卡设置")]
         [SerializeField] private bool autoStartBattle = true;
         [SerializeField] private float battleStartDelay = 1f;
+        [SerializeField] private float playerDeathDelay = 2f; // 延迟检查玩家失败（允许复活）
 
         private bool _battleStarted;
         private bool _battleEnded;
+        private Coroutine _deathCheckCoroutine;
 
         public event Action OnBattleStart;
         public event Action OnBattleWin;
@@ -106,10 +108,40 @@ namespace DodgeDots.Level
         {
             if (_battleEnded) return;
 
-            _battleEnded = true;
-            OnBattleLose?.Invoke();
+            Debug.Log("玩家死亡，等待复活机制检查...");
 
-            Debug.Log("失败！玩家被击败！");
+            // 延迟检查，给复活机制时间处理
+            if (_deathCheckCoroutine != null)
+            {
+                StopCoroutine(_deathCheckCoroutine);
+            }
+            _deathCheckCoroutine = StartCoroutine(CheckPlayerDeathDelayed());
+        }
+
+        /// <summary>
+        /// 延迟检查玩家是否真的失败了
+        /// </summary>
+        private System.Collections.IEnumerator CheckPlayerDeathDelayed()
+        {
+            yield return new WaitForSeconds(playerDeathDelay);
+
+            // 如果在延迟期间玩家复活了，则不结束战斗
+            if (playerHealth != null && playerHealth.IsAlive)
+            {
+                Debug.Log("玩家已复活，战斗继续！");
+                _deathCheckCoroutine = null;
+                yield break;
+            }
+
+            // 玩家真的死亡了
+            if (!_battleEnded)
+            {
+                _battleEnded = true;
+                OnBattleLose?.Invoke();
+                Debug.Log("失败！玩家被击败！");
+            }
+
+            _deathCheckCoroutine = null;
         }
 
         /// <summary>
@@ -139,6 +171,20 @@ namespace DodgeDots.Level
             }
         }
 
+        /// <summary>
+        /// 重新开始战斗（玩家复活后调用）
+        /// </summary>
+        public void ResumeBattle()
+        {
+            // 重置战斗结束标志，允许战斗继续
+            if (_deathCheckCoroutine != null)
+            {
+                StopCoroutine(_deathCheckCoroutine);
+                _deathCheckCoroutine = null;
+            }
+            Debug.Log("战斗已恢复");
+        }
+
         private void OnDestroy()
         {
             // 取消订阅事件
@@ -150,6 +196,11 @@ namespace DodgeDots.Level
             if (playerHealth != null)
             {
                 playerHealth.OnDeath -= OnPlayerDeath;
+            }
+
+            if (_deathCheckCoroutine != null)
+            {
+                StopCoroutine(_deathCheckCoroutine);
             }
         }
     }
