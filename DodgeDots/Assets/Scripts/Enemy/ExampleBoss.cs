@@ -1,22 +1,24 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DodgeDots.Bullet;
 
 namespace DodgeDots.Enemy
 {
     /// <summary>
-    /// 示例Boss实现，展示如何使用Boss框架和多发射源系统
-    /// 使用BossAttackConfig配置攻击序列，支持多发射源
+    /// 示例Boss实现，展示如何使用新的Boss序列系统
+    /// 使用BossSequenceController和BossSequenceConfig配置攻击和移动
+    /// 支持多个序列控制器同时运行，实现复杂的Boss行为
     /// </summary>
     public class ExampleBoss : BossBase
     {
-        [Header("阶段配置")]
-        [Tooltip("第二阶段的攻击配置（可选）")]
-        [SerializeField] private BossAttackConfig phase1AttackConfig;
+        [Header("阶段序列控制器配置")]
+        [Tooltip("阶段0（初始阶段）的序列控制器列表")]
+        [SerializeField] private List<BossSequenceController> phase0Controllers = new List<BossSequenceController>();
 
-        [Tooltip("第三阶段的攻击配置（可选）")]
-        [SerializeField] private BossAttackConfig phase2AttackConfig;
+        [Tooltip("阶段1的序列控制器列表")]
+        [SerializeField] private List<BossSequenceController> phase1Controllers = new List<BossSequenceController>();
+
+        [Tooltip("阶段2的序列控制器列表")]
+        [SerializeField] private List<BossSequenceController> phase2Controllers = new List<BossSequenceController>();
 
         protected override void Awake()
         {
@@ -26,56 +28,80 @@ namespace DodgeDots.Enemy
         protected override void Start()
         {
             base.Start();
-            // 攻击逻辑现在由BossAttackConfig配置驱动
+            // 攻击和移动现在由BossSequenceController驱动
+            // 每个Controller订阅BeatMapPlayer的节拍事件
         }
 
         protected override void OnBattleStart()
         {
-            Debug.Log($"{bossName} 战斗开始！使用配置驱动的攻击系统");
-            // 攻击循环由BossBase自动启动，使用attackConfig配置
+            Debug.Log($"{bossName} 战斗开始！使用新的序列系统");
+            // 启用阶段0的所有控制器
+            EnableControllers(phase0Controllers);
         }
 
         protected override void OnPhaseEnter(int phase)
         {
             Debug.Log($"{bossName} 进入阶段 {phase}");
 
-            // 根据阶段切换攻击配置
+            // 禁用所有控制器
+            DisableAllControllers();
+
+            // 根据阶段启用对应的控制器
             switch (phase)
             {
+                case 0:
+                    EnableControllers(phase0Controllers);
+                    Debug.Log("启用阶段0的序列控制器");
+                    break;
+
                 case 1:
-                    // 第二阶段：使用phase1AttackConfig（如果配置了）
-                    if (phase1AttackConfig != null)
-                    {
-                        attackConfig = phase1AttackConfig;
-                        RestartAttackLoop();
-                        Debug.Log("切换到第二阶段攻击配置");
-                    }
+                    EnableControllers(phase1Controllers);
+                    Debug.Log("启用阶段1的序列控制器");
                     break;
 
                 case 2:
-                    // 第三阶段：使用phase2AttackConfig（如果配置了）
-                    if (phase2AttackConfig != null)
-                    {
-                        attackConfig = phase2AttackConfig;
-                        RestartAttackLoop();
-                        Debug.Log("切换到第三阶段攻击配置");
-                    }
+                    EnableControllers(phase2Controllers);
+                    Debug.Log("启用阶段2的序列控制器");
                     break;
             }
         }
 
         /// <summary>
-        /// 重启攻击循环（用于切换攻击配置）
+        /// 启用指定的控制器列表
         /// </summary>
-        private void RestartAttackLoop()
+        private void EnableControllers(List<BossSequenceController> controllers)
         {
-            // 停止旧的攻击循环
-            StopAttackLoop();
-
-            _currentAttackIndex = 0;
-            if (attackConfig != null && _currentState == BossState.Fighting)
+            foreach (var controller in controllers)
             {
-                _attackCoroutine = StartCoroutine(AttackLoopCoroutine());
+                if (controller != null)
+                {
+                    controller.enabled = true;
+                    controller.ResetSequence();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 禁用所有控制器
+        /// </summary>
+        private void DisableAllControllers()
+        {
+            DisableControllers(phase0Controllers);
+            DisableControllers(phase1Controllers);
+            DisableControllers(phase2Controllers);
+        }
+
+        /// <summary>
+        /// 禁用指定的控制器列表
+        /// </summary>
+        private void DisableControllers(List<BossSequenceController> controllers)
+        {
+            foreach (var controller in controllers)
+            {
+                if (controller != null)
+                {
+                    controller.enabled = false;
+                }
             }
         }
 
@@ -83,7 +109,8 @@ namespace DodgeDots.Enemy
         {
             base.OnBossDefeated();
             Debug.Log($"{bossName} 被击败！");
-            // 攻击循环已由base.OnBossDefeated()自动停止
+            // 禁用所有控制器
+            DisableAllControllers();
         }
     }
 }

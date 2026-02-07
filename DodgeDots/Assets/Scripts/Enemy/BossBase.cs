@@ -29,9 +29,6 @@ namespace DodgeDots.Enemy
         [Header("阶段设置")]
         [SerializeField] protected List<float> phaseHealthThresholds = new List<float> { 0.7f, 0.3f };
 
-        [Header("攻击配置")]
-        [SerializeField] protected BossAttackConfig attackConfig;
-
         [Header("文案配置")]
         [SerializeField] protected BossDialogueConfig dialogueConfig;
 
@@ -39,16 +36,10 @@ namespace DodgeDots.Enemy
         protected BossState _currentState;
         protected int _currentPhase;
         [System.NonSerialized] protected BulletManager _bulletManager;
-        protected Coroutine _attackCoroutine;
-        protected int _currentAttackIndex;
         protected Transform _playerTransform;
 
         // 发射源管理
         protected Dictionary<EmitterType, EmitterPoint> _emitters;
-        protected EmitterPoint _defaultEmitter;
-
-        // 节拍驱动模式：若启用，boss 不会自动执行攻击循环，仅响应 TriggerBeatAttack()
-        [System.NonSerialized] public bool beatDrivenMode = false;
 
         public float CurrentHealth => _currentHealth;
         public float MaxHealth => maxHealth;
@@ -69,7 +60,6 @@ namespace DodgeDots.Enemy
             _currentHealth = maxHealth;
             _currentState = BossState.Idle;
             _currentPhase = 0;
-            _currentAttackIndex = 0;
         }
 
         protected virtual void Start()
@@ -160,19 +150,7 @@ namespace DodgeDots.Enemy
         {
             SetState(BossState.Fighting);
             OnBattleStart();
-
-            // 如果启用了节拍驱动模式，不启动自动攻击循环，由外部节拍控制器驱动
-            if (beatDrivenMode)
-            {
-                Debug.Log("[BossBase] Beat-driven mode enabled. Waiting for TriggerBeatAttack() calls instead of auto attack loop.");
-                return;
-            }
-
-            // 如果有攻击配置，启动攻击循环
-            if (attackConfig != null && attackConfig.attackSequence != null && attackConfig.attackSequence.Length > 0)
-            {
-                _attackCoroutine = StartCoroutine(AttackLoopCoroutine());
-            }
+            // 攻击和移动现在由BossSequenceController驱动
         }
 
         /// <summary>
@@ -240,66 +218,10 @@ namespace DodgeDots.Enemy
         /// </summary>
         protected virtual void OnBossDefeated()
         {
-            StopAttackLoop();
             SetState(BossState.Defeated);
             OnDeath?.Invoke();
         }
 
-        /// <summary>
-        /// 攻击循环协程
-        /// </summary>
-        protected virtual IEnumerator AttackLoopCoroutine()
-        {
-            while (_currentState == BossState.Fighting && attackConfig != null)
-            {
-                // 执行当前攻击
-                BossAttackData currentAttack = attackConfig.attackSequence[_currentAttackIndex];
-                yield return StartCoroutine(ExecuteAttackCoroutine(currentAttack));
-
-                // 移动到下一个攻击
-                _currentAttackIndex++;
-
-                // 检查是否需要循环
-                if (_currentAttackIndex >= attackConfig.attackSequence.Length)
-                {
-                    if (attackConfig.loopSequence)
-                    {
-                        _currentAttackIndex = 0;
-                        // 完成一轮后的延迟
-                        if (attackConfig.delayAfterLoop > 0)
-                        {
-                            yield return new WaitForSeconds(attackConfig.delayAfterLoop);
-                        }
-                    }
-                    else
-                    {
-                        // 不循环则停止
-                        break;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// 执行单个攻击的协程
-        /// </summary>
-        protected virtual IEnumerator ExecuteAttackCoroutine(BossAttackData attackData)
-        {
-            // 攻击前延迟
-            if (attackData.delayBeforeAttack > 0)
-            {
-                yield return new WaitForSeconds(attackData.delayBeforeAttack);
-            }
-
-            // 如果有移动配置，同时执行移动和攻击
-            if (attackData.moveType != BossMoveType.None)
-            {
-                StartCoroutine(ExecuteMoveCoroutine(attackData));
-            }
-
-            // 执行攻击
-            ExecuteAttack(attackData);
-        }
 
         /// <summary>
         /// 获取发射源位置
@@ -314,6 +236,18 @@ namespace DodgeDots.Enemy
             // 如果找不到指定的发射源，使用Boss自身位置
             Debug.LogWarning($"未找到发射源 {emitterType}，使用Boss自身位置");
             return transform.position;
+        }
+
+        /// <summary>
+        /// 获取发射源组件（供BossSequenceController使用）
+        /// </summary>
+        public virtual EmitterPoint GetEmitter(EmitterType emitterType)
+        {
+            if (_emitters != null && _emitters.TryGetValue(emitterType, out EmitterPoint emitter))
+            {
+                return emitter;
+            }
+            return null;
         }
 
         /// <summary>
@@ -392,17 +326,112 @@ namespace DodgeDots.Enemy
         }
 
         /// <summary>
-        /// 公开执行某个攻击数据（用于外部节拍驱动）
+        /// 执行攻击动作（供BossSequenceController调用）
         /// </summary>
-        public void ExecuteAttackData(BossAttackData attackData)
+        public void ExecuteAttackAction(BossAttackAction attackAction)
         {
-            if (_currentState != BossState.Fighting || attackData == null)
+            if (_currentState != BossState.Fighting || attackAction == null)
             {
-                Debug.LogWarning("[BossBase] Cannot execute attack data: not in Fighting state or attackData is null");
+                Debug.LogWarning("[BossBase] Cannot execute attack action: not in Fighting state or attackAction is null");
                 return;
             }
 
-            ExecuteAttack(attackData);
+            if (_bulletManager == null)
+            {
+                Debug.LogWarning("[BossBase] BulletManager is null, cannot execute attack");
+                return;
+            }
+
+            // 支持多发射源同时发射
+            if (attackAction.useMultipleEmitters && attackAction.multipleEmitters != null && attackAction.multipleEmitters.Length > 0)
+            {
+                foreach (EmitterType emitterType in attackAction.multipleEmitters)
+                {
+                    ExecuteSingleEmitterAttackAction(attackAction, emitterType);
+                }
+            }
+            else
+            {
+                // 单发射源发射
+                ExecuteSingleEmitterAttackAction(attackAction, attackAction.emitterType);
+            }
+        }
+
+        /// <summary>
+        /// 从单个发射源执行攻击动作
+        /// </summary>
+        protected virtual void ExecuteSingleEmitterAttackAction(BossAttackAction attackAction, EmitterType emitterType)
+        {
+            Vector2 position = GetEmitterPosition(emitterType);
+
+            switch (attackAction.attackType)
+            {
+                case BossAttackType.Circle:
+                    _bulletManager.SpawnCirclePattern(
+                        position,
+                        attackAction.circleCount,
+                        Team.Enemy,
+                        attackAction.bulletConfig,
+                        attackAction.circleStartAngle
+                    );
+                    break;
+
+                case BossAttackType.Fan:
+                    Vector2 fanDirection = new Vector2(
+                        Mathf.Cos(attackAction.fanCenterAngle * Mathf.Deg2Rad),
+                        Mathf.Sin(attackAction.fanCenterAngle * Mathf.Deg2Rad)
+                    );
+                    _bulletManager.SpawnFanPattern(
+                        position,
+                        fanDirection,
+                        attackAction.fanCount,
+                        attackAction.fanSpreadAngle,
+                        Team.Enemy,
+                        attackAction.bulletConfig
+                    );
+                    break;
+
+                case BossAttackType.Single:
+                    Vector2 singleDirection = new Vector2(
+                        Mathf.Cos(attackAction.singleDirection * Mathf.Deg2Rad),
+                        Mathf.Sin(attackAction.singleDirection * Mathf.Deg2Rad)
+                    );
+                    _bulletManager.SpawnBullet(
+                        position,
+                        singleDirection,
+                        Team.Enemy,
+                        attackAction.bulletConfig
+                    );
+                    break;
+
+                case BossAttackType.Aiming:
+                    Vector2 aimDirection = GetAimingDirection(
+                        position,
+                        attackAction.aimingPredictMovement,
+                        attackAction.bulletConfig
+                    );
+                    _bulletManager.SpawnFanPattern(
+                        position,
+                        aimDirection,
+                        attackAction.aimingBulletCount,
+                        attackAction.aimingSpreadAngle,
+                        Team.Enemy,
+                        attackAction.bulletConfig
+                    );
+                    break;
+
+                case BossAttackType.Custom:
+                    OnCustomAttackAction(attackAction);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 自定义攻击动作（由子类重写实现特殊攻击）
+        /// </summary>
+        protected virtual void OnCustomAttackAction(BossAttackAction attackAction)
+        {
+            Debug.LogWarning($"自定义攻击 {attackAction.customAttackId} 未实现");
         }
 
         /// <summary>
@@ -475,18 +504,6 @@ namespace DodgeDots.Enemy
         }
 
         /// <summary>
-        /// 停止攻击循环
-        /// </summary>
-        protected virtual void StopAttackLoop()
-        {
-            if (_attackCoroutine != null)
-            {
-                StopCoroutine(_attackCoroutine);
-                _attackCoroutine = null;
-            }
-        }
-
-        /// <summary>
         /// 自定义攻击（由子类重写实现特殊攻击）
         /// </summary>
         protected virtual void OnCustomAttack(BossAttackData attackData)
@@ -495,93 +512,12 @@ namespace DodgeDots.Enemy
         }
 
         /// <summary>
-        /// 执行移动的协程
-        /// </summary>
-        protected virtual IEnumerator ExecuteMoveCoroutine(BossAttackData attackData)
-        {
-            Vector3 startPosition = transform.position;
-            float elapsedTime = 0f;
-
-            switch (attackData.moveType)
-            {
-                case BossMoveType.ToPosition:
-                    // 移动到目标位置
-                    while (elapsedTime < attackData.moveDuration)
-                    {
-                        elapsedTime += Time.deltaTime;
-                        float t = elapsedTime / attackData.moveDuration;
-                        transform.position = Vector3.Lerp(startPosition, attackData.targetPosition, t);
-                        yield return null;
-                    }
-                    transform.position = attackData.targetPosition;
-                    break;
-
-                case BossMoveType.ByDirection:
-                    // 沿方向移动
-                    Vector2 direction = new Vector2(
-                        Mathf.Cos(attackData.moveDirection * Mathf.Deg2Rad),
-                        Mathf.Sin(attackData.moveDirection * Mathf.Deg2Rad)
-                    );
-                    Vector3 targetPos = startPosition + (Vector3)(direction * attackData.moveDistance);
-
-                    while (elapsedTime < attackData.moveDuration)
-                    {
-                        elapsedTime += Time.deltaTime;
-                        float t = elapsedTime / attackData.moveDuration;
-                        transform.position = Vector3.Lerp(startPosition, targetPos, t);
-                        yield return null;
-                    }
-                    transform.position = targetPos;
-                    break;
-
-                case BossMoveType.Custom:
-                    // 自定义移动
-                    yield return StartCoroutine(OnCustomMove(attackData));
-                    break;
-            }
-        }
-
-        /// <summary>
         /// 自定义移动（由子类重写实现特殊移动）
+        /// 供BossSequenceController调用
         /// </summary>
-        protected virtual IEnumerator OnCustomMove(BossAttackData attackData)
+        public virtual void ExecuteCustomMove(EmitterType emitterType, int customMoveId)
         {
-            Debug.LogWarning($"自定义移动 {attackData.customMoveId} 未实现");
-            yield return null;
-        }
-
-        /// <summary>
-        /// 由节拍控制器触发，立即执行当前攻击序列的下一个攻击
-        /// </summary>
-        public virtual void TriggerBeatAttack()
-        {
-            if (_currentState != BossState.Fighting || attackConfig == null || attackConfig.attackSequence == null || attackConfig.attackSequence.Length == 0)
-            {
-                Debug.LogWarning("[BossBase] Cannot trigger beat attack: not in Fighting state or no attack config");
-                return;
-            }
-
-            // 获取当前攻击数据
-            BossAttackData currentAttack = attackConfig.attackSequence[_currentAttackIndex];
-            
-            // 直接执行攻击（不经过延迟协程）
-            ExecuteAttack(currentAttack);
-            
-            Debug.Log($"[BossBase] TriggerBeatAttack executed attack #{_currentAttackIndex}");
-
-            // 准备下一个攻击
-            _currentAttackIndex++;
-            if (_currentAttackIndex >= attackConfig.attackSequence.Length)
-            {
-                if (attackConfig.loopSequence)
-                {
-                    _currentAttackIndex = 0;
-                }
-                else
-                {
-                    _currentAttackIndex = attackConfig.attackSequence.Length - 1; // 停留在最后一个
-                }
-            }
+            Debug.LogWarning($"自定义移动 {customMoveId} for {emitterType} 未实现");
         }
 
         // 以下方法由子类实现具体的Boss行为
