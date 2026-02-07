@@ -27,7 +27,7 @@ namespace DodgeDots.WorldMap
 
         [Header("相机设置")]
         [Tooltip("地图边界（用于限制相机移动）")]
-        public Bounds mapBounds = new Bounds(Vector3.zero, new Vector3(100, 100, 0));
+        public Bounds mapBounds = new Bounds(Vector3.zero, new Vector3(115.2f, 115.2f, 0));
 
         [Tooltip("相机移动速度")]
         public float cameraSpeed = 5f;
