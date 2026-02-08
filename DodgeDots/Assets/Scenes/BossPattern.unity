@@ -640,17 +640,17 @@ MonoBehaviour:
   skillDamage: 10
   skillEnergyCost: 60
   bossHealthThreshold: 100
-  homingBulletConfig: {fileID: 0}
+  homingBulletConfig: {fileID: 11400000, guid: a667a6a728e62e74ebd3617b6b92c2a7, type: 2}
   homingTurnSpeed: 360
   homingBurstCount: 10
   homingBurstInterval: 0.05
   instantSkillSpriteDuration: 0.2
-  attackActiveSprite: {fileID: 4303423874142921733, guid: 6ed38972fd0f4024c91aca33394d3cdd, type: 3}
-  homingActiveSprite: {fileID: 0}
+  attackActiveSprite: {fileID: 21300000, guid: 2baa0c3204f3ccc43b124ac9c2ce0f26, type: 3}
+  homingActiveSprite: {fileID: 21300000, guid: 19b148eae96088a42944b14735730bf3, type: 3}
   shieldDuration: 3
   shieldEnergyCost: 60
   spriteRenderer: {fileID: 0}
-  skillActiveSprite: {fileID: -5203770946779173145, guid: 90f53065140625242aaa6c9e55fcf2f3, type: 3}
+  skillActiveSprite: {fileID: 21300000, guid: 43be78ea5be992d4c93474f00a8be9a2, type: 3}
   skillActiveColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   skillInactiveColor: {r: 1, g: 1, b: 1, a: 1}
   resurrectionWaitTime: 1
@@ -826,7 +826,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 19b148eae96088a42944b14735730bf3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -847,7 +847,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3258,9 +3258,8 @@ GameObject:
   - component: {fileID: 2017841196}
   - component: {fileID: 2017841195}
   - component: {fileID: 2017841194}
-  - component: {fileID: 2017841200}
   - component: {fileID: 2017841199}
-  - component: {fileID: 2017841201}
+  - component: {fileID: 2017841200}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -3285,10 +3284,12 @@ MonoBehaviour:
   phaseHealthThresholds:
   - 0.7
   - 0.4
-  attackConfig: {fileID: 11400000, guid: 02c7644e8d9b9b9469f9ac9e073d1857, type: 2}
   dialogueConfig: {fileID: 11400000, guid: 0108304ac5f59194abfd0e82073108f0, type: 2}
-  phase1AttackConfig: {fileID: 0}
-  phase2AttackConfig: {fileID: 0}
+  phase0Controllers:
+  - {fileID: 2017841199}
+  - {fileID: 2017841200}
+  phase1Controllers: []
+  phase2Controllers: []
 --- !u!114 &2017841194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3455,13 +3456,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2017841192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e554d8d305786948ba763a2fe6345b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatMapPlayer: {fileID: 1582452472}
+  beatMapPlayer: {fileID: 831197425}
   bossBase: {fileID: 2017841193}
-  attackConfig: {fileID: 11400000, guid: 78efd3b4144357d428bdf5109979dbd4, type: 2}
-  attackEveryNBeats: 1
+  sequenceConfig: {fileID: 11400000, guid: 73d0ac990554a4345814b9c3347cb112, type: 2}
+  showDebugLog: 0
 --- !u!114 &2017841200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3471,199 +3472,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2017841192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e554d8d305786948ba763a2fe6345b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beatMapPlayer: {fileID: 831197425}
+  beatMapPlayer: {fileID: 1582452472}
   bossBase: {fileID: 2017841193}
-  attackConfig: {fileID: 11400000, guid: 02c7644e8d9b9b9469f9ac9e073d1857, type: 2}
-  attackEveryNBeats: 1
---- !u!114 &2017841201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2017841192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11174b7529c39eb4ca50eb212e3496d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgmManager: {fileID: 703368361}
-  startOffsetSeconds: 0
-  waitForBgmStart: 1
-  bossBase: {fileID: 2017841193}
-  emittersIndependent: 1
-  events:
-  - timeSeconds: 20
-    target: 1
-    emitterType: 0
-    moveType: 2
-    moveDuration: 2.25
-    moveSpeed: 0
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 5.5
-    circleCenterOffset: {x: 0, y: 0}
-    circleRadius: 0
-    circleAngularSpeed: 90
-    pointAOffset: {x: 0, y: 0}
-    pointBOffset: {x: 2, y: 0}
-  - timeSeconds: 22.25
-    target: 1
-    emitterType: 0
-    moveType: 2
-    moveDuration: 4.5
-    moveSpeed: 0
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 180
-    moveDistance: 11
-    circleCenterOffset: {x: 0, y: 0}
-    circleRadius: 0
-    circleAngularSpeed: 90
-    pointAOffset: {x: 0, y: 0}
-    pointBOffset: {x: 2, y: 0}
-  - timeSeconds: 26.75
-    target: 1
-    emitterType: 0
-    moveType: 2
-    moveDuration: 4.5
-    moveSpeed: 0
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 11
-    circleCenterOffset: {x: 0, y: 0}
-    circleRadius: 0
-    circleAngularSpeed: 90
-    pointAOffset: {x: 0, y: 0}
-    pointBOffset: {x: 2, y: 0}
-  - timeSeconds: 31.25
-    target: 1
-    emitterType: 0
-    moveType: 2
-    moveDuration: 4.5
-    moveSpeed: 0
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 180
-    moveDistance: 11
-    circleCenterOffset: {x: 0, y: 0}
-    circleRadius: 0
-    circleAngularSpeed: 90
-    pointAOffset: {x: 0, y: 0}
-    pointBOffset: {x: 2, y: 0}
-  - timeSeconds: 35.75
-    target: 1
-    emitterType: 0
-    moveType: 2
-    moveDuration: 2.25
-    moveSpeed: 0
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 5.5
-    circleCenterOffset: {x: 0, y: 0}
-    circleRadius: 0
-    circleAngularSpeed: 90
-    pointAOffset: {x: 0, y: 0}
-    pointBOffset: {x: 2, y: 0}
-  - timeSeconds: 38
-    target: 1
-    emitterType: 0
-    moveType: 3
-    moveDuration: 140
-    moveSpeed: 0
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 5.5
-    circleCenterOffset: {x: 0, y: -3}
-    circleRadius: 0
-    circleAngularSpeed: 90
-    pointAOffset: {x: 0, y: 0}
-    pointBOffset: {x: 0, y: 0}
-  - timeSeconds: 57
-    target: 1
-    emitterType: 1
-    moveType: 4
-    moveDuration: 18
-    moveSpeed: 2
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 0
-    circleCenterOffset: {x: 0, y: 0}
-    circleRadius: 0
-    circleAngularSpeed: 0
-    pointAOffset: {x: 0, y: 2}
-    pointBOffset: {x: 0, y: -2}
-  - timeSeconds: 57
-    target: 1
-    emitterType: 2
-    moveType: 4
-    moveDuration: 18
-    moveSpeed: 2
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 0
-    circleCenterOffset: {x: 0, y: -3}
-    circleRadius: 0
-    circleAngularSpeed: 0
-    pointAOffset: {x: 0, y: 2}
-    pointBOffset: {x: 0, y: -2}
-  - timeSeconds: 77.5
-    target: 1
-    emitterType: 2
-    moveType: 4
-    moveDuration: 35
-    moveSpeed: 2
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 0
-    circleCenterOffset: {x: 0, y: -3}
-    circleRadius: 0
-    circleAngularSpeed: 0
-    pointAOffset: {x: -1, y: 2}
-    pointBOffset: {x: 1, y: -2}
-  - timeSeconds: 77.5
-    target: 1
-    emitterType: 1
-    moveType: 4
-    moveDuration: 35
-    moveSpeed: 2
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 0
-    circleCenterOffset: {x: 0, y: 3}
-    circleRadius: 0
-    circleAngularSpeed: 0
-    pointAOffset: {x: -1, y: -2}
-    pointBOffset: {x: 1, y: 2}
-  - timeSeconds: 116
-    target: 1
-    emitterType: 1
-    moveType: 3
-    moveDuration: 20
-    moveSpeed: 2
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 0
-    circleCenterOffset: {x: 2, y: 0}
-    circleRadius: 0
-    circleAngularSpeed: 60
-    pointAOffset: {x: -1, y: 3}
-    pointBOffset: {x: 1, y: -3}
-  - timeSeconds: 116
-    target: 1
-    emitterType: 2
-    moveType: 3
-    moveDuration: 20
-    moveSpeed: 2
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 0
-    circleCenterOffset: {x: -2, y: 0}
-    circleRadius: 0
-    circleAngularSpeed: 60
-    pointAOffset: {x: -1, y: -3}
-    pointBOffset: {x: 1, y: 3}
+  sequenceConfig: {fileID: 11400000, guid: 04af37ce41c6a7f4c87d1469e61bbcd5, type: 2}
+  showDebugLog: 0
 --- !u!1 &2139245474
 GameObject:
   m_ObjectHideFlags: 0

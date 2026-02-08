@@ -18,17 +18,17 @@ MonoBehaviour:
     emitterType: 0
     useMultipleEmitters: 0
     multipleEmitters: 00000000
-    attackType: 0
+    attackType: 5
     bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
     circleCount: 20
     circleStartAngle: 0
-    fanCount: 0
-    fanSpreadAngle: 0
+    fanCount: 10
+    fanSpreadAngle: 15
     fanCenterAngle: 0
     singleDirection: 0
-    aimingBulletCount: 0
+    aimingBulletCount: 10
     aimingSpreadAngle: 0
-    aimingPredictMovement: 0
+    aimingPredictMovement: 1
     customAttackId: 0
   loopAttackSequence: 1
   moveSequence:
