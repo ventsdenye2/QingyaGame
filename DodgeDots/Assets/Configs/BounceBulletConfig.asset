@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: BounceBulletConfig
   m_EditorClassIdentifier: 
   bulletName: Normal Bullet
-  sprite: {fileID: 47813434996547701, guid: 3421078018dc3934a8c1ab3b7bf89aa0, type: 3}
+  sprite: {fileID: 21300000, guid: 79aae13d3319cb24a966b2a3c2ef5a4d, type: 3}
   color: {r: 1, g: 0, b: 0, a: 1}
   scale: {x: 3, y: 3}
   defaultSpeed: 5
-  defaultDamage: 0.1
+  defaultDamage: 10
   lifetime: 10
   colliderRadius: 0.1
   isPiercing: 0
