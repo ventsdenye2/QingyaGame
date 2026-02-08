@@ -51,13 +51,26 @@ namespace DodgeDots.WorldMap
             _completedLevels = new HashSet<string>();
             _unlockedLevels = new HashSet<string>();
 
-            if (levelNodesInScene == null) return;
+            // 如果手动列表为空，则自动在场景中查找所有 LevelNode
+            if (levelNodesInScene == null || levelNodesInScene.Length == 0)
+            {
+                levelNodesInScene = FindObjectsByType<LevelNode>(FindObjectsSortMode.None);
+            }
 
             foreach (var node in levelNodesInScene)
             {
-                if (node != null && !string.IsNullOrEmpty(node.LevelId))
+                // 增加判空保护，防止配置了空数据报错
+                if (node != null && node.NodeData != null && !string.IsNullOrEmpty(node.LevelId))
                 {
-                    _nodeDict[node.LevelId] = node;
+                    if (!_nodeDict.ContainsKey(node.LevelId))
+                    {
+                        _nodeDict.Add(node.LevelId, node);
+                    }
+                    else
+                    {
+                        Debug.LogError($"[WorldMapManager] 重复的关卡ID: {node.LevelId}，请检查 LevelNodeData 配置！");
+                    }
+
                     node.OnNodeClicked += HandleNodeClicked;
                 }
             }

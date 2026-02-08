@@ -15,7 +15,7 @@ MonoBehaviour:
   levelId: level_3
   levelName: "\u5173\u53613"
   nodeType: 0
-  sceneName: 
+  sceneName: Level_3
   description: 
   prerequisiteLevelIds:
   - level_1

@@ -53,6 +53,15 @@ namespace DodgeDots.WorldMap
 
         private void Update()
         {
+            // 如果对话正在进行，禁止移动输入
+            if (DodgeDots.Dialogue.DialogueManager.Instance != null &&
+                DodgeDots.Dialogue.DialogueManager.Instance.IsDialogueActive)
+            {
+                // 停止物理移动 (如果有刚体)
+                if (_rigidbody2D != null) _rigidbody2D.velocity = Vector2.zero;
+                return;
+            }
+
             HandleInput();
             HandleCameraFollow();
         }

@@ -16,10 +16,7 @@ MonoBehaviour:
   mapDescription: 
   levelNodes:
   - {fileID: 11400000, guid: d7534a290ce97d14ca5b4001c8f0440e, type: 2}
-  - {fileID: 11400000, guid: bf49c79f4f40a744bb37bd0746e15cc2, type: 2}
-  - {fileID: 11400000, guid: 937bd67dfb1b7bf4cbfc8ee9d7ae8398, type: 2}
-  - {fileID: 11400000, guid: f0c9b08280f1bd44b94f1b468633d5a1, type: 2}
-  initialUnlockedLevelId: level_1
+  initialUnlockedLevelId: 
   mapBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 50, y: 50, z: 0}

@@ -4,9 +4,6 @@ using UnityEngine.EventSystems;
 
 namespace DodgeDots.WorldMap
 {
-    /// <summary>
-    /// 关卡节点状态
-    /// </summary>
     public enum LevelNodeState
     {
         Locked,         // 锁定
@@ -15,9 +12,6 @@ namespace DodgeDots.WorldMap
         Current         // 当前选中
     }
 
-    /// <summary>
-    /// 关卡节点组件
-    /// </summary>
     public class LevelNode : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [Header("关卡数据")]
@@ -30,111 +24,125 @@ namespace DodgeDots.WorldMap
         [SerializeField] private SpriteRenderer iconRenderer;
         [SerializeField] private SpriteRenderer backgroundRenderer;
 
-        [Header("交互增强 (New)")]
-        [SerializeField] private float interactRange = 15.0f;
-        [SerializeField] private GameObject interactHint;
-        [SerializeField] private Material outlineMaterial;
+        [Header("交互增强")]
+        [SerializeField] private GameObject enterHint;
+        [SerializeField] private Material outlineMaterial; // 描边材质
 
         private LevelNodeState _currentState = LevelNodeState.Locked;
-        private bool _isInteractable = true;
-        private Transform _playerTransform;
         private bool _isPlayerNear = false;
-        private Material _defaultMaterial;
+        private Material _defaultMaterial; // 用来存 Unity 默认材质
 
-        public string LevelId => nodeData != null ? nodeData.levelId : "";
+        // 公开属性
         public LevelNodeData NodeData => nodeData;
         public LevelNode[] NextNodes => nextNodes;
+        public string LevelId => nodeData != null ? nodeData.levelId : "";
         public LevelNodeState CurrentState => _currentState;
 
+        // 事件
         public event Action<LevelNode> OnNodeClicked;
-        public event Action<LevelNode> OnNodeHoverEnter;
-        public event Action<LevelNode> OnNodeHoverExit;
 
         private void Start()
         {
+            // 把原本没有描边的默认材质存下来
+            if (backgroundRenderer != null) _defaultMaterial = backgroundRenderer.sharedMaterial;
+            if (enterHint != null) enterHint.SetActive(false);
+
             UpdateVisuals();
-
-            // 缓存默认材质
-            if (backgroundRenderer != null) _defaultMaterial = backgroundRenderer.material;
-
-            // 通过你的控制器查找玩家
-            var playerController = FindFirstObjectByType<PlayerWorldMapController>();
-            if (playerController != null) _playerTransform = playerController.transform;
-
-            if (interactHint != null) interactHint.SetActive(false);
         }
 
         private void Update()
         {
-            if (_playerTransform == null || _currentState == LevelNodeState.Locked) return;
-
-            // 获取背景贴图的边界（世界坐标）
-            if (backgroundRenderer != null)
-            {
-                Bounds spriteBounds = backgroundRenderer.bounds;
-
-                // 稍微扩大一点边界作为“感应区”（例如扩大 0.2 个单位），防止贴得太死
-                spriteBounds.Expand(0.4f);
-
-                // 检测玩家位置是否在矩形边界内
-                bool isInside = spriteBounds.Contains(_playerTransform.position);
-
-                if (isInside != _isPlayerNear)
-                {
-                    _isPlayerNear = isInside;
-                    ToggleInteractionState(_isPlayerNear);
-                }
-            }
-
-            // F键交互
-            if (_isPlayerNear && Input.GetKeyDown(KeyCode.F))
-            {
-                TriggerNodeAction();
-            }
+            if (_currentState == LevelNodeState.Locked || !_isPlayerNear) return;
+            if (Input.GetKeyDown(KeyCode.F)) EnterLevel();
         }
 
-        private void ToggleInteractionState(bool show)
+        public void SetPlayerNear(bool isNear)
         {
-            if (interactHint != null) interactHint.SetActive(show);
-
-            if (backgroundRenderer != null && outlineMaterial != null)
-            {
-                backgroundRenderer.material = show ? outlineMaterial : _defaultMaterial;
-            }
+            if (_isPlayerNear == isNear) return;
+            _isPlayerNear = isNear;
+            ToggleHighlight(_isPlayerNear);
         }
 
-        private void TriggerNodeAction()
+        public void UnlockSelf()
         {
-            if (!_isInteractable) return;
-            // 触发 WorldMapManager 监听的事件
-            OnNodeClicked?.Invoke(this);
+            if (_currentState == LevelNodeState.Locked)
+            {
+                WorldMapManager.Instance.UnlockLevel(LevelId);
+            }
         }
 
         public void SetState(LevelNodeState newState)
         {
             _currentState = newState;
             UpdateVisuals();
+            if (_isPlayerNear) ToggleHighlight(true);
         }
+
+        private void EnterLevel()
+        {
+            if (_currentState == LevelNodeState.Locked) return;
+            OnNodeClicked?.Invoke(this);
+        }
+
 
         private void UpdateVisuals()
         {
             if (nodeData == null) return;
+
+            // 更新图标
             if (iconRenderer != null && nodeData.nodeIcon != null)
                 iconRenderer.sprite = nodeData.nodeIcon;
 
-            Color targetColor = nodeData.nodeColor;
+            // 准备颜色变量
+            Color targetColor = nodeData.nodeColor; // 默认为配置的颜色
+
             switch (_currentState)
             {
-                case LevelNodeState.Locked: targetColor = Color.gray; _isInteractable = false; break;
-                case LevelNodeState.Unlocked: targetColor = nodeData.nodeColor; _isInteractable = true; break;
-                case LevelNodeState.Completed: targetColor = Color.green; _isInteractable = true; break;
-                case LevelNodeState.Current: targetColor = Color.yellow; _isInteractable = true; break;
+                case LevelNodeState.Locked:
+                    // 锁定状态下，强制把材质换回默认
+                    if (backgroundRenderer != null && _defaultMaterial != null)
+                    {
+                        backgroundRenderer.material = _defaultMaterial;
+                    }
+
+                    targetColor = Color.gray; // 设置为灰色
+                    if (enterHint != null) enterHint.SetActive(false); // 强制关闭提示
+                    break;
+
+                case LevelNodeState.Unlocked:
+                    targetColor = nodeData.nodeColor; // 恢复原色
+                    break;
+
+                case LevelNodeState.Completed:
+                    targetColor = Color.green; // 完成变绿
+                    break;
+
+                case LevelNodeState.Current:
+                    targetColor = Color.yellow; // 当前变黄
+                    break;
             }
+
+            // 4. 应用颜色
             if (backgroundRenderer != null) backgroundRenderer.color = targetColor;
         }
 
-        public void OnPointerClick(PointerEventData eventData) => TriggerNodeAction();
-        public void OnPointerEnter(PointerEventData eventData) => OnNodeHoverEnter?.Invoke(this);
-        public void OnPointerExit(PointerEventData eventData) => OnNodeHoverExit?.Invoke(this);
+        private void ToggleHighlight(bool show)
+        {
+            // 锁定状态下，严禁开启高亮，直接返回
+            if (_currentState == LevelNodeState.Locked) return;
+
+            if (enterHint != null) enterHint.SetActive(show);
+
+            // 只有非锁定状态，才允许切换描边材质
+            if (backgroundRenderer != null && outlineMaterial != null)
+            {
+                backgroundRenderer.material = show ? outlineMaterial : _defaultMaterial;
+            }
+        }
+
+        // 鼠标交互
+        public void OnPointerClick(PointerEventData eventData) => EnterLevel();
+        public void OnPointerEnter(PointerEventData eventData) => SetPlayerNear(true);
+        public void OnPointerExit(PointerEventData eventData) => SetPlayerNear(false);
     }
 }
