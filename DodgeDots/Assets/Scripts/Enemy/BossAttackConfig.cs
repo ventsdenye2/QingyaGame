@@ -25,6 +25,8 @@ namespace DodgeDots.Enemy
         None,           // 不移动
         ToPosition,     // 移动到目标位置
         ByDirection,    // 沿方向移动
+        Circle,         // 圆形移动
+        TwoPointLoop,   // 两点循环移动
         Custom          // 自定义移动（需要在Boss子类中实现）
     }
 
@@ -162,6 +164,39 @@ namespace DodgeDots.Enemy
 
         [Tooltip("自定义移动ID（仅当moveType为Custom时有效）")]
         public int customMoveId = 0;
+
+        [Header("坐标空间")]
+        [Tooltip("是否使用相对Boss的局部坐标（仅对ToPosition/Circle/TwoPointLoop有效）")]
+        public bool useLocalSpace = true;
+
+        [Header("圆形移动参数")]
+        [Tooltip("圆心位置（世界坐标）")]
+        public Vector2 circleCenter = Vector2.zero;
+
+        [Tooltip("圆形半径")]
+        public float circleRadius = 3f;
+
+        [Tooltip("角速度（度/秒）")]
+        public float circleAngularSpeed = 180f;
+
+        [Tooltip("起始角度（度）")]
+        public float circleStartAngle = 0f;
+
+        [Tooltip("是否顺时针")]
+        public bool circleClockwise = true;
+
+        [Header("两点循环参数")]
+        [Tooltip("点A（世界坐标）")]
+        public Vector2 pointA = new Vector2(-3f, 0f);
+
+        [Tooltip("点B（世界坐标）")]
+        public Vector2 pointB = new Vector2(3f, 0f);
+
+        [Tooltip("循环速度（单位/秒）")]
+        public float loopSpeed = 3f;
+
+        [Tooltip("是否从点A开始")]
+        public bool startFromA = true;
     }
 
     /// <summary>

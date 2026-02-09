@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using DodgeDots.Player;
 using DodgeDots.Enemy;
+using System.Collections;
 
 namespace DodgeDots.UI
 {
@@ -33,11 +34,24 @@ namespace DodgeDots.UI
         [SerializeField] private Image skillStatusIcon;
         [SerializeField] private TextMeshProUGUI skillStatusText;
 
+        [Header("受击反馈")]
+        [SerializeField] private Image damageFlashIcon;
+        [SerializeField] private Color damageFlashColor = new Color(1f, 0.2f, 0.2f, 1f);
+        [SerializeField] private float damageFlashDuration = 0.15f;
+        [SerializeField] private Camera shakeCamera;
+        [SerializeField] private float shakeDuration = 0.12f;
+        [SerializeField] private float shakeStrength = 0.2f;
+
         [Header("引用")]
         [SerializeField] private BossBase boss;
         [SerializeField] private PlayerHealth playerHealth;
         [SerializeField] private PlayerEnergy playerEnergy;
         [SerializeField] private PlayerSkillSystem playerSkill;
+
+        private Coroutine _damageFlashRoutine;
+        private Coroutine _cameraShakeRoutine;
+        private bool _damageFlashColorCached;
+        private Color _damageFlashOriginalColor;
 
         private void Start()
         {
@@ -94,6 +108,7 @@ namespace DodgeDots.UI
             if (playerHealth != null)
             {
                 playerHealth.OnHealthChanged += UpdatePlayerHealthBar;
+                playerHealth.OnDamageTaken += OnPlayerDamageTaken;
                 Debug.Log("BattleUI: 已绑定玩家血条事件");
             }
 
@@ -107,6 +122,22 @@ namespace DodgeDots.UI
             {
                 playerSkill.OnSkillStarted += OnSkillStarted;
                 playerSkill.OnSkillEnded += OnSkillEnded;
+            }
+
+            if (damageFlashIcon == null)
+            {
+                damageFlashIcon = skillStatusIcon;
+            }
+
+            if (damageFlashIcon != null && !_damageFlashColorCached)
+            {
+                _damageFlashOriginalColor = damageFlashIcon.color;
+                _damageFlashColorCached = true;
+            }
+
+            if (shakeCamera == null)
+            {
+                shakeCamera = Camera.main;
             }
 
             // 初始化显示
@@ -139,6 +170,7 @@ namespace DodgeDots.UI
             if (playerHealth != null)
             {
                 playerHealth.OnHealthChanged -= UpdatePlayerHealthBar;
+                playerHealth.OnDamageTaken -= OnPlayerDamageTaken;
             }
 
             if (playerEnergy != null)
@@ -322,6 +354,58 @@ namespace DodgeDots.UI
                 skillStatusText.text = "冷却中";
                 skillStatusText.color = Color.gray;
             }
+        }
+
+        private void OnPlayerDamageTaken()
+        {
+            if (damageFlashIcon != null)
+            {
+                if (_damageFlashRoutine != null)
+                {
+                    StopCoroutine(_damageFlashRoutine);
+                }
+                _damageFlashRoutine = StartCoroutine(FlashDamageIcon());
+            }
+
+            if (shakeCamera != null)
+            {
+                if (_cameraShakeRoutine != null)
+                {
+                    StopCoroutine(_cameraShakeRoutine);
+                }
+                _cameraShakeRoutine = StartCoroutine(ShakeCameraOnce());
+            }
+        }
+
+        private IEnumerator FlashDamageIcon()
+        {
+            if (!_damageFlashColorCached)
+            {
+                _damageFlashOriginalColor = damageFlashIcon.color;
+                _damageFlashColorCached = true;
+            }
+
+            damageFlashIcon.color = damageFlashColor;
+            yield return new WaitForSeconds(damageFlashDuration);
+            damageFlashIcon.color = _damageFlashOriginalColor;
+        }
+
+        private IEnumerator ShakeCameraOnce()
+        {
+            Transform camTransform = shakeCamera.transform;
+            Vector3 startPos = camTransform.localPosition;
+            float time = 0f;
+
+            while (time < shakeDuration)
+            {
+                float offsetX = Random.Range(-shakeStrength, shakeStrength);
+                float offsetY = Random.Range(-shakeStrength, shakeStrength);
+                camTransform.localPosition = startPos + new Vector3(offsetX, offsetY, 0f);
+                time += Time.deltaTime;
+                yield return null;
+            }
+
+            camTransform.localPosition = startPos;
         }
     }
 }

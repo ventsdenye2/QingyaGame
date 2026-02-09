@@ -23,12 +23,14 @@ namespace DodgeDots.Bullet
         private Rigidbody2D _rb;
         private SpriteRenderer _spriteRenderer;
         private CircleCollider2D _collider;
+        private TrailRenderer _trailRenderer;
         private Vector2 _direction;
         private float _currentLifetime;
         private bool _isActive;
         private Team _team;
         private IBulletBehavior[] _behaviors;
         private int _pierceCount = 0; // 当前穿透次数
+        private static Material _defaultTrailMaterial;
 
         // 公共属性
         public float Damage => damage;
@@ -45,6 +47,7 @@ namespace DodgeDots.Bullet
 
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _collider = GetComponent<CircleCollider2D>();
+            _trailRenderer = GetComponent<TrailRenderer>();
 
             // 获取所有行为组件
             _behaviors = GetComponents<IBulletBehavior>();
@@ -161,6 +164,10 @@ namespace DodgeDots.Bullet
             _isActive = false;
             _rb.velocity = Vector2.zero;
             _pierceCount = 0;
+            if (_trailRenderer != null)
+            {
+                _trailRenderer.Clear();
+            }
 
             // 重置所有行为
             if (_behaviors != null)
@@ -290,6 +297,64 @@ namespace DodgeDots.Bullet
             {
                 _collider.radius = bulletConfig.colliderRadius;
             }
+
+            // 应用拖尾效果
+            if (bulletConfig.enableTrail)
+            {
+                if (_trailRenderer == null)
+                {
+                    _trailRenderer = GetComponent<TrailRenderer>();
+                    if (_trailRenderer == null)
+                    {
+                        _trailRenderer = gameObject.AddComponent<TrailRenderer>();
+                    }
+                }
+
+                _trailRenderer.enabled = true;
+                _trailRenderer.time = bulletConfig.trailTime;
+                _trailRenderer.startWidth = bulletConfig.trailStartWidth;
+                _trailRenderer.endWidth = bulletConfig.trailEndWidth;
+                _trailRenderer.minVertexDistance = bulletConfig.trailMinVertexDistance;
+                _trailRenderer.startColor = bulletConfig.trailStartColor;
+                _trailRenderer.endColor = bulletConfig.trailEndColor;
+                if (bulletConfig.trailMaterial != null)
+                {
+                    _trailRenderer.sharedMaterial = bulletConfig.trailMaterial;
+                }
+                else
+                {
+                    _trailRenderer.sharedMaterial = GetDefaultTrailMaterial();
+                }
+                _trailRenderer.sortingLayerName = bulletConfig.sortingLayer;
+                _trailRenderer.sortingOrder = bulletConfig.sortingOrder;
+                _trailRenderer.Clear();
+            }
+            else if (_trailRenderer != null)
+            {
+                _trailRenderer.Clear();
+                _trailRenderer.enabled = false;
+            }
+        }
+
+        private static Material GetDefaultTrailMaterial()
+        {
+            if (_defaultTrailMaterial != null) return _defaultTrailMaterial;
+
+            Shader shader =
+                Shader.Find("Universal Render Pipeline/Particles/Unlit") ??
+                Shader.Find("Universal Render Pipeline/Unlit") ??
+                Shader.Find("Sprites/Default") ??
+                Shader.Find("Particles/Standard Unlit");
+
+            if (shader == null)
+            {
+                Debug.LogWarning("Bullet: 未找到可用的拖尾Shader，拖尾可能显示为紫色。");
+                return null;
+            }
+
+            _defaultTrailMaterial = new Material(shader);
+            _defaultTrailMaterial.name = "DefaultTrailMaterial_Runtime";
+            return _defaultTrailMaterial;
         }
 
         /// <summary>

@@ -54,5 +54,30 @@ namespace DodgeDots.Bullet
 
         [Tooltip("排序顺序")]
         public int sortingOrder = 0;
+
+        [Header("拖尾效果")]
+        [Tooltip("是否启用拖尾")]
+        public bool enableTrail = false;
+
+        [Tooltip("拖尾持续时间")]
+        public float trailTime = 0.2f;
+
+        [Tooltip("拖尾起始宽度")]
+        public float trailStartWidth = 0.1f;
+
+        [Tooltip("拖尾结束宽度")]
+        public float trailEndWidth = 0f;
+
+        [Tooltip("拖尾最小顶点间距")]
+        public float trailMinVertexDistance = 0.05f;
+
+        [Tooltip("拖尾起始颜色")]
+        public Color trailStartColor = new Color(1f, 1f, 1f, 0.6f);
+
+        [Tooltip("拖尾结束颜色")]
+        public Color trailEndColor = new Color(1f, 1f, 1f, 0f);
+
+        [Tooltip("拖尾材质（可选）")]
+        public Material trailMaterial;
     }
 }

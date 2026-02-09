@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using DodgeDots.Core;
 
@@ -13,10 +14,18 @@ namespace DodgeDots.Player
         [SerializeField] private float maxHealth = 100f;
         [SerializeField] private float invincibleDuration = 1f; // 受伤后的无敌时间
 
+        [Header("受击闪红")]
+        [SerializeField] private SpriteRenderer playerSprite;
+        [SerializeField] private Color damageFlashColor = new Color(1f, 0.2f, 0.2f, 1f);
+        [SerializeField] private float damageFlashDuration = 0.12f;
+
         private float _currentHealth;
         private bool _isInvincible;
         private bool _isSkillInvincible;
         private float _invincibleTimer;
+        private Coroutine _damageFlashRoutine;
+        private bool _flashColorCached;
+        private Color _flashOriginalColor;
 
         public float CurrentHealth => _currentHealth;
         public float MaxHealth => maxHealth;
@@ -33,6 +42,17 @@ namespace DodgeDots.Player
         private void Awake()
         {
             _currentHealth = maxHealth;
+
+            if (playerSprite == null)
+            {
+                playerSprite = GetComponent<SpriteRenderer>();
+            }
+
+            if (playerSprite != null && !_flashColorCached)
+            {
+                _flashOriginalColor = playerSprite.color;
+                _flashColorCached = true;
+            }
         }
 
         private void Update()
@@ -56,6 +76,7 @@ namespace DodgeDots.Player
             _currentHealth = Mathf.Max(0, _currentHealth - damage);
             OnHealthChanged?.Invoke(_currentHealth, maxHealth);
             OnDamageTaken?.Invoke();
+            FlashSpriteOnDamage();
 
             // 启动无敌时间
             if (_currentHealth > 0 && invincibleDuration > 0)
@@ -69,6 +90,34 @@ namespace DodgeDots.Player
             if (_currentHealth <= 0)
             {
                 OnDeath?.Invoke();
+            }
+        }
+
+        private void FlashSpriteOnDamage()
+        {
+            if (playerSprite == null) return;
+
+            if (_damageFlashRoutine != null)
+            {
+                StopCoroutine(_damageFlashRoutine);
+            }
+
+            _damageFlashRoutine = StartCoroutine(FlashSpriteRoutine());
+        }
+
+        private IEnumerator FlashSpriteRoutine()
+        {
+            if (!_flashColorCached)
+            {
+                _flashOriginalColor = playerSprite.color;
+                _flashColorCached = true;
+            }
+
+            playerSprite.color = damageFlashColor;
+            yield return new WaitForSeconds(damageFlashDuration);
+            if (playerSprite != null)
+            {
+                playerSprite.color = _flashOriginalColor;
             }
         }
 

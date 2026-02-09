@@ -215,12 +215,20 @@ namespace DodgeDots.Enemy
         {
             Vector3 startPosition = target.position;
             Vector3 targetPosition = startPosition;
+            Transform bossTransform = bossBase != null ? bossBase.transform : null;
 
             // 计算目标位置
             switch (moveData.moveType)
             {
                 case BossMoveType.ToPosition:
-                    targetPosition = moveData.targetPosition;
+                    if (moveData.useLocalSpace && bossTransform != null)
+                    {
+                        targetPosition = bossTransform.TransformPoint(moveData.targetPosition);
+                    }
+                    else
+                    {
+                        targetPosition = moveData.targetPosition;
+                    }
                     break;
 
                 case BossMoveType.ByDirection:
@@ -229,6 +237,10 @@ namespace DodgeDots.Enemy
                         Mathf.Sin(moveData.moveDirection * Mathf.Deg2Rad)
                     );
                     targetPosition = startPosition + (Vector3)(direction * moveData.moveDistance);
+                    break;
+
+                case BossMoveType.Circle:
+                case BossMoveType.TwoPointLoop:
                     break;
 
                 case BossMoveType.Custom:
@@ -242,6 +254,78 @@ namespace DodgeDots.Enemy
 
             // 平滑移动
             float elapsedTime = 0f;
+            if (moveData.moveType == BossMoveType.Circle)
+            {
+                if (moveData.moveDuration <= 0f || moveData.circleRadius <= 0f || moveData.circleAngularSpeed == 0f)
+                {
+                    float angle = moveData.circleStartAngle * Mathf.Deg2Rad;
+                    Vector3 center = moveData.circleCenter;
+                    if (moveData.useLocalSpace && bossTransform != null)
+                    {
+                        center = bossTransform.TransformPoint(moveData.circleCenter);
+                    }
+                    target.position = new Vector3(
+                        center.x + Mathf.Cos(angle) * moveData.circleRadius,
+                        center.y + Mathf.Sin(angle) * moveData.circleRadius,
+                        target.position.z
+                    );
+                    yield break;
+                }
+
+                float dir = moveData.circleClockwise ? -1f : 1f;
+                while (elapsedTime < moveData.moveDuration)
+                {
+                    elapsedTime += Time.deltaTime;
+                    float angle = (moveData.circleStartAngle + dir * moveData.circleAngularSpeed * elapsedTime) * Mathf.Deg2Rad;
+                    Vector3 center = moveData.circleCenter;
+                    if (moveData.useLocalSpace && bossTransform != null)
+                    {
+                        center = bossTransform.TransformPoint(moveData.circleCenter);
+                    }
+                    target.position = new Vector3(
+                        center.x + Mathf.Cos(angle) * moveData.circleRadius,
+                        center.y + Mathf.Sin(angle) * moveData.circleRadius,
+                        target.position.z
+                    );
+                    yield return null;
+                }
+                yield break;
+            }
+
+            if (moveData.moveType == BossMoveType.TwoPointLoop)
+            {
+                Vector3 a = moveData.pointA;
+                Vector3 b = moveData.pointB;
+                if (moveData.useLocalSpace && bossTransform != null)
+                {
+                    a = bossTransform.TransformPoint(moveData.pointA);
+                    b = bossTransform.TransformPoint(moveData.pointB);
+                }
+                if (!moveData.startFromA)
+                {
+                    Vector3 temp = a;
+                    a = b;
+                    b = temp;
+                }
+
+                float length = Vector3.Distance(a, b);
+                if (moveData.moveDuration <= 0f || length <= 0.0001f || moveData.loopSpeed <= 0f)
+                {
+                    target.position = a;
+                    yield break;
+                }
+
+                while (elapsedTime < moveData.moveDuration)
+                {
+                    elapsedTime += Time.deltaTime;
+                    float distance = Mathf.PingPong(elapsedTime * moveData.loopSpeed, length);
+                    float t = distance / length;
+                    target.position = Vector3.Lerp(a, b, t);
+                    yield return null;
+                }
+                yield break;
+            }
+
             while (elapsedTime < moveData.moveDuration)
             {
                 elapsedTime += Time.deltaTime;
@@ -250,7 +334,6 @@ namespace DodgeDots.Enemy
                 yield return null;
             }
 
-            // 确保到达目标位置
             target.position = targetPosition;
         }
 
