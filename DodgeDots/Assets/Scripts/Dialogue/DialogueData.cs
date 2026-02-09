@@ -13,6 +13,15 @@ namespace DodgeDots.Dialogue
     }
 
     /// <summary>
+    /// 新增：说话者位置枚举
+    /// </summary>
+    public enum SpeakerPosition
+    {
+        Left,   // 左侧立绘
+        Right   // 右侧立绘
+    }
+
+    /// <summary>
     /// 对话选项数据
     /// </summary>
     [System.Serializable]
@@ -41,6 +50,9 @@ namespace DodgeDots.Dialogue
         [Header("说话者信息")]
         [Tooltip("说话者名称")]
         public string speakerName = "";
+
+        [Tooltip("说话者位置")]
+        public SpeakerPosition speakerPos = SpeakerPosition.Left; // 新增：默认为左边
 
         [Tooltip("说话者头像/立绘")]
         public Sprite speakerSprite;

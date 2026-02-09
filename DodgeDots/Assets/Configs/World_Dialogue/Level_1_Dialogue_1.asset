@@ -17,15 +17,17 @@ MonoBehaviour:
   dialogueNodes:
   - nodeId: 0
     nodeType: 0
-    speakerName: 
-    speakerSprite: {fileID: 0}
+    speakerName: "\u53C9\u5B50"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 19b148eae96088a42944b14735730bf3, type: 3}
     dialogueText: "\u4F60\u597D\uFF0C\u4E00\u6B21\u5BF9\u8BDD\u540E\u5173\u5361\u89E3\u9501\u4E86\u3002"
     nextNodeId: 1
     choices: []
   - nodeId: 1
     nodeType: 0
-    speakerName: 
-    speakerSprite: {fileID: 0}
+    speakerName: "\u7096\u9505"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: 3bf1eb1645dfcb6479225b337f90e1de, type: 3}
     dialogueText: "\u70B9\u51FBE\u952E\u5F00\u542F\u4E0B\u4E00\u6BB5\u5BF9\u8BDD\u5427\u3002"
     nextNodeId: -1
     choices: []
