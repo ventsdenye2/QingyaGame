@@ -83,9 +83,10 @@ namespace DodgeDots.Dialogue
                 }
             }
         }
-
         private void HandleDialogueStarted(DialogueConfig dialogue)
         {
+            // 对话开始前，把左右立绘都关掉
+            ResetPortraits();
             ShowDialogue();
         }
 
@@ -149,6 +150,13 @@ namespace DodgeDots.Dialogue
             }
         }
 
+        // 重置立绘状态
+        private void ResetPortraits()
+        {
+            if (leftSpeakerImage != null) leftSpeakerImage.gameObject.SetActive(false);
+            if (rightSpeakerImage != null) rightSpeakerImage.gameObject.SetActive(false);
+        }
+
         /// <summary>
         /// 新增：专门处理立绘高亮和更新的逻辑
         /// </summary>
@@ -168,7 +176,7 @@ namespace DodgeDots.Dialogue
                 if (node.speakerSprite != null)
                 {
                     leftSpeakerImage.sprite = node.speakerSprite;
-                    //leftSpeakerImage.gameObject.SetActive(true);
+                    leftSpeakerImage.gameObject.SetActive(true);
                     //leftSpeakerImage.SetNativeSize(); // 可选：根据图片原比例调整大小
                 }
 
@@ -185,7 +193,7 @@ namespace DodgeDots.Dialogue
                 if (node.speakerSprite != null)
                 {
                     rightSpeakerImage.sprite = node.speakerSprite;
-                    //rightSpeakerImage.gameObject.SetActive(true);
+                    rightSpeakerImage.gameObject.SetActive(true);
                     //rightSpeakerImage.SetNativeSize(); // 可选
                 }
 

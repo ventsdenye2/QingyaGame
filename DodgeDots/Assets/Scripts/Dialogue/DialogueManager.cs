@@ -43,11 +43,22 @@ namespace DodgeDots.Dialogue
             if (dialogue == null)
             {
                 Debug.LogWarning("对话配置为空");
+                // 如果传入是空，直接视为结束，确保流程能继续
+                EndDialogue();
                 return;
             }
 
             currentDialogue = dialogue;
             _currentNode = dialogue.GetStartNode();
+
+            // --- 检查起始节点是否为空 ---
+            if (_currentNode == null)
+            {
+                // 如果对话文件里没有节点，不进入对话状态，直接结束
+                EndDialogue();
+                return;
+            }
+
             _isDialogueActive = true;
 
             OnDialogueStarted?.Invoke(dialogue);

@@ -232,5 +232,21 @@ namespace DodgeDots.WorldMap
                 _instance = null;
             }
         }
+
+        private void Update()
+        {
+            // 测试专用：按下 'C' 键直接完成 level_1
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                Debug.Log("【测试】强制完成 level_1");
+                CompleteLevel("level_1"); // 关卡ID，默认是 level_1
+            }
+            // 测试专用：按下 'V' 键直接完成 level_2
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                Debug.Log("【测试】强制完成 level_2");
+                CompleteLevel("level_2"); // 关卡ID，默认是 level_1
+            }
+        }
     }
 }
