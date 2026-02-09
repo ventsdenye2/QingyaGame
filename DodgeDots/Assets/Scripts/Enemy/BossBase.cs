@@ -32,6 +32,11 @@ namespace DodgeDots.Enemy
         [Header("文案配置")]
         [SerializeField] protected BossDialogueConfig dialogueConfig;
 
+        [Header("音效")]
+        [SerializeField] private AudioSource sfxSource;
+        [SerializeField] private AudioClip damageSfx;
+        [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
+
         protected float _currentHealth;
         protected BossState _currentState;
         protected int _currentPhase;
@@ -51,6 +56,7 @@ namespace DodgeDots.Enemy
 
         public event Action<float, float> OnHealthChanged;
         public event Action OnDeath;
+        public event Action OnDamageTaken;
         public event Action<int> OnPhaseChanged;
         public event Action<BossState> OnStateChanged;
         public event Action<BossPhaseDialogue> OnPhaseDialogue;
@@ -60,6 +66,17 @@ namespace DodgeDots.Enemy
             _currentHealth = maxHealth;
             _currentState = BossState.Idle;
             _currentPhase = 0;
+
+            if (sfxSource == null)
+            {
+                sfxSource = GetComponent<AudioSource>();
+                if (sfxSource == null)
+                {
+                    sfxSource = gameObject.AddComponent<AudioSource>();
+                }
+                sfxSource.playOnAwake = false;
+            }
+            sfxSource.volume = sfxVolume;
         }
 
         protected virtual void Start()
@@ -117,6 +134,8 @@ namespace DodgeDots.Enemy
             float previousHealth = _currentHealth;
             _currentHealth = Mathf.Max(0, _currentHealth - damage);
             OnHealthChanged?.Invoke(_currentHealth, maxHealth);
+            OnDamageTaken?.Invoke();
+            PlayDamageSfx();
 
             // 检查是否进入新阶段
             CheckPhaseTransition(previousHealth, _currentHealth);
@@ -220,6 +239,12 @@ namespace DodgeDots.Enemy
         {
             SetState(BossState.Defeated);
             OnDeath?.Invoke();
+        }
+
+        private void PlayDamageSfx()
+        {
+            if (damageSfx == null || sfxSource == null) return;
+            sfxSource.PlayOneShot(damageSfx, sfxVolume);
         }
 
 

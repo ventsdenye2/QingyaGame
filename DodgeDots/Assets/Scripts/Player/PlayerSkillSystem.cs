@@ -44,6 +44,12 @@ namespace DodgeDots.Player
         [SerializeField] private bool hasResurrection = true;         // 本关卡是否有复活机会
         [SerializeField] private Sprite resurrectionSprite;           // 复活时的立绘
 
+        [Header("音效")]
+        [SerializeField] private AudioSource sfxSource;
+        [SerializeField] private AudioClip shieldSfx;
+        [SerializeField] private AudioClip resurrectionSfx;
+        [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
+
         private PlayerEnergy _playerEnergy;
         private PlayerHealth _playerHealth;
         private PlayerSkillManager _skillManager;
@@ -57,7 +63,6 @@ namespace DodgeDots.Player
         private Vector2 _lastFramePosition;  // 上一帧的位置
         private Collider2D _lastContactBoss;     // 上一帧接触的Boss，用于判断是否新接触
         private Sprite _originalSprite;
-        private SkillType _activeSkillType = SkillType.None;
         private bool _resurrectionUsed = false; // 本关卡复活是否已使用
         private Coroutine _resurrectionCoroutine; // 复活协程
 
@@ -87,6 +92,17 @@ namespace DodgeDots.Player
             {
                 spriteRenderer = GetComponent<SpriteRenderer>();
             }
+
+            if (sfxSource == null)
+            {
+                sfxSource = GetComponent<AudioSource>();
+                if (sfxSource == null)
+                {
+                    sfxSource = gameObject.AddComponent<AudioSource>();
+                }
+                sfxSource.playOnAwake = false;
+            }
+            sfxSource.volume = sfxVolume;
 
             // 初始化UI颜色
             if (spriteRenderer != null)
@@ -188,7 +204,6 @@ namespace DodgeDots.Player
         private IEnumerator AttackSkillCoroutine()
         {
             _isSkillActive = true;
-            _activeSkillType = SkillType.Attack;
             OnSkillStarted?.Invoke();
 
             ApplySkillVisual(PlayerSkillType.AttackMelee);
@@ -314,6 +329,7 @@ namespace DodgeDots.Player
             }
 
             Debug.Log("护盾技能激活！");
+            PlayShieldSfx();
             _skillCoroutine = StartCoroutine(ShieldSkillCoroutine());
         }
 
@@ -323,7 +339,6 @@ namespace DodgeDots.Player
         private IEnumerator ShieldSkillCoroutine()
         {
             _isSkillActive = true;
-            _activeSkillType = SkillType.Shield;
             OnSkillStarted?.Invoke();
 
             ApplySkillVisual(PlayerSkillType.Shield);
@@ -457,7 +472,6 @@ namespace DodgeDots.Player
         private void EndCurrentSkill()
         {
             _isSkillActive = false;
-            _activeSkillType = SkillType.None;
             OnSkillEnded?.Invoke();
 
             if (spriteRenderer != null)
@@ -522,6 +536,7 @@ namespace DodgeDots.Player
                 _playerHealth.Resurrect();
                 Debug.Log("[复活技能] 玩家复活在位置：" + resurrectionPosition);
             }
+            PlayResurrectionSfx();
 
             // 移动玩家到鼠标位置
             if (_rigidbody != null)
@@ -543,6 +558,18 @@ namespace DodgeDots.Player
             NotifyBattleResumed();
 
             _resurrectionCoroutine = null;
+        }
+
+        private void PlayShieldSfx()
+        {
+            if (shieldSfx == null || sfxSource == null) return;
+            sfxSource.PlayOneShot(shieldSfx, sfxVolume);
+        }
+
+        private void PlayResurrectionSfx()
+        {
+            if (resurrectionSfx == null || sfxSource == null) return;
+            sfxSource.PlayOneShot(resurrectionSfx, sfxVolume);
         }
 
         /// <summary>

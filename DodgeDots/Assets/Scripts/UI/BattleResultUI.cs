@@ -24,6 +24,7 @@ namespace DodgeDots.UI
         [SerializeField] private AudioSource sfxSource;
         [SerializeField] private AudioClip winSfx;
         [SerializeField] private AudioClip loseSfx;
+        [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
 
         [Header("场景")]
         [SerializeField] private string worldMapSceneName = "WorldMap";
@@ -53,6 +54,7 @@ namespace DodgeDots.UI
                 }
                 sfxSource.playOnAwake = false;
             }
+            sfxSource.volume = sfxVolume;
 
             if (battleLevel != null)
             {
@@ -181,7 +183,7 @@ namespace DodgeDots.UI
         private void PlaySfx(AudioClip clip)
         {
             if (clip == null || sfxSource == null) return;
-            sfxSource.PlayOneShot(clip);
+            sfxSource.PlayOneShot(clip, sfxVolume);
         }
     }
 }

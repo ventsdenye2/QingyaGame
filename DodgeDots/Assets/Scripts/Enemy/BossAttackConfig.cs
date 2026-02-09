@@ -143,6 +143,12 @@ namespace DodgeDots.Enemy
         [Tooltip("要移动的发射源")]
         public EmitterType emitterType = EmitterType.MainCore;
 
+        [Tooltip("是否同时移动多个发射源")]
+        public bool useMultipleEmitters = false;
+
+        [Tooltip("多发射源列表（仅当useMultipleEmitters为true时有效）")]
+        public EmitterType[] multipleEmitters = new EmitterType[0];
+
         [Header("移动设置")]
         [Tooltip("移动类型")]
         public BossMoveType moveType = BossMoveType.None;

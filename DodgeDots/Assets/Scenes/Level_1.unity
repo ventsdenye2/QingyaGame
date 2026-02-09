@@ -290,6 +290,7 @@ MonoBehaviour:
   autoStart: 1
   waitForBgmStart: 1
   startOffsetSeconds: 0
+  loop: 1
 --- !u!4 &129132312
 Transform:
   m_ObjectHideFlags: 0
@@ -414,6 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
   clip: {fileID: 8300000, guid: 3a576a7c25bacd14ba5d08f891b296b4, type: 3}
+  loop: 1
   bpm: 120
   startDelaySeconds: 0.2
   beatMap: {fileID: 11400000, guid: 95bf0d4087069804f905ee86ece5ff85, type: 2}
@@ -474,6 +476,9 @@ MonoBehaviour:
   playerSprite: {fileID: 0}
   damageFlashColor: {r: 1, g: 0.2, b: 0.2, a: 1}
   damageFlashDuration: 0.12
+  sfxSource: {fileID: 0}
+  damageSfx: {fileID: 8300000, guid: 6e8772b49f34d402a90016ed445d8a2f, type: 3}
+  sfxVolume: 1
 --- !u!114 &492249287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,7 +502,7 @@ MonoBehaviour:
   instantSkillSpriteDuration: 0.2
   attackActiveSprite: {fileID: 21300000, guid: 2baa0c3204f3ccc43b124ac9c2ce0f26, type: 3}
   homingActiveSprite: {fileID: 21300000, guid: 19b148eae96088a42944b14735730bf3, type: 3}
-  shieldDuration: 3
+  shieldDuration: 10
   shieldEnergyCost: 60
   spriteRenderer: {fileID: 0}
   skillActiveSprite: {fileID: 21300000, guid: 43be78ea5be992d4c93474f00a8be9a2, type: 3}
@@ -506,6 +511,10 @@ MonoBehaviour:
   resurrectionWaitTime: 1
   hasResurrection: 1
   resurrectionSprite: {fileID: 0}
+  sfxSource: {fileID: 0}
+  shieldSfx: {fileID: 8300000, guid: 7e26c9daf4c32483b9c2790e662d3f1b, type: 3}
+  resurrectionSfx: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
+  sfxVolume: 1
 --- !u!114 &492249288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,6 +532,10 @@ MonoBehaviour:
   energyRecoveryInterval: 0.1
   safeTimeAfterBullet: 2
   skillCost: 100
+  sfxSource: {fileID: 0}
+  energyFullSfx: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
+  sfxVolume: 1
+  energyFullThreshold: 60
 --- !u!114 &492249290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,6 +570,9 @@ MonoBehaviour:
   playerSprite: {fileID: 0}
   damageFlashColor: {r: 1, g: 0.2, b: 0.2, a: 0.46666667}
   damageFlashDuration: 0.3
+  sfxSource: {fileID: 0}
+  damageSfx: {fileID: 8300000, guid: 6e8772b49f34d402a90016ed445d8a2f, type: 3}
+  sfxVolume: 1
 --- !u!114 &492249292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -665,7 +681,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -3, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
+  m_LocalScale: {x: 0.11685451, y: 0.11685451, z: 0.77903}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -898,6 +914,7 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   winSfx: {fileID: 8300000, guid: 2667a0a008b044e218b63df62e2be749, type: 3}
   loseSfx: {fileID: 8300000, guid: a0010a1a0c474473b81729eb770c485f, type: 3}
+  sfxVolume: 1
   worldMapSceneName: WorldMap
   pauseOnShow: 1
   battleLevel: {fileID: 0}
@@ -1629,6 +1646,8 @@ GameObject:
   - component: {fileID: 825278385}
   - component: {fileID: 825278384}
   - component: {fileID: 825278391}
+  - component: {fileID: 825278392}
+  - component: {fileID: 825278393}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Boss
@@ -1654,6 +1673,9 @@ MonoBehaviour:
   - 0.7
   - 0.4
   dialogueConfig: {fileID: 11400000, guid: 0108304ac5f59194abfd0e82073108f0, type: 2}
+  sfxSource: {fileID: 0}
+  damageSfx: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
+  sfxVolume: 1
   phase0Controllers:
   - {fileID: 825278385}
   - {fileID: 825278384}
@@ -1674,6 +1696,8 @@ MonoBehaviour:
   beatMapPlayer: {fileID: 129132311}
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 04af37ce41c6a7f4c87d1469e61bbcd5, type: 2}
+  enableMoveSequence: 1
+  isolateMainCoreMovement: 0
   showDebugLog: 0
 --- !u!114 &825278385
 MonoBehaviour:
@@ -1690,6 +1714,8 @@ MonoBehaviour:
   beatMapPlayer: {fileID: 1801364718}
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 73d0ac990554a4345814b9c3347cb112, type: 2}
+  enableMoveSequence: 1
+  isolateMainCoreMovement: 0
   showDebugLog: 0
 --- !u!114 &825278386
 MonoBehaviour:
@@ -1863,6 +1889,44 @@ MonoBehaviour:
   beatMapPlayer: {fileID: 129132311}
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 68356cd69ae53a049a0b0ef38d6cddde, type: 2}
+  enableMoveSequence: 1
+  isolateMainCoreMovement: 0
+  showDebugLog: 0
+--- !u!114 &825278392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825278382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 2119755622}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 72867db02877510478c8ea4756e2c397, type: 2}
+  enableMoveSequence: 1
+  isolateMainCoreMovement: 0
+  showDebugLog: 1
+--- !u!114 &825278393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 825278382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 2119755622}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: f68e0e7aec5939f4ca90088cbc19194a, type: 2}
+  enableMoveSequence: 1
+  isolateMainCoreMovement: 0
   showDebugLog: 0
 --- !u!1 &840261532
 GameObject:
@@ -3116,6 +3180,7 @@ MonoBehaviour:
   autoStart: 1
   waitForBgmStart: 1
   startOffsetSeconds: 0
+  loop: 1
 --- !u!4 &1801364719
 Transform:
   m_ObjectHideFlags: 0
@@ -3574,6 +3639,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2088843811}
   m_CullTransparentMesh: 1
+--- !u!1 &2119755621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2119755623}
+  - component: {fileID: 2119755622}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_Move
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2119755622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119755621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 269e733a5ce840d45b85d2a5daab0656, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: 0
+  loop: 1
+--- !u!4 &2119755623
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119755621}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2127816905
 GameObject:
   m_ObjectHideFlags: 0
@@ -3722,3 +3837,4 @@ SceneRoots:
   - {fileID: 452865494}
   - {fileID: 761823456}
   - {fileID: 492249295}
+  - {fileID: 2119755623}

@@ -25,12 +25,20 @@ namespace DodgeDots.Audio
         [Tooltip("额外偏移（秒），用于微调节拍")]
         public double startOffsetSeconds = 0.0;
 
+        [Tooltip("是否循环 BeatMap")]
+        public bool loop = true;
+
         public event Action<int> OnBeat;
+        public event Action<int> OnLoop;
 
         double[] beatDspTimes;
         int beatIndex;
         bool started;
         Coroutine loopCoroutine;
+        int beatLoopCount;
+        double loopLengthSeconds;
+        double nextLoopDsp;
+        bool useBgmLoop;
 
         void OnEnable()
         {
@@ -88,18 +96,58 @@ namespace DodgeDots.Audio
             }
 
             beatIndex = 0;
+            beatLoopCount = 0;
+
+            if (bgmManager != null && bgmManager.audioSource != null && bgmManager.audioSource.clip != null)
+            {
+                loopLengthSeconds = bgmManager.audioSource.clip.length;
+                useBgmLoop = loop && bgmManager.audioSource.loop && loopLengthSeconds > 0.0;
+            }
+            else
+            {
+                loopLengthSeconds = beatMap.beatTimes[beatMap.beatTimes.Length - 1];
+                useBgmLoop = false;
+            }
+            nextLoopDsp = dspStart + loopLengthSeconds;
             loopCoroutine = StartCoroutine(BeatLoop());
         }
 
         IEnumerator BeatLoop()
         {
-            while (beatDspTimes != null && beatIndex < beatDspTimes.Length)
+            while (beatDspTimes != null && beatDspTimes.Length > 0)
             {
                 double dsp = AudioSettings.dspTime;
-                if (dsp + 0.001 >= beatDspTimes[beatIndex])
+                if (useBgmLoop && dsp + 0.001 >= nextLoopDsp)
                 {
-                    beatIndex++;
-                    try { OnBeat?.Invoke(beatIndex); } catch { }
+                    beatIndex = 0;
+                    beatLoopCount++;
+                    nextLoopDsp += loopLengthSeconds;
+                    try { OnLoop?.Invoke(beatLoopCount); } catch { }
+                }
+
+                if (beatIndex < beatDspTimes.Length)
+                {
+                    double loopOffset = loopLengthSeconds * beatLoopCount;
+                    double targetDsp = beatDspTimes[beatIndex] + loopOffset;
+                    if (dsp + 0.001 >= targetDsp)
+                    {
+                        beatIndex++;
+                        try { OnBeat?.Invoke(beatIndex); } catch { }
+                    }
+                }
+
+                if (!useBgmLoop && beatIndex >= beatDspTimes.Length)
+                {
+                    if (loop && loopLengthSeconds > 0.0)
+                    {
+                        beatIndex = 0;
+                        beatLoopCount++;
+                        try { OnLoop?.Invoke(beatLoopCount); } catch { }
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 yield return null;
             }

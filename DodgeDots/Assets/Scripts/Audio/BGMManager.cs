@@ -10,6 +10,8 @@ namespace DodgeDots.Audio
         [Header("Audio")]
         public AudioSource audioSource;
         public AudioClip clip;
+        [Tooltip("是否循环播放BGM")]
+        public bool loop = true;
 
         [Header("Timing (BPM Mode)")]
         [Tooltip("Beats per minute（仅在不使用 BeatMap 时生效）")]
@@ -31,6 +33,7 @@ namespace DodgeDots.Audio
         // 如果使用 BeatMap，预先计算 DSP 时间数组
         double[] beatDspTimes;
         double dspStart = 0.0;
+        int beatLoopCount = 0;
 
         void Start()
         {
@@ -46,6 +49,7 @@ namespace DodgeDots.Audio
 
             if (clip != null)
                 audioSource.clip = clip;
+            audioSource.loop = loop;
 
             beatInterval = 60.0 / Mathf.Max(1f, bpm);
 
@@ -54,6 +58,7 @@ namespace DodgeDots.Audio
             Debug.Log($"[BGMManager] Scheduled play at dspStart={dspStart:F6}, startDelaySeconds={startDelaySeconds:F3}, bpm={bpm}");
 
             beatIndex = 0;
+            beatLoopCount = 0;
 
             if (beatMap != null && beatMap.beatTimes != null && beatMap.beatTimes.Length > 0)
             {
@@ -83,17 +88,30 @@ namespace DodgeDots.Audio
 
                 if (beatDspTimes != null && beatDspTimes.Length > 0)
                 {
-                    if (beatIndex < beatDspTimes.Length && dsp + 0.001 >= beatDspTimes[beatIndex])
+                    if (beatIndex < beatDspTimes.Length)
                     {
-                        beatIndex++;
-                        Debug.Log($"[BGMManager] Beat triggered (manual) #{beatIndex} at dsp={dsp:F6}, targetDsp={beatDspTimes[beatIndex-1]:F6}");
-                        try { OnBeat?.Invoke(beatIndex); } catch { }
+                        double loopOffset = (clip != null) ? clip.length * beatLoopCount : 0.0;
+                        double targetBeatDsp = beatDspTimes[beatIndex] + loopOffset;
+                        if (dsp + 0.001 >= targetBeatDsp)
+                        {
+                            beatIndex++;
+                            Debug.Log($"[BGMManager] Beat triggered (manual) #{beatIndex} at dsp={dsp:F6}, targetDsp={targetBeatDsp:F6}");
+                            try { OnBeat?.Invoke(beatIndex); } catch { }
+                        }
                     }
                     // 全部手动节拍触发完成后退出循环
                     if (beatIndex >= beatDspTimes.Length)
                     {
-                        Debug.Log("[BGMManager] All manual beats triggered, exiting BeatLoop.");
-                        break;
+                        if (loop && clip != null)
+                        {
+                            beatIndex = 0;
+                            beatLoopCount++;
+                        }
+                        else
+                        {
+                            Debug.Log("[BGMManager] All manual beats triggered, exiting BeatLoop.");
+                            break;
+                        }
                     }
                 }
                 else

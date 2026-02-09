@@ -102,6 +102,7 @@ namespace DodgeDots.UI
             {
                 boss.OnHealthChanged += UpdateBossHealthBar;
                 boss.OnStateChanged += OnBossStateChanged;
+                boss.OnDamageTaken += OnBossDamageTaken;
                 Debug.Log("BattleUI: 已绑定Boss事件");
             }
 
@@ -165,6 +166,7 @@ namespace DodgeDots.UI
             {
                 boss.OnHealthChanged -= UpdateBossHealthBar;
                 boss.OnStateChanged -= OnBossStateChanged;
+                boss.OnDamageTaken -= OnBossDamageTaken;
             }
 
             if (playerHealth != null)
@@ -366,15 +368,17 @@ namespace DodgeDots.UI
                 }
                 _damageFlashRoutine = StartCoroutine(FlashDamageIcon());
             }
+        }
 
-            if (shakeCamera != null)
+        private void OnBossDamageTaken()
+        {
+            if (shakeCamera == null) return;
+
+            if (_cameraShakeRoutine != null)
             {
-                if (_cameraShakeRoutine != null)
-                {
-                    StopCoroutine(_cameraShakeRoutine);
-                }
-                _cameraShakeRoutine = StartCoroutine(ShakeCameraOnce());
+                StopCoroutine(_cameraShakeRoutine);
             }
+            _cameraShakeRoutine = StartCoroutine(ShakeCameraOnce());
         }
 
         private IEnumerator FlashDamageIcon()

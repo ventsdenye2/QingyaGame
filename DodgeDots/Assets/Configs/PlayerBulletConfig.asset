@@ -17,7 +17,7 @@ MonoBehaviour:
   color: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 3, y: 3}
   defaultSpeed: 5
-  defaultDamage: 5
+  defaultDamage: 10
   lifetime: 10
   colliderRadius: 0.1
   isPiercing: 0
@@ -26,3 +26,11 @@ MonoBehaviour:
   faceDirection: 1
   sortingLayer: Default
   sortingOrder: 0
+  enableTrail: 0
+  trailTime: 0.2
+  trailStartWidth: 0.1
+  trailEndWidth: 0
+  trailMinVertexDistance: 0.05
+  trailStartColor: {r: 1, g: 1, b: 1, a: 0.6}
+  trailEndColor: {r: 1, g: 1, b: 1, a: 0}
+  trailMaterial: {fileID: 0}

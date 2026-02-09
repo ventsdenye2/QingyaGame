@@ -79,5 +79,76 @@ namespace DodgeDots.Bullet
 
         [Tooltip("拖尾材质（可选）")]
         public Material trailMaterial;
+
+        [Tooltip("拖尾使用子弹Sprite纹理")]
+        public bool trailUseBulletSprite = true;
+
+        [Tooltip("拖尾颜色跟随子弹颜色")]
+        public bool trailUseBulletColor = true;
+
+        [Tooltip("拖尾颜色变亮（0~1）")]
+        [Range(0f, 1f)]
+        public float trailColorLighten = 0.3f;
+
+        [Tooltip("拖尾起始透明度（0~1）")]
+        [Range(0f, 1f)]
+        public float trailStartAlpha = 0.45f;
+
+        [Tooltip("拖尾结束透明度（0~1）")]
+        [Range(0f, 1f)]
+        public float trailEndAlpha = 0f;
+
+        [Header("第二拖尾")]
+        [Tooltip("是否启用第二拖尾")]
+        public bool enableSecondTrail = true;
+
+        [Tooltip("第二拖尾持续时间")]
+        public float secondTrailTime = 0.16f;
+
+        [Tooltip("第二拖尾起始宽度")]
+        public float secondTrailStartWidth = 0.08f;
+
+        [Tooltip("第二拖尾结束宽度")]
+        public float secondTrailEndWidth = 0f;
+
+        [Tooltip("第二拖尾最小顶点间距")]
+        public float secondTrailMinVertexDistance = 0.05f;
+
+        [Tooltip("第二拖尾颜色变亮（0~1）")]
+        [Range(0f, 1f)]
+        public float secondTrailColorLighten = 0.5f;
+
+        [Tooltip("第二拖尾起始透明度（0~1）")]
+        [Range(0f, 1f)]
+        public float secondTrailStartAlpha = 0.25f;
+
+        [Tooltip("第二拖尾结束透明度（0~1）")]
+        [Range(0f, 1f)]
+        public float secondTrailEndAlpha = 0f;
+
+        [Tooltip("第二拖尾材质（可选）")]
+        public Material secondTrailMaterial;
+
+        [Header("残影效果")]
+        [Tooltip("是否启用残影")]
+        public bool enableAfterimage = true;
+
+        [Tooltip("残影生成间隔（秒）")]
+        public float afterimageInterval = 0.04f;
+
+        [Tooltip("残影持续时间（秒）")]
+        public float afterimageLifetime = 0.22f;
+
+        [Tooltip("残影颜色变亮（0~1）")]
+        [Range(0f, 1f)]
+        public float afterimageColorLighten = 0.4f;
+
+        [Tooltip("残影起始透明度（0~1）")]
+        [Range(0f, 1f)]
+        public float afterimageStartAlpha = 0.35f;
+
+        [Tooltip("残影结束透明度（0~1）")]
+        [Range(0f, 1f)]
+        public float afterimageEndAlpha = 0f;
     }
 }

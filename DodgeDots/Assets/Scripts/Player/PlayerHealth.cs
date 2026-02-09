@@ -19,6 +19,11 @@ namespace DodgeDots.Player
         [SerializeField] private Color damageFlashColor = new Color(1f, 0.2f, 0.2f, 1f);
         [SerializeField] private float damageFlashDuration = 0.12f;
 
+        [Header("音效")]
+        [SerializeField] private AudioSource sfxSource;
+        [SerializeField] private AudioClip damageSfx;
+        [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
+
         private float _currentHealth;
         private bool _isInvincible;
         private bool _isSkillInvincible;
@@ -53,6 +58,17 @@ namespace DodgeDots.Player
                 _flashOriginalColor = playerSprite.color;
                 _flashColorCached = true;
             }
+
+            if (sfxSource == null)
+            {
+                sfxSource = GetComponent<AudioSource>();
+                if (sfxSource == null)
+                {
+                    sfxSource = gameObject.AddComponent<AudioSource>();
+                }
+                sfxSource.playOnAwake = false;
+            }
+            sfxSource.volume = sfxVolume;
         }
 
         private void Update()
@@ -77,6 +93,7 @@ namespace DodgeDots.Player
             OnHealthChanged?.Invoke(_currentHealth, maxHealth);
             OnDamageTaken?.Invoke();
             FlashSpriteOnDamage();
+            PlayDamageSfx();
 
             // 启动无敌时间
             if (_currentHealth > 0 && invincibleDuration > 0)
@@ -119,6 +136,12 @@ namespace DodgeDots.Player
             {
                 playerSprite.color = _flashOriginalColor;
             }
+        }
+
+        private void PlayDamageSfx()
+        {
+            if (damageSfx == null || sfxSource == null) return;
+            sfxSource.PlayOneShot(damageSfx, sfxVolume);
         }
 
         public void Heal(float amount)

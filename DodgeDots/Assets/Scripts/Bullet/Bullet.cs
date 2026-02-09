@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using DodgeDots.Core;
 
@@ -24,13 +25,16 @@ namespace DodgeDots.Bullet
         private SpriteRenderer _spriteRenderer;
         private CircleCollider2D _collider;
         private TrailRenderer _trailRenderer;
+        private TrailRenderer _secondaryTrailRenderer;
         private Vector2 _direction;
+        private float _afterimageTimer;
         private float _currentLifetime;
         private bool _isActive;
         private Team _team;
         private IBulletBehavior[] _behaviors;
         private int _pierceCount = 0; // 当前穿透次数
         private static Material _defaultTrailMaterial;
+        private static readonly Dictionary<int, Material> _trailMaterialCache = new Dictionary<int, Material>();
 
         // 公共属性
         public float Damage => damage;
@@ -48,6 +52,7 @@ namespace DodgeDots.Bullet
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _collider = GetComponent<CircleCollider2D>();
             _trailRenderer = GetComponent<TrailRenderer>();
+            _secondaryTrailRenderer = GetSecondaryTrailRenderer();
 
             // 获取所有行为组件
             _behaviors = GetComponents<IBulletBehavior>();
@@ -85,6 +90,9 @@ namespace DodgeDots.Bullet
 
             // 更新视觉效果
             UpdateVisuals();
+
+            // 残影效果
+            UpdateAfterimage();
         }
 
         private void FixedUpdate()
@@ -118,6 +126,7 @@ namespace DodgeDots.Bullet
             _pierceCount = 0;
             _isActive = true;
             gameObject.SetActive(true);
+            _afterimageTimer = 0f;
 
             // 初始化所有行为
             if (_behaviors != null)
@@ -145,6 +154,7 @@ namespace DodgeDots.Bullet
             _pierceCount = 0;
             _isActive = true;
             gameObject.SetActive(true);
+            _afterimageTimer = 0f;
 
             // 初始化所有行为
             if (_behaviors != null)
@@ -168,6 +178,11 @@ namespace DodgeDots.Bullet
             {
                 _trailRenderer.Clear();
             }
+            if (_secondaryTrailRenderer != null)
+            {
+                _secondaryTrailRenderer.Clear();
+            }
+            _afterimageTimer = 0f;
 
             // 重置所有行为
             if (_behaviors != null)
@@ -310,30 +325,110 @@ namespace DodgeDots.Bullet
                     }
                 }
 
-                _trailRenderer.enabled = true;
-                _trailRenderer.time = bulletConfig.trailTime;
-                _trailRenderer.startWidth = bulletConfig.trailStartWidth;
-                _trailRenderer.endWidth = bulletConfig.trailEndWidth;
-                _trailRenderer.minVertexDistance = bulletConfig.trailMinVertexDistance;
-                _trailRenderer.startColor = bulletConfig.trailStartColor;
-                _trailRenderer.endColor = bulletConfig.trailEndColor;
-                if (bulletConfig.trailMaterial != null)
+                ConfigureTrail(_trailRenderer, bulletConfig, false);
+
+                if (bulletConfig.enableSecondTrail)
                 {
-                    _trailRenderer.sharedMaterial = bulletConfig.trailMaterial;
+                    if (_secondaryTrailRenderer == null)
+                    {
+                        _secondaryTrailRenderer = gameObject.AddComponent<TrailRenderer>();
+                    }
+                    ConfigureTrail(_secondaryTrailRenderer, bulletConfig, true);
                 }
-                else
+                else if (_secondaryTrailRenderer != null)
                 {
-                    _trailRenderer.sharedMaterial = GetDefaultTrailMaterial();
+                    _secondaryTrailRenderer.Clear();
+                    _secondaryTrailRenderer.enabled = false;
                 }
-                _trailRenderer.sortingLayerName = bulletConfig.sortingLayer;
-                _trailRenderer.sortingOrder = bulletConfig.sortingOrder;
-                _trailRenderer.Clear();
             }
             else if (_trailRenderer != null)
             {
                 _trailRenderer.Clear();
                 _trailRenderer.enabled = false;
+                if (_secondaryTrailRenderer != null)
+                {
+                    _secondaryTrailRenderer.Clear();
+                    _secondaryTrailRenderer.enabled = false;
+                }
             }
+        }
+
+        private void ConfigureTrail(TrailRenderer trailRenderer, BulletConfig bulletConfig, bool isSecondary)
+        {
+            if (trailRenderer == null) return;
+
+            trailRenderer.enabled = true;
+            trailRenderer.time = isSecondary ? bulletConfig.secondTrailTime : bulletConfig.trailTime;
+            trailRenderer.startWidth = isSecondary ? bulletConfig.secondTrailStartWidth : bulletConfig.trailStartWidth;
+            trailRenderer.endWidth = isSecondary ? bulletConfig.secondTrailEndWidth : bulletConfig.trailEndWidth;
+            trailRenderer.minVertexDistance = isSecondary ? bulletConfig.secondTrailMinVertexDistance : bulletConfig.trailMinVertexDistance;
+            trailRenderer.textureMode = LineTextureMode.DistributePerSegment;
+
+            Color startColor;
+            Color endColor;
+            if (bulletConfig.trailUseBulletColor)
+            {
+                Color baseColor = bulletConfig.color;
+                float lighten = isSecondary ? bulletConfig.secondTrailColorLighten : bulletConfig.trailColorLighten;
+                Color lightColor = Color.Lerp(baseColor, Color.white, Mathf.Clamp01(lighten));
+                float startAlpha = isSecondary ? bulletConfig.secondTrailStartAlpha : bulletConfig.trailStartAlpha;
+                float endAlpha = isSecondary ? bulletConfig.secondTrailEndAlpha : bulletConfig.trailEndAlpha;
+                startColor = new Color(lightColor.r, lightColor.g, lightColor.b, startAlpha);
+                endColor = new Color(lightColor.r, lightColor.g, lightColor.b, endAlpha);
+            }
+            else
+            {
+                startColor = bulletConfig.trailStartColor;
+                endColor = bulletConfig.trailEndColor;
+            }
+
+            trailRenderer.startColor = startColor;
+            trailRenderer.endColor = endColor;
+
+            Material trailMaterial = GetTrailMaterial(bulletConfig, isSecondary);
+            if (trailMaterial != null)
+            {
+                trailRenderer.sharedMaterial = trailMaterial;
+            }
+
+            trailRenderer.sortingLayerName = bulletConfig.sortingLayer;
+            trailRenderer.sortingOrder = bulletConfig.sortingOrder;
+            trailRenderer.Clear();
+        }
+
+        private Material GetTrailMaterial(BulletConfig bulletConfig, bool isSecondary)
+        {
+            Material baseMaterial = isSecondary ? (bulletConfig.secondTrailMaterial ?? bulletConfig.trailMaterial) : bulletConfig.trailMaterial;
+            if (baseMaterial == null)
+            {
+                baseMaterial = GetDefaultTrailMaterial();
+            }
+
+            if (baseMaterial == null) return null;
+            if (!bulletConfig.trailUseBulletSprite || bulletConfig.sprite == null) return baseMaterial;
+
+            Texture texture = bulletConfig.sprite.texture;
+            if (texture == null) return baseMaterial;
+
+            int key = (baseMaterial.GetInstanceID() * 397) ^ texture.GetInstanceID();
+            if (_trailMaterialCache.TryGetValue(key, out var cachedMaterial))
+            {
+                return cachedMaterial;
+            }
+
+            var material = new Material(baseMaterial);
+            material.name = $"{baseMaterial.name}_Trail_{texture.name}";
+            if (material.HasProperty("_BaseMap"))
+            {
+                material.SetTexture("_BaseMap", texture);
+            }
+            if (material.HasProperty("_MainTex"))
+            {
+                material.SetTexture("_MainTex", texture);
+            }
+
+            _trailMaterialCache[key] = material;
+            return material;
         }
 
         private static Material GetDefaultTrailMaterial()
@@ -355,6 +450,50 @@ namespace DodgeDots.Bullet
             _defaultTrailMaterial = new Material(shader);
             _defaultTrailMaterial.name = "DefaultTrailMaterial_Runtime";
             return _defaultTrailMaterial;
+        }
+
+        private TrailRenderer GetSecondaryTrailRenderer()
+        {
+            var trails = GetComponents<TrailRenderer>();
+            if (trails == null || trails.Length < 2) return null;
+            for (int i = 0; i < trails.Length; i++)
+            {
+                if (trails[i] != _trailRenderer)
+                {
+                    return trails[i];
+                }
+            }
+            return null;
+        }
+
+        private void UpdateAfterimage()
+        {
+            if (config == null || !config.enableAfterimage || !_isActive) return;
+
+            _afterimageTimer += Time.deltaTime;
+            if (_afterimageTimer < config.afterimageInterval) return;
+            _afterimageTimer = 0f;
+
+            Sprite sprite = config.sprite != null ? config.sprite : (_spriteRenderer != null ? _spriteRenderer.sprite : null);
+            if (sprite == null) return;
+
+            Color baseColor = config.color;
+            Color lightColor = Color.Lerp(baseColor, Color.white, Mathf.Clamp01(config.afterimageColorLighten));
+            Color startColor = new Color(lightColor.r, lightColor.g, lightColor.b, Mathf.Clamp01(config.afterimageStartAlpha));
+            Color endColor = new Color(lightColor.r, lightColor.g, lightColor.b, Mathf.Clamp01(config.afterimageEndAlpha));
+
+            var afterimage = BulletAfterimage.Get(transform.parent);
+            afterimage.Play(
+                sprite,
+                transform.position,
+                transform.rotation,
+                transform.localScale,
+                startColor,
+                endColor,
+                config.afterimageLifetime,
+                config.sortingLayer,
+                config.sortingOrder
+            );
         }
 
         /// <summary>

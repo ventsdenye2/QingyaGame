@@ -20,7 +20,7 @@ MonoBehaviour:
     multipleEmitters: 00000000
     attackType: 0
     bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
-    circleCount: 12
+    circleCount: 8
     circleStartAngle: 0
     fanCount: 0
     fanSpreadAngle: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
     circleCount: 15
     circleStartAngle: 0
     fanCount: 6
-    fanSpreadAngle: 80
+    fanSpreadAngle: 100
     fanCenterAngle: 270
     singleDirection: 0
     aimingBulletCount: 0
@@ -63,13 +63,5 @@ MonoBehaviour:
     aimingPredictMovement: 0
     customAttackId: 0
   loopAttackSequence: 1
-  moveSequence:
-  - emitterType: 0
-    moveType: 2
-    moveDuration: 3
-    moveSpeed: 0
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 0
-    customMoveId: 0
+  moveSequence: []
   loopMoveSequence: 1

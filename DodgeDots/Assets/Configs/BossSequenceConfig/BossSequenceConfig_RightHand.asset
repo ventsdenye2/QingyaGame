@@ -207,13 +207,5 @@ MonoBehaviour:
     aimingPredictMovement: 1
     customAttackId: 0
   loopAttackSequence: 1
-  moveSequence:
-  - emitterType: 0
-    moveType: 0
-    moveDuration: 0
-    moveSpeed: 0
-    targetPosition: {x: 0, y: 0}
-    moveDirection: 0
-    moveDistance: 0
-    customMoveId: 0
+  moveSequence: []
   loopMoveSequence: 1

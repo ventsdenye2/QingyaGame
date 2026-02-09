@@ -21,6 +21,7 @@ namespace DodgeDots.Player
         private float _timeSinceLastRecovery = 0f;
         private bool _canRecover = false;
         private PlayerHealth _playerHealth;
+        private bool _energyFullTriggered;
 
         public float CurrentEnergy => _currentEnergy;
         public float MaxEnergy => maxEnergy;
@@ -32,12 +33,31 @@ namespace DodgeDots.Player
         public event Action OnEnergyFull;
         public event Action OnSkillCasted;
 
+        [Header("音效")]
+        [SerializeField] private AudioSource sfxSource;
+        [SerializeField] private AudioClip energyFullSfx;
+        [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
+
+        [Header("能量提示")]
+        [SerializeField] private float energyFullThreshold = 60f;
+
         private void Awake()
         {
             _currentEnergy = maxEnergy;
             _timeSinceLastDamage = float.MaxValue;
             _timeSinceLastRecovery = 0f;
             _canRecover = false;
+
+            if (sfxSource == null)
+            {
+                sfxSource = GetComponent<AudioSource>();
+                if (sfxSource == null)
+                {
+                    sfxSource = gameObject.AddComponent<AudioSource>();
+                }
+                sfxSource.playOnAwake = false;
+            }
+            sfxSource.volume = sfxVolume;
         }
 
         private void Start()
@@ -48,6 +68,8 @@ namespace DodgeDots.Player
             {
                 _playerHealth.OnDamageTaken += OnPlayerDamaged;
             }
+
+            CheckAndTriggerEnergyFull(true);
         }
 
         private void OnDestroy()
@@ -105,16 +127,17 @@ namespace DodgeDots.Player
         {
             if (IsFull) return;
 
-            float previousEnergy = _currentEnergy;
             _currentEnergy = Mathf.Min(maxEnergy, _currentEnergy + amount);
 
             OnEnergyChanged?.Invoke(_currentEnergy, maxEnergy);
 
-            // 如果能量满了，触发事件
-            if (IsFull && !Mathf.Approximately(previousEnergy, maxEnergy))
-            {
-                OnEnergyFull?.Invoke();
-            }
+            CheckAndTriggerEnergyFull(false);
+        }
+
+        private void PlayEnergyFullSfx()
+        {
+            if (energyFullSfx == null || sfxSource == null) return;
+            sfxSource.PlayOneShot(energyFullSfx, sfxVolume);
         }
 
         /// <summary>
@@ -130,6 +153,10 @@ namespace DodgeDots.Player
             _currentEnergy -= amount;
             OnEnergyChanged?.Invoke(_currentEnergy, maxEnergy);
             OnSkillCasted?.Invoke();
+            if (_currentEnergy < energyFullThreshold)
+            {
+                _energyFullTriggered = false;
+            }
 
             return true;
         }
@@ -153,7 +180,9 @@ namespace DodgeDots.Player
             _currentEnergy = maxEnergy;
             _timeSinceLastDamage = float.MaxValue;
             _canRecover = false;
+            _energyFullTriggered = false;
             OnEnergyChanged?.Invoke(_currentEnergy, maxEnergy);
+            CheckAndTriggerEnergyFull(true);
         }
 
         /// <summary>
@@ -170,6 +199,17 @@ namespace DodgeDots.Player
         public void SetEnergyRecoveryInterval(float interval)
         {
             energyRecoveryInterval = interval;
+        }
+
+        private void CheckAndTriggerEnergyFull(bool fromStart)
+        {
+            if (_energyFullTriggered) return;
+            if (_currentEnergy >= energyFullThreshold)
+            {
+                _energyFullTriggered = true;
+                OnEnergyFull?.Invoke();
+                PlayEnergyFullSfx();
+            }
         }
     }
 }
