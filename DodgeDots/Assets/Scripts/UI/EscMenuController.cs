@@ -239,14 +239,14 @@ namespace DodgeDots.UI
             // 切场景前先保存
             SaveSystem.Save();
             if (pauseTimeScaleWhenOpen) Time.timeScale = 1f;
-            SceneManager.LoadScene(worldMapSceneName);
+            DodgeDots.UI.LoadingManager.Instance.LoadScene(worldMapSceneName);
         }
 
         public void OnClickBackToMainMenu()
         {
             SaveSystem.Save();
             if (pauseTimeScaleWhenOpen) Time.timeScale = 1f;
-            SceneManager.LoadScene(mainMenuSceneName);
+            DodgeDots.UI.LoadingManager.Instance.LoadScene(mainMenuSceneName);
         }
     }
 }

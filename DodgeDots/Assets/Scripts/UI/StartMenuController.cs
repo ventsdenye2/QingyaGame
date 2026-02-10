@@ -61,7 +61,7 @@ namespace DodgeDots.UI
         {
             if (!SaveSystem.HasSave) return;
             SaveSystem.Load();
-            SceneManager.LoadScene(worldMapSceneName);
+            DodgeDots.UI.LoadingManager.Instance.LoadScene(worldMapSceneName);
         }
 
         public void OnNewGame()
@@ -69,7 +69,7 @@ namespace DodgeDots.UI
             SaveSystem.Clear();
             SaveSystem.NewGame();
             SaveSystem.Save();
-            SceneManager.LoadScene(worldMapSceneName);
+            DodgeDots.UI.LoadingManager.Instance.LoadScene(worldMapSceneName);
         }
 
         public void OnQuitGame()

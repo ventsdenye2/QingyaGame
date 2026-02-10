@@ -176,14 +176,14 @@ namespace DodgeDots.UI
                 SaveSystem.NewGame();
                 SaveSystem.Save();
             }
-            SceneManager.LoadScene(worldMapSceneName);
+            DodgeDots.UI.LoadingManager.Instance.LoadScene(worldMapSceneName);
         }
 
         private void OnLoadGame()
         {
             if (!SaveSystem.HasSave) return;
             SaveSystem.Load();
-            SceneManager.LoadScene(worldMapSceneName);
+            DodgeDots.UI.LoadingManager.Instance.LoadScene(worldMapSceneName);
         }
 
         private void OnNewGame()
@@ -191,7 +191,7 @@ namespace DodgeDots.UI
             SaveSystem.Clear();
             SaveSystem.NewGame();
             SaveSystem.Save();
-            SceneManager.LoadScene(worldMapSceneName);
+            DodgeDots.UI.LoadingManager.Instance.LoadScene(worldMapSceneName);
         }
 
         private void OnQuitGame()

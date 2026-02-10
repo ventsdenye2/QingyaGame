@@ -158,7 +158,7 @@ namespace DodgeDots.UI
         {
             Time.timeScale = 1f;
             Scene current = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(current.name);
+            DodgeDots.UI.LoadingManager.Instance.LoadScene(current.name);
         }
 
         public void OnClickWorldMap()
@@ -169,7 +169,7 @@ namespace DodgeDots.UI
                 Debug.LogError("BattleResultUI: worldMapSceneName 为空，无法跳转世界地图。");
                 return;
             }
-            SceneManager.LoadScene(worldMapSceneName);
+            DodgeDots.UI.LoadingManager.Instance.LoadScene(worldMapSceneName);
         }
 
         private void StopBgm()
