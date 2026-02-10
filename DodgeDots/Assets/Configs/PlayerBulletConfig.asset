@@ -34,3 +34,30 @@ MonoBehaviour:
   trailStartColor: {r: 1, g: 1, b: 1, a: 0.6}
   trailEndColor: {r: 1, g: 1, b: 1, a: 0}
   trailMaterial: {fileID: 0}
+  trailUseBulletSprite: 1
+  trailUseBulletColor: 1
+  trailColorLighten: 0.3
+  trailStartAlpha: 0.45
+  trailEndAlpha: 0
+  enableSecondTrail: 1
+  secondTrailTime: 0.16
+  secondTrailStartWidth: 0.08
+  secondTrailEndWidth: 0
+  secondTrailMinVertexDistance: 0.05
+  secondTrailColorLighten: 0.5
+  secondTrailStartAlpha: 0.25
+  secondTrailEndAlpha: 0
+  secondTrailMaterial: {fileID: 0}
+  enableAfterimage: 1
+  afterimageInterval: 0.04
+  afterimageLifetime: 0.22
+  afterimageColorLighten: 0.4
+  afterimageStartAlpha: 0.35
+  afterimageEndAlpha: 0
+  enableAutoHoming: 1
+  homingTurnSpeed: 360
+  homingSearchRadius: 20
+  homingRetargetInterval: 0.2
+  homingTrackBoss: 1
+  homingTrackEnemy: 0
+  homingTrackPlayer: 0

@@ -150,5 +150,27 @@ namespace DodgeDots.Bullet
         [Tooltip("残影结束透明度（0~1）")]
         [Range(0f, 1f)]
         public float afterimageEndAlpha = 0f;
+
+        [Header("自动追踪设置")]
+        [Tooltip("是否启用自动追踪行为（需要子弹预制体上挂有 AutoTargetHomingBulletBehavior）")]
+        public bool enableAutoHoming = false;
+
+        [Tooltip("追踪时的最大转向速度（度/秒），越大拐弯越快")]
+        public float homingTurnSpeed = 360f;
+
+        [Tooltip("自动索敌的搜索半径")]
+        public float homingSearchRadius = 20f;
+
+        [Tooltip("重新锁定目标的时间间隔（秒）")]
+        public float homingRetargetInterval = 0.2f;
+
+        [Tooltip("是否可以追踪 Boss（需要场景中物体 Tag 为 Boss）")]
+        public bool homingTrackBoss = true;
+
+        [Tooltip("是否可以追踪普通敌人（需要场景中物体 Tag 为 Enemy）")]
+        public bool homingTrackEnemy = false;
+
+        [Tooltip("是否可以追踪玩家（需要场景中物体 Tag 为 Player）")]
+        public bool homingTrackPlayer = false;
     }
 }
