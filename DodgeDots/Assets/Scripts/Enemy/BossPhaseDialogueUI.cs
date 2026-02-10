@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using DodgeDots.Enemy;
+using DodgeDots.Player;
 
 namespace DodgeDots.UI
 {
@@ -13,6 +14,11 @@ namespace DodgeDots.UI
     {
         [Header("引用设置")]
         [SerializeField] private BossBase boss;
+        [SerializeField] private PlayerHealth playerHealth;
+        
+        [Header("功能设置")]
+        [Tooltip("勾选时：文案显示期间玩家对伤害（如Boss弹幕）免疫")]
+        [SerializeField] private bool enableDialogueInvincible = true;
         
         [Header("UI组件")]
         [SerializeField] private CanvasGroup dialogueCanvasGroup;
@@ -22,14 +28,15 @@ namespace DodgeDots.UI
         [Header("字体设置")]
         [SerializeField] private TMP_FontAsset phaseFontAsset;
         [SerializeField] private TMP_FontAsset dialogueFontAsset;
-        [SerializeField] private float phaseNameFontSize = 60f;
-        [SerializeField] private float dialogueFontSize = 40f;
+        [SerializeField] private float phaseNameFontSize = 36f;
+        [SerializeField] private float dialogueFontSize = 24f;
         
         [Header("动画设置")]
         [SerializeField] private float fadeInDuration = 0.3f;
         [SerializeField] private float fadeOutDuration = 0.3f;
 
         private Coroutine _displayCoroutine;
+        private bool _dialogueInvincibilityActive;
 
         private void Start()
         {
@@ -62,6 +69,9 @@ namespace DodgeDots.UI
             {
                 boss.OnPhaseDialogue -= OnBossPhaseDialogue;
             }
+
+            // 确保销毁时关闭文案无敌
+            SetPlayerDialogueInvincible(false);
         }
 
         /// <summary>
@@ -72,6 +82,8 @@ namespace DodgeDots.UI
             if (_displayCoroutine != null)
             {
                 StopCoroutine(_displayCoroutine);
+                // 停止上一次显示时，确保关闭无敌
+                SetPlayerDialogueInvincible(false);
             }
 
             _displayCoroutine = StartCoroutine(DisplayDialogueCoroutine(dialogue));
@@ -82,6 +94,12 @@ namespace DodgeDots.UI
         /// </summary>
         private IEnumerator DisplayDialogueCoroutine(BossPhaseDialogue dialogue)
         {
+            // 文案显示期间让玩家无敌（避免被Boss弹幕击中）
+            if (enableDialogueInvincible)
+            {
+                SetPlayerDialogueInvincible(true);
+            }
+
             // 淡入
             yield return StartCoroutine(FadeInCoroutine());
 
@@ -148,6 +166,36 @@ namespace DodgeDots.UI
 
             // 淡出
             yield return StartCoroutine(FadeOutCoroutine());
+
+            // 文案结束后关闭无敌
+            if (enableDialogueInvincible)
+            {
+                SetPlayerDialogueInvincible(false);
+            }
+        }
+
+        /// <summary>
+        /// 控制玩家在文案期间的无敌状态
+        /// </summary>
+        private void SetPlayerDialogueInvincible(bool active)
+        {
+            if (_dialogueInvincibilityActive == active) return;
+            _dialogueInvincibilityActive = active;
+
+            if (playerHealth == null)
+            {
+                // 尝试自动寻找玩家
+                var found = FindObjectOfType<PlayerHealth>();
+                if (found != null)
+                {
+                    playerHealth = found;
+                }
+            }
+
+            if (playerHealth != null)
+            {
+                playerHealth.SetDialogueInvincible(active);
+            }
         }
 
         /// <summary>
