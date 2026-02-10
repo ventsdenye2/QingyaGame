@@ -247,6 +247,13 @@ namespace DodgeDots.WorldMap
                 Debug.Log("【测试】强制完成 level_2");
                 CompleteLevel("level_2"); // 关卡ID，默认是 level_1
             }
+
+            // 测试专用：按下 'B' 键直接完成 level_3
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                Debug.Log("【测试】强制完成 level_3");
+                CompleteLevel("level_3"); // 关卡ID，默认是 level_1
+            }
         }
     }
 }

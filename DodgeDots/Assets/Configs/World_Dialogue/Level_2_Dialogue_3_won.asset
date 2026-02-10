@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e5315bffb86b7438c0a7c3d28c54a6, type: 3}
+  m_Name: Level_2_Dialogue_3_won
+  m_EditorClassIdentifier: 
+  dialogueId: dialogue_012
+  dialogueName: Level_2_3_Dialogue
+  dialogueNodes:
+  - nodeId: 2200
+    nodeType: 0
+    speakerName: "\u5FAE\u6CE2\u7089\u7089"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: 7a942527807c5d540b14f3accc7197f9, type: 3}
+    dialogueText: " - \u5FAE\u6CE2\u7089\u7089\u9ED8\u9ED8\u4E0D\u8BED\u3002"
+    nextNodeId: 2201
+    choices: []
+  - nodeId: 2201
+    nodeType: 0
+    speakerName: "\u5C16\u5C16"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 19b148eae96088a42944b14735730bf3, type: 3}
+    dialogueText: "\u4E4B\u524D\u51E0\u6B21party\u90FD\u5F00\u5728\u5C9B\u53F0\u4E0A\uFF0C\u662F\u56E0\u4E3A\u90A3\u8FB9\u6709\u66F4\u5927\u7684\u7A7A\u95F4\uFF0C"
+    nextNodeId: 2202
+    choices: []
+  - nodeId: 2202
+    nodeType: 0
+    speakerName: "\u5C16\u5C16"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 19b148eae96088a42944b14735730bf3, type: 3}
+    dialogueText: "\u6CA1\u6709\u8003\u8651\u5230\u4F60\u7684\u611F\u53D7\uFF0C\u5BF9\u4E0D\u8D77\u54E6......"
+    nextNodeId: 2203
+    choices: []
+  - nodeId: 2203
+    nodeType: 0
+    speakerName: "\u6797"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: cb4ebc9d6cedbc44c8bbcdc6d5a8dae4, type: 3}
+    dialogueText: "\u4E4B\u540E\u7684party\uFF0C\u6211\u4EEC\u4F1A\u6765\u6848\u53F0\u8FD9\u8FB9\u7684\uFF01"
+    nextNodeId: 2204
+    choices: []
+  - nodeId: 2204
+    nodeType: 0
+    speakerName: "\u68EE"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: cb4ebc9d6cedbc44c8bbcdc6d5a8dae4, type: 3}
+    dialogueText: "\u6CA1\u9519\uFF01\u6211\u4EEC\u4F1A\u6765\u8FD9\u8FB9\u966A\u4F60\u7684\uFF01"
+    nextNodeId: 2205
+    choices: []
+  - nodeId: 2205
+    nodeType: 0
+    speakerName: "\u5FAE\u6CE2\u7089\u7089"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: 7a942527807c5d540b14f3accc7197f9, type: 3}
+    dialogueText: "......\u771F\u7684\u5417\uFF1F"
+    nextNodeId: 2206
+    choices: []
+  - nodeId: 2206
+    nodeType: 0
+    speakerName: "\u5C16\u5C16"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 19b148eae96088a42944b14735730bf3, type: 3}
+    dialogueText: "\u771F\u7684\u54E6\uFF01\u6211\u4EE5\u6211\u9AD8\u8D35\u7684\u8840\u7EDF\u5411\u4F60\u62C5\u4FDD\uFF01"
+    nextNodeId: 2207
+    choices: []
+  - nodeId: 2207
+    nodeType: 0
+    speakerName: "\u68EE"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: cb4ebc9d6cedbc44c8bbcdc6d5a8dae4, type: 3}
+    dialogueText: "\u4F60\u7684\u9AD8\u8D35\u8840\u7EDF\u771F\u662F\u968F\u968F\u4FBF\u4FBF\u5C31\u62C5\u4FDD\u51FA\u53BB\u4E86......"
+    nextNodeId: 2208
+    choices: []
+  - nodeId: 2208
+    nodeType: 0
+    speakerName: "\u5C16\u5C16"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 19b148eae96088a42944b14735730bf3, type: 3}
+    dialogueText: "\u8981\u4F60\u7BA1\uFF01"
+    nextNodeId: -1
+    choices: []
+  startNodeId: 2200

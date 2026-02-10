@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e5315bffb86b7438c0a7c3d28c54a6, type: 3}
   m_Name: Level_1_Dialogue_bridge
   m_EditorClassIdentifier: 
-  dialogueId: dialogue_002
-  dialogueName: Level_1_2_Dialogue
+  dialogueId: dialogue_006
+  dialogueName: Level_1_bridge_Dialogue
   dialogueNodes:
-  - nodeId: 1100
+  - nodeId: 9001
     nodeType: 0
     speakerName: "\u5C16\u5C16"
     speakerPos: 0
@@ -23,4 +23,4 @@ MonoBehaviour:
     dialogueText: "\u7528\u64C0\u9762\u6756\u642D\u4E00\u5EA7\u6865\u5427\uFF01"
     nextNodeId: -1
     choices: []
-  startNodeId: 1100
+  startNodeId: 9001

@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e5315bffb86b7438c0a7c3d28c54a6, type: 3}
+  m_Name: Level_2_Dialogue_4_won
+  m_EditorClassIdentifier: 
+  dialogueId: dialogue_013
+  dialogueName: Level_2_4_Dialogue
+  dialogueNodes:
+  - nodeId: 2300
+    nodeType: 0
+    speakerName: "\u5200\u950B"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 2baa0c3204f3ccc43b124ac9c2ce0f26, type: 3}
+    dialogueText: "\u90A3\uFF0C\u5FAE\u6CE2\u7089\u7089\uFF0C"
+    nextNodeId: 2301
+    choices: []
+  - nodeId: 2301
+    nodeType: 0
+    speakerName: "\u5FAE\u6CE2\u7089\u7089"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: 7a942527807c5d540b14f3accc7197f9, type: 3}
+    dialogueText: "\u53EB\u6211\u7089\u7089\u5C31\u597D~"
+    nextNodeId: 2302
+    choices: []
+  - nodeId: 2302
+    nodeType: 0
+    speakerName: "\u5200\u950B"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 2baa0c3204f3ccc43b124ac9c2ce0f26, type: 3}
+    dialogueText: "\u7089\u7089\uFF0C\u53EF\u4EE5\u501F\u4F60\u5934\u4E0A\u7684\u53F6\u5B50\u4E00\u7528\u5417\uFF1F"
+    nextNodeId: 2303
+    choices: []
+  - nodeId: 2303
+    nodeType: 0
+    speakerName: "\u5FAE\u6CE2\u7089\u7089"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: 7a942527807c5d540b14f3accc7197f9, type: 3}
+    dialogueText: "\u4F60\u8BF4\u8FD9\u4E2A\uFF1F"
+    nextNodeId: 2304
+    choices: []
+  - nodeId: 2304
+    nodeType: 0
+    speakerName: "\u5FAE\u6CE2\u7089\u7089"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: 7a942527807c5d540b14f3accc7197f9, type: 3}
+    dialogueText: "\u55EF\uFF0C\u6CA1\u95EE\u9898\u7684\uFF01"
+    nextNodeId: 2305
+    choices: []
+  - nodeId: 2305
+    nodeType: 0
+    speakerName: "\u5200\u950B"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 2baa0c3204f3ccc43b124ac9c2ce0f26, type: 3}
+    dialogueText: "\u4E0D\u80DC\u611F\u6FC0\uFF01"
+    nextNodeId: -1
+    choices: []
+  startNodeId: 2300

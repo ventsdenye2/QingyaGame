@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e5315bffb86b7438c0a7c3d28c54a6, type: 3}
+  m_Name: Strainer_Dialogue_1
+  m_EditorClassIdentifier: 
+  dialogueId: dialogue_100
+  dialogueName: Strainer_Dialogue_1
+  dialogueNodes:
+  - nodeId: 8000
+    nodeType: 0
+    speakerName: "\u6F0F\u52FA"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: cd12057ef2769544da20ecae7a69e380, type: 3}
+    dialogueText: "\u6697\u6D41\u6C79\u6D8C\uFF0C\u53A8\u623F\u5927\u4E71\uFF01\u5F53\u6B64\u4E4B\u65F6\uFF0C\u5929\u964D\u52C7\u8005\uFF0C\u5C9B\u53F0\u800C\u6765\uFF0C\u6848\u53F0\u5C06\u53BB\u2026\u2026\u4F60\u4EEC\u83AB\u4E0D\u5C31\u662F\u964D\u9B54\u7684\u52C7\u8005\u5C0F\u961F\uFF01"
+    nextNodeId: 8001
+    choices: []
+  - nodeId: 8001
+    nodeType: 0
+    speakerName: "\u4E0D\u6F0F"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 43be78ea5be992d4c93474f00a8be9a2, type: 3}
+    dialogueText: "\u964D\u9B54\u7684\u52C7\u8005\u2026\u2026"
+    nextNodeId: 8002
+    choices: []
+  - nodeId: 8002
+    nodeType: 0
+    speakerName: "\u5200\u950B"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 2baa0c3204f3ccc43b124ac9c2ce0f26, type: 3}
+    dialogueText: "\u6CA1\u9519\uFF0C\u6B63\u662F\u5982\u6B64\uFF01"
+    nextNodeId: 8003
+    choices: []
+  - nodeId: 8003
+    nodeType: 0
+    speakerName: "\u5C16\u5C16"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 19b148eae96088a42944b14735730bf3, type: 3}
+    dialogueText: "\u6BD4\u8D77\u52C7\u8005\uFF0C\u6211\u5E94\u8BE5\u66F4\u50CF\u62E5\u6709\u9AD8\u8D35\u8840\u7EDF\u7684\u9B54\u6CD5\u4F7F\u5427\u3002"
+    nextNodeId: 8004
+    choices: []
+  - nodeId: 8004
+    nodeType: 0
+    speakerName: "\u6F0F\u52FA"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: cd12057ef2769544da20ecae7a69e380, type: 3}
+    dialogueText: "\u5662\u5662\uFF0C\u662F\u6211\u5931\u793C\u4E86\u3002"
+    nextNodeId: 8005
+    choices: []
+  - nodeId: 8005
+    nodeType: 0
+    speakerName: "\u6F0F\u52FA"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: cd12057ef2769544da20ecae7a69e380, type: 3}
+    dialogueText: "\u90A3\u4E48\uFF0C\u62E5\u6709\u9AD8\u8D35\u8840\u7EDF\u7684\u9B54\u6CD5\u4F7F\u548C\u52C7\u8005\u4EEC\uFF0C\u6211\u6709\u4E00\u4E9B\u60C5\u62A5\u8981\u544A\u8BC9\u4F60\u4EEC\u2026\u2026"
+    nextNodeId: 8006
+    choices: []
+  - nodeId: 8006
+    nodeType: 0
+    speakerName: "\u5C16\u5C16"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 19b148eae96088a42944b14735730bf3, type: 3}
+    dialogueText: "- \u5C16\u5C16\u5F97\u610F\u5730\u7B11\u7740\u70B9\u5934\u3002"
+    nextNodeId: 8007
+    choices: []
+  - nodeId: 8007
+    nodeType: 0
+    speakerName: "\u6F0F\u52FA"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: cd12057ef2769544da20ecae7a69e380, type: 3}
+    dialogueText: "\u524D\u51E0\u65E5\uFF0C\u6211\u542C\u5230\u4E86\u5FAE\u6CE2\u7089\u548C\u51B0\u7BB1\u7684\u5BC6\u8C0B\uFF01\u4ED6\u4EEC\u60F3\u8D81\u7740\u53A8\u623F\u5927\u5371\u673A\u79F0\u9738\u6574\u4E2A\u53A8\u623F\uFF01"
+    nextNodeId: 8008
+    choices: []
+  - nodeId: 8008
+    nodeType: 0
+    speakerName: "\u68EE\u6797"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: cb4ebc9d6cedbc44c8bbcdc6d5a8dae4, type: 3}
+    dialogueText: "- \u5012\u5438\u4E00\u53E3\u6C14"
+    nextNodeId: 8009
+    choices: []
+  - nodeId: 8009
+    nodeType: 0
+    speakerName: "\u5200\u950B"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 2baa0c3204f3ccc43b124ac9c2ce0f26, type: 3}
+    dialogueText: "\u6CA1\u60F3\u5230\u5FAE\u6CE2\u7089\u7ADF\u7136\u4E5F\u2026\u2026"
+    nextNodeId: 8010
+    choices: []
+  - nodeId: 8010
+    nodeType: 0
+    speakerName: "\u4E0D\u6F0F"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 43be78ea5be992d4c93474f00a8be9a2, type: 3}
+    dialogueText: "\u6211\u4EEC\u4F1A\u5C0F\u5FC3\u7684\uFF0C\u611F\u8C22\u3002"
+    nextNodeId: 8011
+    choices: []
+  - nodeId: 8011
+    nodeType: 0
+    speakerName: "\u6F0F\u52FA"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: cd12057ef2769544da20ecae7a69e380, type: 3}
+    dialogueText: "\u55EF\u55EF\uFF0C\u5FEB\u4E0A\u8DEF\u5427\uFF01\u8D81\u51B0\u7BB1\u8FD8\u6CA1\u6709\u6CE8\u610F\u5230\u4F60\u4EEC\u3002"
+    nextNodeId: -1
+    choices: []
+  startNodeId: 8000

@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3e5315bffb86b7438c0a7c3d28c54a6, type: 3}
-  m_Name: Level_1_Dialogue_block
+  m_Name: Strainer_Dialogue_2
   m_EditorClassIdentifier: 
-  dialogueId: dialogue_005
-  dialogueName: Level_1_block_Dialogue
+  dialogueId: dialogue_101
+  dialogueName: Strainer_Dialogue_2
   dialogueNodes:
-  - nodeId: 9000
+  - nodeId: 8100
     nodeType: 0
-    speakerName: "\u5C16\u5C16"
-    speakerPos: 0
-    speakerSprite: {fileID: 21300000, guid: 19b148eae96088a42944b14735730bf3, type: 3}
-    dialogueText: "\u597D\u50CF\u8FC7\u4E0D\u53BB\u5462\u3002"
+    speakerName: "\u6F0F\u52FA"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: cd12057ef2769544da20ecae7a69e380, type: 3}
+    dialogueText: "\u5FEB\u4E0A\u8DEF\u5427\uFF01\u8D81\u51B0\u7BB1\u8FD8\u6CA1\u6709\u6CE8\u610F\u5230\u4F60\u4EEC\u3002"
     nextNodeId: -1
     choices: []
-  startNodeId: 9000
+  startNodeId: 8100
