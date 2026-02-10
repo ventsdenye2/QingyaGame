@@ -27,6 +27,7 @@ namespace DodgeDots.Player
         private float _currentHealth;
         private bool _isInvincible;
         private bool _isSkillInvincible;
+        private bool _isDialogueInvincible;
         private float _invincibleTimer;
         private Coroutine _damageFlashRoutine;
         private bool _flashColorCached;
@@ -35,7 +36,7 @@ namespace DodgeDots.Player
         public float CurrentHealth => _currentHealth;
         public float MaxHealth => maxHealth;
         public bool IsAlive => _currentHealth > 0;
-        public bool CanTakeDamage => !_isInvincible && !_isSkillInvincible && IsAlive;
+        public bool CanTakeDamage => !_isInvincible && !_isSkillInvincible && !_isDialogueInvincible && IsAlive;
 
         public event Action<float, float> OnHealthChanged;
         public event Action OnDeath;
@@ -158,6 +159,7 @@ namespace DodgeDots.Player
             _isInvincible = false;
             _invincibleTimer = 0;
             _isSkillInvincible = false;
+            _isDialogueInvincible = false;
             OnHealthChanged?.Invoke(_currentHealth, maxHealth);
         }
 
@@ -182,6 +184,14 @@ namespace DodgeDots.Player
         public void SetSkillInvincible(bool active)
         {
             _isSkillInvincible = active;
+        }
+
+        /// <summary>
+        /// 文案/对话显示期间的无敌（例如Boss阶段标题与对白出现时）
+        /// </summary>
+        public void SetDialogueInvincible(bool active)
+        {
+            _isDialogueInvincible = active;
         }
 
         /// <summary>
