@@ -5,22 +5,23 @@ using DodgeDots.Save;
 
 namespace DodgeDots.UI
 {
+    /// <summary>
+    /// 开始菜单控制器（仅处理：新游戏 / 加载游戏 / 退出）
+    /// 背景和标题完全由场景里的 GameObject 自己控制，本脚本不再改动。
+    /// </summary>
     public class StartMenuController : MonoBehaviour
     {
         [Header("Scene")]
         [SerializeField] private string worldMapSceneName = "WorldMap";
 
-        [Header("UI")]
-        [SerializeField] private Image backgroundImage;
-        [SerializeField] private Text titleText;
-        [SerializeField] private Button startButton;
+        [Header("Buttons")]
         [SerializeField] private Button loadButton;
         [SerializeField] private Button newButton;
         [SerializeField] private Button quitButton;
-        [SerializeField] private Text hintText;
 
         private void Start()
         {
+            // 确保有一份当前存档数据
             SaveSystem.LoadOrCreate();
             BindButtons();
             RefreshButtons();
@@ -33,11 +34,6 @@ namespace DodgeDots.UI
 
         private void BindButtons()
         {
-            if (startButton != null)
-            {
-                startButton.onClick.RemoveListener(OnStartGame);
-                startButton.onClick.AddListener(OnStartGame);
-            }
             if (loadButton != null)
             {
                 loadButton.onClick.RemoveListener(OnLoadGame);
@@ -57,22 +53,8 @@ namespace DodgeDots.UI
 
         private void RefreshButtons()
         {
+            // 只有在有存档的时候才允许点击“加载游戏”
             if (loadButton != null) loadButton.interactable = SaveSystem.HasSave;
-            if (startButton != null) startButton.interactable = true;
-        }
-
-        public void OnStartGame()
-        {
-            if (SaveSystem.HasSave)
-            {
-                SaveSystem.Load();
-            }
-            else
-            {
-                SaveSystem.NewGame();
-                SaveSystem.Save();
-            }
-            SceneManager.LoadScene(worldMapSceneName);
         }
 
         public void OnLoadGame()
