@@ -3,6 +3,7 @@ using UnityEngine;
 using DodgeDots.Enemy;
 using DodgeDots.Player;
 using DodgeDots.Bullet;
+using DodgeDots.Save;
 
 namespace DodgeDots.Level
 {
@@ -11,6 +12,10 @@ namespace DodgeDots.Level
     /// </summary>
     public class BossBattleLevel : MonoBehaviour
     {
+        [Header("关卡ID")]
+        [Tooltip("这个场景对应的关卡ID，必须和WorldMapConfig里的一致")]
+        [SerializeField] private string currentLevelId = "level_1";
+
         [Header("关卡引用")]
         [SerializeField] private BossBase boss;
         [SerializeField] private PlayerController player;
@@ -90,16 +95,33 @@ namespace DodgeDots.Level
             if (_battleEnded) return;
 
             _battleEnded = true;
+
+            // --- 核心：写入存档 ---
+            // 获取当前关卡ID
+            string levelId = "level_1"; // <--- 确保这里填的是正确的 ID，最好做成 [SerializeField] 变量
+
+            // 2. 写入 SaveSystem
+            if (SaveSystem.Current == null) SaveSystem.LoadOrCreate();
+
+            if (!SaveSystem.Current.completedLevels.Contains(levelId))
+            {
+                SaveSystem.Current.completedLevels.Add(levelId);
+                Debug.Log($"[BossLevel] 关卡 {levelId} 进度已记录。");
+            }
+
+            // 3. 强制保存文件
+            SaveSystem.Save();
+
             OnBattleWin?.Invoke();
 
             Debug.Log("胜利！Boss被击败！");
 
-            // 清空所有弹幕
             if (BulletManager.Instance != null)
             {
                 BulletManager.Instance.ClearAllBullets();
             }
         }
+
 
         /// <summary>
         /// 玩家死亡

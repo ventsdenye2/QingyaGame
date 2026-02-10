@@ -68,6 +68,38 @@ namespace DodgeDots.Save
             }
         }
 
+        public static void SetFlag(string flagKey)
+        {
+            if (string.IsNullOrEmpty(flagKey)) return;
+            LoadOrCreate();
+
+            if (!_current.gameFlags.Contains(flagKey))
+            {
+                _current.gameFlags.Add(flagKey);
+                Save(); // ×Ô¶¯±£´æ
+                Debug.Log($"[SaveSystem] Flag Set: {flagKey}");
+            }
+        }
+
+        public static void RemoveFlag(string flagKey)
+        {
+            if (string.IsNullOrEmpty(flagKey)) return;
+            LoadOrCreate();
+
+            if (_current.gameFlags.Contains(flagKey))
+            {
+                _current.gameFlags.Remove(flagKey);
+                Save();
+            }
+        }
+
+        public static bool HasFlag(string flagKey)
+        {
+            if (string.IsNullOrEmpty(flagKey)) return false;
+            LoadOrCreate();
+            return _current.gameFlags.Contains(flagKey);
+        }
+
         public static void Clear()
         {
             _current = new SaveData();

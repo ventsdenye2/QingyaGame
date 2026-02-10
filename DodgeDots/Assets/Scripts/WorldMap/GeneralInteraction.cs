@@ -1,3 +1,4 @@
+using DodgeDots.Save;
 using DodgeDots.WorldMap;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace DodgeDots.Dialogue
 
         [Header("阶段事件")]
         public UnityEvent onDialogueStart;
-        [Tooltip("当这段对话结束时触发。可在此处调用 SetFlag 来解锁后续内容。")]
+        [Tooltip("当这段对话结束时触发。可在此处调用 SetGameFlag 来解锁后续内容。")]
         public UnityEvent onDialogueFinish;
     }
 
@@ -33,7 +34,7 @@ namespace DodgeDots.Dialogue
         [Tooltip("反转关卡条件：勾选后，只有在【未】通过该关卡时才触发。")]
         public bool triggerIfIncomplete = false;
 
-        [Tooltip("必须满足的自定义条件Flag（例如 'TalkedToBossTwice'）。\n只有当这些Key在存档中都为1时，此分支才会被选中。")]
+        [Tooltip("必须满足的自定义条件Flag（例如 'HasMetBoss'）。\n只有当这些Key在存档中都存在时，此分支才会被选中。")]
         public List<string> requiredFlags = new List<string>();
 
         [Header("流程配置")]
@@ -50,6 +51,7 @@ namespace DodgeDots.Dialogue
     public class GeneralInteraction : MonoBehaviour
     {
         [Header("唯一标识 (用于存档)")]
+        [Tooltip("必须设置唯一的ID，用于记录该NPC的对话进度")]
         public string interactionID;
 
         [Header("分支系统")]
@@ -81,28 +83,32 @@ namespace DodgeDots.Dialogue
                 _dialogueManager.OnDialogueEnded += OnDialogueEnded;
             }
 
+            // 尝试查找玩家
             var playerController = Object.FindFirstObjectByType<DodgeDots.WorldMap.PlayerWorldMapController>();
             if (playerController != null) _playerTransform = playerController.transform;
 
             if (interactionRenderer == null) interactionRenderer = GetComponent<SpriteRenderer>();
 
-            // --- 读取存档 ---
+            // --- 修改点 1：统一从 SaveSystem 加载所有状态 ---
             if (!string.IsNullOrEmpty(interactionID))
             {
-                _isPermanentlyDisabled = PlayerPrefs.GetInt($"Interaction_{interactionID}_Disabled", 0) == 1;
-
-                // 恢复每个分支的对话进度
-                for (int i = 0; i < branches.Count; i++)
-                {
-                    branches[i].currentIndex = PlayerPrefs.GetInt($"Interaction_{interactionID}_Branch_{i}_Index", 0);
-                }
+                LoadStateFromSaveSystem();
             }
 
             HideInteractionPrompt();
         }
 
-        private void OnEnable() { if (DialogueManager.Instance != null) DialogueManager.Instance.OnDialogueEnded += OnDialogueEnded; }
-        private void OnDisable() { if (DialogueManager.Instance != null) DialogueManager.Instance.OnDialogueEnded -= OnDialogueEnded; }
+        private void OnEnable()
+        {
+            if (DialogueManager.Instance != null)
+                DialogueManager.Instance.OnDialogueEnded += OnDialogueEnded;
+        }
+
+        private void OnDisable()
+        {
+            if (DialogueManager.Instance != null)
+                DialogueManager.Instance.OnDialogueEnded -= OnDialogueEnded;
+        }
 
         private void Update()
         {
@@ -110,10 +116,10 @@ namespace DodgeDots.Dialogue
 
             HandleRangeDetection();
 
-            // 修改判断：增加 HasAvailableInteraction() 检查
+            // 如果玩家在范围内，且没在对话，且按下了交互键
             if (_playerInRange && !_dialogueManager.IsDialogueActive && Input.GetKeyDown(interactionKey))
             {
-                // 这里再次检查以防万一
+                // 再次确认是否有内容可播放
                 if (HasAvailableInteraction())
                 {
                     StartInteraction();
@@ -122,7 +128,7 @@ namespace DodgeDots.Dialogue
         }
 
         /// <summary>
-        /// 核心判断逻辑：当前是否有可用的交互内容
+        /// 判断当前是否有可用的交互内容
         /// </summary>
         private bool HasAvailableInteraction()
         {
@@ -131,18 +137,16 @@ namespace DodgeDots.Dialogue
             // 获取当前符合条件的分支
             InteractionBranch branch = GetActiveBranch(out int index);
 
-            // 1. 如果没有任何分支满足条件，则无交互
+            // 没有任何分支满足条件，则无交互
             if (branch == null) return false;
 
-            // 2. 如果分支内没有配置对话，则视为无交互（或者你可以根据需求视为无动作交互）
+            // 分支内没有配置对话，则视为无交互
             if (branch.stages.Count == 0) return false;
 
-            // 3. 检查进度：
-            // 如果索引小于总数，说明还有新话要说 -> 返回 true
+            // 索引小于总数，返回 true
             if (branch.currentIndex < branch.stages.Count) return true;
 
-            // 4. 如果索引已达上限，检查是否允许循环
-            // 允许循环 -> 返回 true，不允许 -> 返回 false
+            // 索引已达上限，检查是否允许循环
             return branch.loopLastDialogue;
         }
 
@@ -151,7 +155,7 @@ namespace DodgeDots.Dialogue
         /// </summary>
         private void UpdatePromptState()
         {
-            // 只有当玩家在范围内 AND 有话可说时，才显示图标
+            // 只有当玩家在范围内且有话可说时，才显示图标
             if (_playerInRange && HasAvailableInteraction())
             {
                 ShowInteractionPrompt();
@@ -162,14 +166,30 @@ namespace DodgeDots.Dialogue
             }
         }
 
-        public void SetFlag(string flagKey)
+        /// <summary>
+        /// 设置游戏Flag (供 UnityEvent 调用)
+        /// </summary>
+        public void SetGameFlag(string flagKey)
         {
             if (string.IsNullOrEmpty(flagKey)) return;
-            PlayerPrefs.SetInt(flagKey, 1);
-            PlayerPrefs.Save();
-            Debug.Log($"[GeneralInteraction] Flag 已设置: {flagKey} = 1");
+
+            SaveSystem.SetFlag(flagKey);
+
+            Debug.Log($"[GeneralInteraction] Flag 已设置: {flagKey}");
         }
 
+        /// <summary>
+        /// 移除游戏Flag
+        /// </summary>
+        public void RemoveGameFlag(string flagKey)
+        {
+            if (string.IsNullOrEmpty(flagKey)) return;
+            SaveSystem.RemoveFlag(flagKey);
+        }
+
+        /// <summary>
+        /// 永久禁用此交互点
+        /// </summary>
         public void DisableInteractionForever()
         {
             _isPermanentlyDisabled = true;
@@ -178,14 +198,22 @@ namespace DodgeDots.Dialogue
 
             if (!string.IsNullOrEmpty(interactionID))
             {
-                PlayerPrefs.SetInt($"Interaction_{interactionID}_Disabled", 1);
-                PlayerPrefs.Save();
+                if (SaveSystem.Current == null) SaveSystem.LoadOrCreate();
+
+                string disabledKey = $"{interactionID}_DISABLED";
+                if (!SaveSystem.Current.interactionStates.Contains(disabledKey))
+                {
+                    SaveSystem.Current.interactionStates.Add(disabledKey);
+                    SaveSystem.Save();
+                }
             }
         }
 
         private void HandleRangeDetection()
         {
             if (_playerTransform == null || interactionRenderer == null) return;
+
+            // 简单的距离/范围检测
             Bounds b = interactionRenderer.bounds;
             b.Expand(interactRangeExpand);
             bool isInside = b.Contains(_playerTransform.position);
@@ -211,18 +239,25 @@ namespace DodgeDots.Dialogue
                 var branch = branches[i];
                 bool conditionMet = true;
 
-                if (!string.IsNullOrEmpty(branch.requiredLevelId) && WorldMapManager.Instance != null)
+                // 检查关卡条件
+                if (!string.IsNullOrEmpty(branch.requiredLevelId))
                 {
-                    bool isLevelCompleted = WorldMapManager.Instance.IsLevelCompleted(branch.requiredLevelId);
-                    if (branch.triggerIfIncomplete) conditionMet = !isLevelCompleted;
-                    else conditionMet = isLevelCompleted;
+                    // 确保 WorldMapManager 存在
+                    if (WorldMapManager.Instance != null)
+                    {
+                        bool isLevelCompleted = WorldMapManager.Instance.IsLevelCompleted(branch.requiredLevelId);
+                        if (branch.triggerIfIncomplete) conditionMet = !isLevelCompleted;
+                        else conditionMet = isLevelCompleted;
+                    }
                 }
 
+                // 检查 Flag 条件
                 if (conditionMet && branch.requiredFlags != null && branch.requiredFlags.Count > 0)
                 {
                     foreach (var flag in branch.requiredFlags)
                     {
-                        if (PlayerPrefs.GetInt(flag, 0) == 0)
+                        // 如果 flag 不存在，条件不满足
+                        if (!SaveSystem.HasFlag(flag))
                         {
                             conditionMet = false;
                             break;
@@ -243,10 +278,11 @@ namespace DodgeDots.Dialogue
         {
             InteractionBranch activeBranch = GetActiveBranch(out int branchIndex);
 
-            // 双重保险，虽然 HasAvailableInteraction 已经查过了
             if (activeBranch == null || activeBranch.stages.Count == 0) return;
 
             int stageIndex = activeBranch.currentIndex;
+
+            // 检查索引越界
             if (stageIndex >= activeBranch.stages.Count)
             {
                 if (activeBranch.loopLastDialogue) stageIndex = activeBranch.stages.Count - 1;
@@ -256,16 +292,18 @@ namespace DodgeDots.Dialogue
             _activeBranchIndex = branchIndex;
             DialogueStage currentStage = activeBranch.stages[stageIndex];
 
+            // 触发开始事件
             currentStage.onDialogueStart?.Invoke();
 
             if (currentStage.dialogueConfig != null)
             {
                 _isInteracting = true;
                 _dialogueManager.StartDialogue(currentStage.dialogueConfig);
-                HideInteractionPrompt(); // 交互开始时隐藏
+                HideInteractionPrompt();
             }
             else
             {
+                // 如果没有配置对话文件，直接视为完成（可能是纯触发事件的节点）
                 ExecuteStageFinish(activeBranch, currentStage);
             }
         }
@@ -291,22 +329,71 @@ namespace DodgeDots.Dialogue
             }
         }
 
+        // 保存自身进度到 SaveSystem
         private void ExecuteStageFinish(InteractionBranch branch, DialogueStage stage)
         {
             stage.onDialogueFinish?.Invoke();
 
             if (_isPermanentlyDisabled) return;
 
+            // 进度 +1
             branch.currentIndex++;
-            if (!string.IsNullOrEmpty(interactionID))
+
+            // 保存到 SaveSystem
+            int branchIdx = branches.IndexOf(branch);
+            SaveStateToSystem(branchIdx, branch.currentIndex);
+
+            // 重新检查是否还有话要说，更新图标
+            UpdatePromptState();
+        }
+
+        private void SaveStateToSystem(int branchIndex, int stageIndex)
+        {
+            if (string.IsNullOrEmpty(interactionID)) return;
+
+            if (SaveSystem.Current == null) SaveSystem.LoadOrCreate();
+
+            // 移除旧的状态记录 (简单覆盖)
+            SaveSystem.Current.interactionStates.RemoveAll(s => s.StartsWith($"{interactionID}:"));
+
+            // 添加新记录: "ID:BranchIndex:StageIndex"
+            string newState = $"{interactionID}:{branchIndex}:{stageIndex}";
+            SaveSystem.Current.interactionStates.Add(newState);
+
+            // 立即写入硬盘
+            SaveSystem.Save();
+        }
+
+        // 从 SaveSystem 恢复状态
+        private void LoadStateFromSaveSystem()
+        {
+            if (SaveSystem.Current == null) SaveSystem.LoadOrCreate();
+
+            // 1. 检查是否被禁用
+            if (SaveSystem.Current.interactionStates.Contains($"{interactionID}_DISABLED"))
             {
-                PlayerPrefs.SetInt($"Interaction_{interactionID}_Branch_{branches.IndexOf(branch)}_Index", branch.currentIndex);
-                PlayerPrefs.Save();
+                _isPermanentlyDisabled = true;
+                return;
             }
 
-            // 对话结束后，重新计算是否还需要显示图标
-            // 如果刚刚播的是最后一句且 loop=false，这里就会隐藏图标
-            UpdatePromptState();
+            // 2. 恢复分支进度
+            foreach (var state in SaveSystem.Current.interactionStates)
+            {
+                if (state.StartsWith($"{interactionID}:"))
+                {
+                    string[] parts = state.Split(':');
+                    if (parts.Length >= 3)
+                    {
+                        if (int.TryParse(parts[1], out int bIndex) && int.TryParse(parts[2], out int sIndex))
+                        {
+                            if (bIndex >= 0 && bIndex < branches.Count)
+                            {
+                                branches[bIndex].currentIndex = sIndex;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void ShowInteractionPrompt() { if (interactionPrompt) interactionPrompt.SetActive(true); }

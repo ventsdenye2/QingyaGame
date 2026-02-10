@@ -1,3 +1,4 @@
+using DodgeDots.Save;
 using System;
 using UnityEngine;
 
@@ -127,9 +128,19 @@ namespace DodgeDots.Dialogue
         /// </summary>
         public void EndDialogue()
         {
+            if (currentDialogue != null)
+            {
+                if (SaveSystem.Current == null) SaveSystem.LoadOrCreate();
+
+                string id = currentDialogue.name; // 或者 dialogueId
+                if (!SaveSystem.Current.finishedDialogues.Contains(id))
+                {
+                    SaveSystem.Current.finishedDialogues.Add(id);
+                    SaveSystem.Save(); // 立即保存
+                }
+            }
+
             _isDialogueActive = false;
-            _currentNode = null;
-            currentDialogue = null;
             OnDialogueEnded?.Invoke();
         }
 

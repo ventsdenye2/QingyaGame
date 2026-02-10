@@ -120,6 +120,8 @@ namespace DodgeDots.WorldMap
             // 加载关卡场景
             if (!string.IsNullOrEmpty(node.NodeData.sceneName))
             {
+                // 离开大世界前强制存档 ---
+                SaveProgress();
                 // 使用加载管理器进行异步跳转
                 DodgeDots.UI.LoadingManager.Instance.LoadScene(node.NodeData.sceneName);
             }
