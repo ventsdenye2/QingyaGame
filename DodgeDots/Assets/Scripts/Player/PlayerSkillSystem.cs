@@ -517,6 +517,22 @@ namespace DodgeDots.Player
         {
             if (spriteRenderer == null) return;
 
+            if (_isAttackActive)
+            {
+                // 视觉优先级：攻击形象 > 护盾形象。
+                // 需求：开盾期间左键释放“刀形象”的近战技能时，应显示刀而不是一直保持盾。
+                if (attackActiveSprite != null)
+                {
+                    spriteRenderer.sprite = attackActiveSprite;
+                }
+                else if (_originalSprite != null)
+                {
+                    spriteRenderer.sprite = _originalSprite;
+                }
+                spriteRenderer.color = skillInactiveColor;
+                return;
+            }
+
             if (_isShieldActive)
             {
                 if (skillActiveSprite != null)
@@ -532,20 +548,6 @@ namespace DodgeDots.Player
                     }
                     spriteRenderer.color = skillActiveColor;
                 }
-                return;
-            }
-
-            if (_isAttackActive)
-            {
-                if (attackActiveSprite != null)
-                {
-                    spriteRenderer.sprite = attackActiveSprite;
-                }
-                else if (_originalSprite != null)
-                {
-                    spriteRenderer.sprite = _originalSprite;
-                }
-                spriteRenderer.color = skillInactiveColor;
                 return;
             }
 
