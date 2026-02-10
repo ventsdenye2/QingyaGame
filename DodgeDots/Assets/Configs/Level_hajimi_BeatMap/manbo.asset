@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2858391113ed7c54c8eaa40d5ae1cde2, type: 3}
+  m_Name: manbo
+  m_EditorClassIdentifier: 
+  beatTimes:
+  - 5.7946666666666715
+  - 8.823999999999842
+  - 11.767999999999915
+  - 14.7973333333332
+  - 17.76266666666652
+  - 20.770666666666557
+  - 23.778666666666595
+  - 26.765333333333274
+  - 29.87999999999988
+  - 32.73866666666663
+  - 35.76800000000003
+  - 38.7973333333332
+  - 41.78399999999988
+  - 44.7493333333332
+  - 47.799999999999955
+  - 50.78666666666663
+  - 53.79466666666667
+  - 56.73866666666663
+  - 59.76800000000003
+  - 62.75466666666671

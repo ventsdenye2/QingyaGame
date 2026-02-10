@@ -16,11 +16,13 @@ namespace DodgeDots.UI
         [SerializeField] private BossBase boss;
         [SerializeField] private PlayerHealth playerHealth;
         
-        [Header("功能设置")]
-        [Tooltip("勾选时：文案显示期间玩家对伤害（如Boss弹幕）免疫")]
+        [Header("Settings")]
+        [Tooltip("When enabled, player is invincible to damage (e.g., boss bullets) during dialogue.")]
         [SerializeField] private bool enableDialogueInvincible = true;
-        
-        [Header("UI组件")]
+        [Tooltip("Allow dialogue to pause the game (Time.timeScale = 0). Disable to keep boss moving/attacking.")]
+        [SerializeField] private bool allowPauseGameForDialogue = false;
+
+        [Header("UI Components")]
         [SerializeField] private CanvasGroup dialogueCanvasGroup;
         [SerializeField] private TextMeshProUGUI phaseNameText;
         [SerializeField] private TextMeshProUGUI dialogueText;
@@ -140,16 +142,18 @@ namespace DodgeDots.UI
                 Debug.LogWarning("dialogueText 为空！");
             }
 
-            // 暂停游戏（如果配置了）
-            if (dialogue.pauseGameForDialogue)
+            bool shouldPauseGame = allowPauseGameForDialogue && dialogue.pauseGameForDialogue;
+
+            // Pause game (if allowed and configured)
+            if (shouldPauseGame)
             {
                 Time.timeScale = 0f;
             }
 
-            // 等待显示时间
+            // Wait for display duration
             float waitTime = dialogue.dialogueDuration > 0 ? dialogue.dialogueDuration : 3f;
             
-            if (dialogue.pauseGameForDialogue)
+            if (shouldPauseGame)
             {
                 yield return new WaitForSecondsRealtime(waitTime);
             }
@@ -158,11 +162,12 @@ namespace DodgeDots.UI
                 yield return new WaitForSeconds(waitTime);
             }
 
-            // 恢复游戏速度
-            if (dialogue.pauseGameForDialogue)
+            // Resume game speed
+            if (shouldPauseGame)
             {
                 Time.timeScale = 1f;
             }
+
 
             // 淡出
             yield return StartCoroutine(FadeOutCoroutine());
