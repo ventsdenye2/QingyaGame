@@ -55,8 +55,11 @@ namespace DodgeDots.Player
         private PlayerSkillManager _skillManager;
         private Rigidbody2D _rigidbody;
         private CircleCollider2D _collider;
-        private bool _isSkillActive = false;
-        private Coroutine _skillCoroutine;
+        private bool _isAttackActive = false;
+        private bool _isShieldActive = false;
+        private int _skillInvincibleRefCount = 0;
+        private Coroutine _attackCoroutine;
+        private Coroutine _shieldCoroutine;
         private Coroutine _instantSkillVisualCoroutine;
         private GameObject _bossGameObject;
         private Enemy.BossBase _boss;
@@ -75,7 +78,7 @@ namespace DodgeDots.Player
             Resurrection
         }
 
-        public bool IsSkillActive => _isSkillActive;
+        public bool IsSkillActive => _isAttackActive || _isShieldActive;
 
         public event Action OnSkillStarted;
         public event Action OnSkillEnded;
@@ -149,7 +152,7 @@ namespace DodgeDots.Player
         /// </summary>
         private void TryActivateAttackSkill()
         {
-            if (_isSkillActive)
+            if (_isAttackActive)
             {
                 return; // 技能正在进行中，无法再次激活
             }
@@ -189,13 +192,13 @@ namespace DodgeDots.Player
         /// </summary>
         private void ActivateAttackSkill()
         {
-            if (_skillCoroutine != null)
+            if (_attackCoroutine != null)
             {
-                StopCoroutine(_skillCoroutine);
+                StopCoroutine(_attackCoroutine);
             }
 
             Debug.Log("攻击技能激活！");
-            _skillCoroutine = StartCoroutine(AttackSkillCoroutine());
+            _attackCoroutine = StartCoroutine(AttackSkillCoroutine());
         }
 
         /// <summary>
@@ -203,15 +206,14 @@ namespace DodgeDots.Player
         /// </summary>
         private IEnumerator AttackSkillCoroutine()
         {
-            _isSkillActive = true;
-            OnSkillStarted?.Invoke();
-
-            ApplySkillVisual(PlayerSkillType.AttackMelee);
-
-            if (_playerHealth != null)
+            int beforeCount = GetActiveSkillCount();
+            _isAttackActive = true;
+            if (beforeCount == 0)
             {
-                _playerHealth.SetSkillInvincible(true);
+                OnSkillStarted?.Invoke();
             }
+
+            UpdateSkillVisual();
 
             // 记录初始位置
             _lastFramePosition = transform.position;
@@ -232,7 +234,7 @@ namespace DodgeDots.Player
                 yield return null;
             }
 
-            EndCurrentSkill();
+            EndAttackSkill();
         }
 
         private IEnumerator FireHomingShotBurst(Enemy.BossBase boss)
@@ -298,7 +300,7 @@ namespace DodgeDots.Player
         /// </summary>
         private void TryActivateShieldSkill()
         {
-            if (_isSkillActive)
+            if (_isShieldActive)
             {
                 return; // 技能正在进行中，无法再次激活
             }
@@ -323,14 +325,14 @@ namespace DodgeDots.Player
         /// </summary>
         private void ActivateShieldSkill()
         {
-            if (_skillCoroutine != null)
+            if (_shieldCoroutine != null)
             {
-                StopCoroutine(_skillCoroutine);
+                StopCoroutine(_shieldCoroutine);
             }
 
             Debug.Log("护盾技能激活！");
             PlayShieldSfx();
-            _skillCoroutine = StartCoroutine(ShieldSkillCoroutine());
+            _shieldCoroutine = StartCoroutine(ShieldSkillCoroutine());
         }
 
         /// <summary>
@@ -338,26 +340,16 @@ namespace DodgeDots.Player
         /// </summary>
         private IEnumerator ShieldSkillCoroutine()
         {
-            _isSkillActive = true;
-            OnSkillStarted?.Invoke();
-
-            ApplySkillVisual(PlayerSkillType.Shield);
-
-            // 改变护盾视觉效果
-            if (spriteRenderer != null)
+            int beforeCount = GetActiveSkillCount();
+            _isShieldActive = true;
+            if (beforeCount == 0)
             {
-                if (skillActiveSprite != null)
-                {
-                    spriteRenderer.sprite = skillActiveSprite;
-                }
-                else
-                {
-                    spriteRenderer.color = skillActiveColor;
-                }
+                OnSkillStarted?.Invoke();
             }
+            UpdateSkillVisual();
             if (_playerHealth != null)
             {
-                _playerHealth.SetSkillInvincible(true);
+                SetSkillInvincible(true);
             }
 
             float elapsedTime = 0f;
@@ -367,7 +359,7 @@ namespace DodgeDots.Player
                 yield return null;
             }
 
-            EndCurrentSkill();
+            EndShieldSkill();
         }
 
         /// <summary>
@@ -441,13 +433,19 @@ namespace DodgeDots.Player
         /// </summary>
         public void EndSkill()
         {
-            if (_skillCoroutine != null)
+            if (_attackCoroutine != null)
             {
-                StopCoroutine(_skillCoroutine);
-                _skillCoroutine = null;
+                StopCoroutine(_attackCoroutine);
+                _attackCoroutine = null;
+            }
+            if (_shieldCoroutine != null)
+            {
+                StopCoroutine(_shieldCoroutine);
+                _shieldCoroutine = null;
             }
 
-            EndCurrentSkill();
+            EndAttackSkill();
+            EndShieldSkill();
         }
 
         /// <summary>
@@ -469,23 +467,93 @@ namespace DodgeDots.Player
         /// <summary>
         /// 结束当前技能并清理状态
         /// </summary>
-        private void EndCurrentSkill()
+        private void EndAttackSkill()
         {
-            _isSkillActive = false;
-            OnSkillEnded?.Invoke();
-
-            if (spriteRenderer != null)
+            if (!_isAttackActive) return;
+            int beforeCount = GetActiveSkillCount();
+            _isAttackActive = false;
+            UpdateSkillVisual();
+            if (beforeCount > 0 && GetActiveSkillCount() == 0)
             {
-                if (_originalSprite != null)
+                OnSkillEnded?.Invoke();
+            }
+        }
+
+        private void EndShieldSkill()
+        {
+            if (!_isShieldActive) return;
+            int beforeCount = GetActiveSkillCount();
+            _isShieldActive = false;
+            SetSkillInvincible(false);
+            UpdateSkillVisual();
+            if (beforeCount > 0 && GetActiveSkillCount() == 0)
+            {
+                OnSkillEnded?.Invoke();
+            }
+        }
+
+        private void SetSkillInvincible(bool active)
+        {
+            if (_playerHealth != null)
+            {
+                if (active)
+                {
+                    _skillInvincibleRefCount++;
+                }
+                else
+                {
+                    _skillInvincibleRefCount = Mathf.Max(0, _skillInvincibleRefCount - 1);
+                }
+                _playerHealth.SetSkillInvincible(_skillInvincibleRefCount > 0);
+            }
+        }
+
+        private int GetActiveSkillCount()
+        {
+            return (_isAttackActive ? 1 : 0) + (_isShieldActive ? 1 : 0);
+        }
+
+        private void UpdateSkillVisual()
+        {
+            if (spriteRenderer == null) return;
+
+            if (_isShieldActive)
+            {
+                if (skillActiveSprite != null)
+                {
+                    spriteRenderer.sprite = skillActiveSprite;
+                    spriteRenderer.color = Color.white;
+                }
+                else
+                {
+                    if (_originalSprite != null)
+                    {
+                        spriteRenderer.sprite = _originalSprite;
+                    }
+                    spriteRenderer.color = skillActiveColor;
+                }
+                return;
+            }
+
+            if (_isAttackActive)
+            {
+                if (attackActiveSprite != null)
+                {
+                    spriteRenderer.sprite = attackActiveSprite;
+                }
+                else if (_originalSprite != null)
                 {
                     spriteRenderer.sprite = _originalSprite;
                 }
                 spriteRenderer.color = skillInactiveColor;
+                return;
             }
-            if (_playerHealth != null)
+
+            if (_originalSprite != null)
             {
-                _playerHealth.SetSkillInvincible(false);
+                spriteRenderer.sprite = _originalSprite;
             }
+            spriteRenderer.color = skillInactiveColor;
         }
 
         /// <summary>
@@ -666,11 +734,7 @@ namespace DodgeDots.Player
             ApplySkillVisual(skillType);
             yield return new WaitForSeconds(Mathf.Max(0f, instantSkillSpriteDuration));
 
-            if (_originalSprite != null)
-            {
-                spriteRenderer.sprite = _originalSprite;
-            }
-            spriteRenderer.color = skillInactiveColor;
+            UpdateSkillVisual();
         }
     }
 }

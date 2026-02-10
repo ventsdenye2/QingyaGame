@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DodgeDots.Save;
 
 namespace DodgeDots.WorldMap
 {
@@ -81,13 +82,13 @@ namespace DodgeDots.WorldMap
         /// </summary>
         private void LoadProgress()
         {
-            // TODO: 从存档系统加载进度
-            // 这里先使用简单的PlayerPrefs实现
-            string completedData = PlayerPrefs.GetString("CompletedLevels", "");
-            if (!string.IsNullOrEmpty(completedData))
+            SaveSystem.LoadOrCreate();
+            _completedLevels.Clear();
+            _unlockedLevels.Clear();
+
+            if (SaveSystem.Current != null && SaveSystem.Current.completedLevels != null)
             {
-                string[] completed = completedData.Split(',');
-                foreach (var levelId in completed)
+                foreach (var levelId in SaveSystem.Current.completedLevels)
                 {
                     if (!string.IsNullOrEmpty(levelId))
                     {
@@ -102,6 +103,7 @@ namespace DodgeDots.WorldMap
                 UnlockLevel(mapConfig.initialUnlockedLevelId);
             }
 
+            RebuildUnlocksFromCompleted();
             UpdateAllNodeStates();
         }
 
@@ -177,11 +179,36 @@ namespace DodgeDots.WorldMap
         /// </summary>
         private void SaveProgress()
         {
-            // TODO: 使用存档系统保存进度
-            // 这里先使用简单的PlayerPrefs实现
-            string completedData = string.Join(",", _completedLevels);
-            PlayerPrefs.SetString("CompletedLevels", completedData);
-            PlayerPrefs.Save();
+            if (SaveSystem.Current == null)
+            {
+                SaveSystem.LoadOrCreate();
+            }
+
+            SaveSystem.Current.completedLevels.Clear();
+            SaveSystem.Current.completedLevels.AddRange(_completedLevels);
+            SaveSystem.Current.lastScene = SceneManager.GetActiveScene().name;
+            SaveSystem.Save();
+        }
+
+        private void RebuildUnlocksFromCompleted()
+        {
+            foreach (var levelId in _completedLevels)
+            {
+                if (string.IsNullOrEmpty(levelId)) continue;
+
+                _unlockedLevels.Add(levelId);
+
+                if (_nodeDict.TryGetValue(levelId, out var node) && node != null && node.NextNodes != null)
+                {
+                    foreach (var nextNode in node.NextNodes)
+                    {
+                        if (nextNode != null)
+                        {
+                            UnlockLevel(nextNode.LevelId);
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
