@@ -486,6 +486,20 @@ namespace DodgeDots.Enemy
                     );
                     break;
 
+                case BossAttackType.Character:
+                    if (attackAction.characterPattern != null)
+                    {
+                        StartCoroutine(SpawnCharacterPattern(
+                            position,
+                            attackAction.characterPattern
+                        ));
+                    }
+                    else
+                    {
+                        Debug.LogWarning("汉字弹幕模式配置为空");
+                    }
+                    break;
+
                 case BossAttackType.Custom:
                     OnCustomAttackAction(attackAction);
                     break;
@@ -498,6 +512,115 @@ namespace DodgeDots.Enemy
         protected virtual void OnCustomAttackAction(BossAttackAction attackAction)
         {
             Debug.LogWarning($"自定义攻击 {attackAction.customAttackId} 未实现");
+        }
+
+        /// <summary>
+        /// 协程：生成汉字弹幕
+        /// </summary>
+        private IEnumerator SpawnCharacterPattern(Vector2 centerPosition, CharacterBulletPattern pattern)
+        {
+            if (pattern == null || pattern.bulletPositions == null || pattern.bulletPositions.Length == 0)
+            {
+                Debug.LogWarning("汉字弹幕配置无效");
+                yield break;
+            }
+
+            Vector2[] positions = pattern.GetAllScaledPositions();
+            BulletConfig config = pattern.bulletConfig;
+
+            if (pattern.spawnDelay > 0f)
+            {
+                // 逐个生成弹幕
+                float delayPerBullet = pattern.spawnDelay / positions.Length;
+
+                for (int i = 0; i < positions.Length; i++)
+                {
+                    Vector2 spawnPos = centerPosition + positions[i];
+                    Vector2 direction = Vector2.zero;
+                    float speed = 0f;
+
+                    // 根据运动模式设置方向和速度
+                    switch (pattern.movementMode)
+                    {
+                        case CharacterBulletMovementMode.Static:
+                            // 静止不动
+                            direction = Vector2.zero;
+                            speed = 0f;
+                            break;
+
+                        case CharacterBulletMovementMode.UniformDirection:
+                            // 统一方向移动
+                            float angleRad = pattern.uniformDirection * Mathf.Deg2Rad;
+                            direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
+                            speed = pattern.uniformSpeed;
+                            break;
+
+                        case CharacterBulletMovementMode.ExpandOutward:
+                            // 朝外扩散
+                            direction = positions[i].normalized;
+                            if (direction.sqrMagnitude < 0.0001f)
+                            {
+                                direction = Vector2.up;
+                            }
+                            speed = pattern.expandSpeed;
+                            break;
+                    }
+
+                    var bullet = _bulletManager.SpawnBullet(spawnPos, direction, Team.Enemy, config);
+                    if (bullet != null)
+                    {
+                        bullet.SetSpeed(speed);
+                    }
+
+                    if (i < positions.Length - 1)
+                    {
+                        yield return new WaitForSeconds(delayPerBullet);
+                    }
+                }
+            }
+            else
+            {
+                // 同时生成所有弹幕
+                for (int i = 0; i < positions.Length; i++)
+                {
+                    Vector2 spawnPos = centerPosition + positions[i];
+                    Vector2 direction = Vector2.zero;
+                    float speed = 0f;
+
+                    // 根据运动模式设置方向和速度
+                    switch (pattern.movementMode)
+                    {
+                        case CharacterBulletMovementMode.Static:
+                            // 静止不动
+                            direction = Vector2.zero;
+                            speed = 0f;
+                            break;
+
+                        case CharacterBulletMovementMode.UniformDirection:
+                            // 统一方向移动
+                            float angleRad = pattern.uniformDirection * Mathf.Deg2Rad;
+                            direction = new Vector2(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
+                            speed = pattern.uniformSpeed;
+                            break;
+
+                        case CharacterBulletMovementMode.ExpandOutward:
+                            // 朝外扩散
+                            direction = positions[i].normalized;
+                            if (direction.sqrMagnitude < 0.0001f)
+                            {
+                                direction = Vector2.up;
+                            }
+                            speed = pattern.expandSpeed;
+                            break;
+                    }
+
+                    var bullet = _bulletManager.SpawnBullet(spawnPos, direction, Team.Enemy, config);
+                    if (bullet != null)
+                    {
+                        bullet.SetSpeed(speed);
+                    }
+                }
+            }
         }
 
         /// <summary>

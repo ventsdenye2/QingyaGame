@@ -14,6 +14,7 @@ namespace DodgeDots.Enemy
         Spiral,         // 螺旋弹幕
         Flower,         // 花型弹幕
         Aiming,         // 自机狙（瞄准玩家）
+        Character,      // 汉字弹幕
         Custom          // 自定义攻击（需要在Boss子类中实现）
     }
 
@@ -126,6 +127,10 @@ namespace DodgeDots.Enemy
 
         [Tooltip("是否预判玩家移动")]
         public bool aimingPredictMovement = false;
+
+        [Header("汉字弹幕参数")]
+        [Tooltip("汉字弹幕模式配置")]
+        public CharacterBulletPattern characterPattern;
 
         [Header("自定义攻击参数")]
         [Tooltip("自定义攻击的ID（用于在Boss子类中识别）")]
@@ -306,6 +311,10 @@ namespace DodgeDots.Enemy
 
         [Tooltip("是否预判玩家移动")]
         public bool aimingPredictMovement = false;
+
+        [Header("汉字弹幕参数")]
+        [Tooltip("汉字弹幕模式配置")]
+        public CharacterBulletPattern characterPattern;
 
         [Header("自定义攻击参数")]
         [Tooltip("自定义攻击的ID（用于在Boss子类中识别）")]
