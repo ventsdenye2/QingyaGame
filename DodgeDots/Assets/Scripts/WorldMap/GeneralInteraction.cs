@@ -61,7 +61,11 @@ namespace DodgeDots.Dialogue
         [Header("交互设置")]
         [SerializeField] private KeyCode interactionKey = KeyCode.E;
         [SerializeField] private GameObject interactionPrompt;
+
+        [Header("视觉组件")] // 新增分类
         [SerializeField] private SpriteRenderer interactionRenderer;
+        [SerializeField] private Material outlineMaterial; // 新增：描边材质
+
         [SerializeField] private float interactRangeExpand = 0.4f;
         [SerializeField] private LevelNode targetLevelNode;
 
@@ -70,6 +74,7 @@ namespace DodgeDots.Dialogue
         private bool _isInteracting = false;
         private Transform _playerTransform;
         private bool _isPermanentlyDisabled = false;
+        private Material _defaultMaterial;
 
         // 记录当前正在运行的分支索引
         private int _activeBranchIndex = -1;
@@ -89,7 +94,11 @@ namespace DodgeDots.Dialogue
 
             if (interactionRenderer == null) interactionRenderer = GetComponent<SpriteRenderer>();
 
-            // --- 修改点 1：统一从 SaveSystem 加载所有状态 ---
+            if (interactionRenderer != null)
+            {
+                _defaultMaterial = interactionRenderer.sharedMaterial;
+            }
+            // --- 统一从 SaveSystem 加载所有状态 ---
             if (!string.IsNullOrEmpty(interactionID))
             {
                 LoadStateFromSaveSystem();
@@ -116,14 +125,36 @@ namespace DodgeDots.Dialogue
 
             HandleRangeDetection();
 
-            // 如果玩家在范围内，且没在对话，且按下了交互键
+            if (_playerInRange && !_dialogueManager.IsDialogueActive)
+            {
+                UpdatePromptState();
+            }
+            // 不在范围内或者正在对话，隐藏
+            else
+            {
+                HideInteractionPrompt();
+            }
+            // 处理交互输入
             if (_playerInRange && !_dialogueManager.IsDialogueActive && Input.GetKeyDown(interactionKey))
             {
-                // 再次确认是否有内容可播放
                 if (HasAvailableInteraction())
                 {
                     StartInteraction();
                 }
+            }
+        }
+
+        /// <summary>
+        /// 切换高亮描边状态
+        /// </summary>
+        private void ToggleHighlight(bool show)
+        {
+            if (interactionRenderer == null) return;
+
+            // 如果有描边材质，则切换；否则保持原样
+            if (outlineMaterial != null && _defaultMaterial != null)
+            {
+                interactionRenderer.material = show ? outlineMaterial : _defaultMaterial;
             }
         }
 
@@ -216,7 +247,12 @@ namespace DodgeDots.Dialogue
             // 简单的距离/范围检测
             Bounds b = interactionRenderer.bounds;
             b.Expand(interactRangeExpand);
-            bool isInside = b.Contains(_playerTransform.position);
+            // 构造一个检测点，强制把玩家的 Z 轴“移动”到包围盒的中心 Z 轴上
+            // 等于完全忽略了 Z 轴的深度差，只判断 X 和 Y 是否在框内
+            Vector3 checkPos = _playerTransform.position;
+            checkPos.z = b.center.z;
+
+            bool isInside = b.Contains(checkPos);
 
             if (isInside != _playerInRange)
             {
@@ -224,6 +260,8 @@ namespace DodgeDots.Dialogue
 
                 // 状态改变时，更新图标显示逻辑
                 UpdatePromptState();
+                // 应用描边效果
+                ToggleHighlight(_playerInRange);
 
                 if (targetLevelNode != null) targetLevelNode.SetPlayerNear(_playerInRange);
             }
