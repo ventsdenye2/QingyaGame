@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,175 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Spoon_move_0
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 366
+        width: 511
+        height: 862
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9d84ef32051a374d962ad49061e361c
+      internalID: 1652784245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spoon_move_1
+      rect:
+        serializedVersion: 2
+        x: 1516
+        y: 364
+        width: 629
+        height: 1010
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aead8cb9d44a7ee4993772f9ab8f82d2
+      internalID: 599564040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spoon_move_2
+      rect:
+        serializedVersion: 2
+        x: 2329
+        y: 366
+        width: 596
+        height: 866
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdb3e90400178bf47a4ba0d81a8e7363
+      internalID: -1204935170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spoon_move_3
+      rect:
+        serializedVersion: 2
+        x: 3120
+        y: 361
+        width: 525
+        height: 935
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8bbd585af336fa4094a190ec14e85cf
+      internalID: -1117057222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spoon_move_4
+      rect:
+        serializedVersion: 2
+        x: 3827
+        y: 367
+        width: 534
+        height: 1060
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc712695659da0d4b8e681941244b7aa
+      internalID: -995989292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spoon_move_5
+      rect:
+        serializedVersion: 2
+        x: 4551
+        y: 364
+        width: 513
+        height: 1017
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23df31334e167484f95be75497fbe4b4
+      internalID: -821722484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spoon_move_6
+      rect:
+        serializedVersion: 2
+        x: 5211
+        y: 371
+        width: 556
+        height: 907
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcabd37db91061d499df83cb10ad3b2c
+      internalID: -1150861012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Spoon_move_7
+      rect:
+        serializedVersion: 2
+        x: 5960
+        y: 312
+        width: 511
+        height: 891
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe1a53e7a777859468c25e6427d8e40e
+      internalID: 886089173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +287,15 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Spoon_move_0: 1652784245
+      Spoon_move_1: 599564040
+      Spoon_move_2: -1204935170
+      Spoon_move_3: -1117057222
+      Spoon_move_4: -995989292
+      Spoon_move_5: -821722484
+      Spoon_move_6: -1150861012
+      Spoon_move_7: 886089173
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

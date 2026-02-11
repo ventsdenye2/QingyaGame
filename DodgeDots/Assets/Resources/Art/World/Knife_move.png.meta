@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,196 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Knife_move_0
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 316
+        width: 373
+        height: 852
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 725c7c1120ac61940bf7dce822315d0c
+      internalID: 1014208179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Knife_move_1
+      rect:
+        serializedVersion: 2
+        x: 1725
+        y: 344
+        width: 496
+        height: 959
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee44f3353254fa641b151da95a5eec69
+      internalID: 127985701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Knife_move_2
+      rect:
+        serializedVersion: 2
+        x: 2407
+        y: 334
+        width: 613
+        height: 1089
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d84452bb5a97a764980228c44c1b4f0f
+      internalID: -802863019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Knife_move_3
+      rect:
+        serializedVersion: 2
+        x: 3220
+        y: 334
+        width: 606
+        height: 1423
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b22ed5c16f7e0245ab9255d3a469a3c
+      internalID: -969755332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Knife_move_4
+      rect:
+        serializedVersion: 2
+        x: 4011
+        y: 334
+        width: 376
+        height: 1632
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34414e54962ef2e44a6d73cd22ca54ef
+      internalID: 907383112
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Knife_move_5
+      rect:
+        serializedVersion: 2
+        x: 4565
+        y: 341
+        width: 608
+        height: 1455
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3c61a5c636396f4393e357cd7b620fb
+      internalID: 1546995610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Knife_move_6
+      rect:
+        serializedVersion: 2
+        x: 5357
+        y: 331
+        width: 562
+        height: 1092
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 116effbb581deeb4c88d16682c87412b
+      internalID: -953943514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Knife_move_7
+      rect:
+        serializedVersion: 2
+        x: 1097
+        y: 348
+        width: 437
+        height: 546
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 739eb74fe5ee273438dadf88770e2a6b
+      internalID: -922460003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Knife_move_8
+      rect:
+        serializedVersion: 2
+        x: 6102
+        y: 319
+        width: 444
+        height: 554
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac42515b0baef2543a18c756e411eead
+      internalID: -111505125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +308,16 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Knife_move_0: 1014208179
+      Knife_move_1: 127985701
+      Knife_move_2: -802863019
+      Knife_move_3: -969755332
+      Knife_move_4: 907383112
+      Knife_move_5: 1546995610
+      Knife_move_6: -953943514
+      Knife_move_7: -922460003
+      Knife_move_8: -111505125
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

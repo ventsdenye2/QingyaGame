@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,238 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Chopsticks_move_0
+      rect:
+        serializedVersion: 2
+        x: 1019
+        y: 543
+        width: 319
+        height: 962
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4392d15dc6d628a4c84358615cd3c3ff
+      internalID: -1701503599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chopsticks_move_1
+      rect:
+        serializedVersion: 2
+        x: 1473
+        y: 1402
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24997c6ce7bc93244b13405e0ed5caba
+      internalID: -1997152512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chopsticks_move_2
+      rect:
+        serializedVersion: 2
+        x: 1502
+        y: 540
+        width: 539
+        height: 983
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2828e5d89436f446a5c32b15579f860
+      internalID: 335493407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chopsticks_move_3
+      rect:
+        serializedVersion: 2
+        x: 2236
+        y: 547
+        width: 419
+        height: 993
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ffc22e524d7174499ce266b98b53543
+      internalID: 1376789144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chopsticks_move_4
+      rect:
+        serializedVersion: 2
+        x: 2850
+        y: 561
+        width: 245
+        height: 1054
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce32ce526f2d2334d962178dd82b2517
+      internalID: -387007074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chopsticks_move_5
+      rect:
+        serializedVersion: 2
+        x: 3291
+        y: 547
+        width: 429
+        height: 1004
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f03d20640b306764d937ec905194181e
+      internalID: -1125476905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chopsticks_move_6
+      rect:
+        serializedVersion: 2
+        x: 3915
+        y: 547
+        width: 622
+        height: 912
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10db9b118a746f24dbd0406c903394e7
+      internalID: 729250597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chopsticks_move_7
+      rect:
+        serializedVersion: 2
+        x: 4739
+        y: 564
+        width: 493
+        height: 987
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80be84c04d8e20c40bf8111cabb872b2
+      internalID: 855041462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chopsticks_move_8
+      rect:
+        serializedVersion: 2
+        x: 5428
+        y: 564
+        width: 344
+        height: 969
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a706f6b5091a3814fac116f93afaee56
+      internalID: -1739036238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chopsticks_move_9
+      rect:
+        serializedVersion: 2
+        x: 5967
+        y: 568
+        width: 270
+        height: 972
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe25bc72c05a7bf409b520eef0f28915
+      internalID: -1715899176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Chopsticks_move_10
+      rect:
+        serializedVersion: 2
+        x: 2584
+        y: 525
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c9b603e0cecfd941998e97fcaead403
+      internalID: -63344384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +350,18 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Chopsticks_move_0: -1701503599
+      Chopsticks_move_1: -1997152512
+      Chopsticks_move_10: -63344384
+      Chopsticks_move_2: 335493407
+      Chopsticks_move_3: 1376789144
+      Chopsticks_move_4: -387007074
+      Chopsticks_move_5: -1125476905
+      Chopsticks_move_6: 729250597
+      Chopsticks_move_7: 855041462
+      Chopsticks_move_8: -1739036238
+      Chopsticks_move_9: -1715899176
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

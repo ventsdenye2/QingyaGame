@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,196 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Fork_move_0
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 490
+        width: 494
+        height: 955
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bea06f3396e5a124fa4224190d134a78
+      internalID: -1718475715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fork_move_1
+      rect:
+        serializedVersion: 2
+        x: 1111
+        y: 497
+        width: 472
+        height: 759
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2529ef1aaac3bf24ba6e41be74dfa65b
+      internalID: 1863910120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fork_move_2
+      rect:
+        serializedVersion: 2
+        x: 1775
+        y: 490
+        width: 474
+        height: 987
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05c6a1f5209c7a74da01b1e522986359
+      internalID: 1530355513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fork_move_3
+      rect:
+        serializedVersion: 2
+        x: 2460
+        y: 494
+        width: 595
+        height: 1316
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd7d8c67128b15c4eb2916b8229652fd
+      internalID: -2059122068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fork_move_4
+      rect:
+        serializedVersion: 2
+        x: 3237
+        y: 494
+        width: 500
+        height: 1430
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f3b89192fe0f464cb93d36574e4deba
+      internalID: 1365239028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fork_move_5
+      rect:
+        serializedVersion: 2
+        x: 3923
+        y: 490
+        width: 633
+        height: 1171
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d69707422520e0844ae1aed573adeb2e
+      internalID: -1472891192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fork_move_6
+      rect:
+        serializedVersion: 2
+        x: 4728
+        y: 490
+        width: 490
+        height: 759
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49db174637016f246aa8b9db8af0a338
+      internalID: 486543585
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fork_move_7
+      rect:
+        serializedVersion: 2
+        x: 5396
+        y: 493
+        width: 507
+        height: 973
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af0f2da9a6bb9f94a8fb179feb7a793f
+      internalID: 298254964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fork_move_8
+      rect:
+        serializedVersion: 2
+        x: 6088
+        y: 490
+        width: 532
+        height: 987
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5aad8245d5d50764aae640cfd9387f38
+      internalID: 2060991996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +308,16 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Fork_move_0: -1718475715
+      Fork_move_1: 1863910120
+      Fork_move_2: 1530355513
+      Fork_move_3: -2059122068
+      Fork_move_4: 1365239028
+      Fork_move_5: -1472891192
+      Fork_move_6: 486543585
+      Fork_move_7: 298254964
+      Fork_move_8: 2060991996
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
