@@ -41,15 +41,15 @@ MonoBehaviour:
     customAttackId: 0
   loopAttackSequence: 1
   moveSequence:
-  - emitterType: 3
+  - emitterType: 4
     useMultipleEmitters: 0
     multipleEmitters: 
-    moveType: 1
+    moveType: 2
     moveDuration: 2
     moveSpeed: 0
-    targetPosition: {x: 2, y: -1}
-    moveDirection: 0
-    moveDistance: 0
+    targetPosition: {x: 4, y: -1}
+    moveDirection: 270
+    moveDistance: 10
     customMoveId: 0
     useLocalSpace: 0
     circleCenter: {x: 0, y: 0}
@@ -61,15 +61,15 @@ MonoBehaviour:
     pointB: {x: 0, y: 0}
     loopSpeed: 0
     startFromA: 0
-  - emitterType: 4
+  - emitterType: 3
     useMultipleEmitters: 0
     multipleEmitters: 
-    moveType: 1
+    moveType: 2
     moveDuration: 2
     moveSpeed: 0
     targetPosition: {x: 4, y: -1}
-    moveDirection: 0
-    moveDistance: 0
+    moveDirection: 270
+    moveDistance: 10
     customMoveId: 0
     useLocalSpace: 0
     circleCenter: {x: 0, y: 0}
@@ -84,12 +84,12 @@ MonoBehaviour:
   - emitterType: 1
     useMultipleEmitters: 0
     multipleEmitters: 
-    moveType: 1
+    moveType: 2
     moveDuration: 2
     moveSpeed: 0
-    targetPosition: {x: 0, y: -1}
-    moveDirection: 0
-    moveDistance: 0
+    targetPosition: {x: 4, y: -1}
+    moveDirection: 270
+    moveDistance: 10
     customMoveId: 0
     useLocalSpace: 0
     circleCenter: {x: 0, y: 0}
@@ -104,12 +104,12 @@ MonoBehaviour:
   - emitterType: 2
     useMultipleEmitters: 0
     multipleEmitters: 
-    moveType: 1
+    moveType: 2
     moveDuration: 2
     moveSpeed: 0
-    targetPosition: {x: -2, y: -1}
-    moveDirection: 0
-    moveDistance: 0
+    targetPosition: {x: 4, y: -1}
+    moveDirection: 270
+    moveDistance: 10
     customMoveId: 0
     useLocalSpace: 0
     circleCenter: {x: 0, y: 0}
@@ -124,12 +124,12 @@ MonoBehaviour:
   - emitterType: 5
     useMultipleEmitters: 0
     multipleEmitters: 
-    moveType: 1
+    moveType: 2
     moveDuration: 2
     moveSpeed: 0
-    targetPosition: {x: -4, y: -1}
-    moveDirection: 0
-    moveDistance: 0
+    targetPosition: {x: 4, y: -1}
+    moveDirection: 270
+    moveDistance: 10
     customMoveId: 0
     useLocalSpace: 0
     circleCenter: {x: 0, y: 0}
