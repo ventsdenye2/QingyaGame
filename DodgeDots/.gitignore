@@ -97,3 +97,7 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# Ignore specific font asset
+/Assets/Resources/Fonts/FZHTK SDF-bigger2.asset
+/Assets/Resources/Fonts/FZHTK SDF-bigger2.asset.meta
