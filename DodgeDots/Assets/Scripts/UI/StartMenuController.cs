@@ -13,6 +13,7 @@ namespace DodgeDots.UI
     {
         [Header("Scene")]
         [SerializeField] private string worldMapSceneName = "WorldMap";
+        [SerializeField] private string introSceneName = "IntroScene";
 
         [Header("Buttons")]
         [SerializeField] private Button loadButton;
@@ -69,7 +70,7 @@ namespace DodgeDots.UI
             SaveSystem.Clear();
             SaveSystem.NewGame();
             SaveSystem.Save();
-            DodgeDots.UI.LoadingManager.Instance.LoadScene(worldMapSceneName);
+            DodgeDots.UI.LoadingManager.Instance.LoadScene(introSceneName);
         }
 
         public void OnQuitGame()
