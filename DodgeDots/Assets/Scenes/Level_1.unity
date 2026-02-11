@@ -617,6 +617,9 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   damageSfx: {fileID: 8300000, guid: 6e8772b49f34d402a90016ed445d8a2f, type: 3}
   sfxVolume: 1
+  resurrectionInvincibleDuration: 3
+  resurrectedSprite: {fileID: 0}
+  blinkInterval: 0.15
 --- !u!114 &492249287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -648,7 +651,6 @@ MonoBehaviour:
   skillInactiveColor: {r: 1, g: 1, b: 1, a: 1}
   resurrectionWaitTime: 1
   hasResurrection: 1
-  resurrectionSprite: {fileID: 0}
   sfxSource: {fileID: 0}
   shieldSfx: {fileID: 8300000, guid: 7e26c9daf4c32483b9c2790e662d3f1b, type: 3}
   resurrectionSfx: {fileID: 8300000, guid: 7bd6b897eb5ca4b7d88a205c4a51640c, type: 3}
@@ -711,6 +713,9 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   damageSfx: {fileID: 8300000, guid: 6e8772b49f34d402a90016ed445d8a2f, type: 3}
   sfxVolume: 1
+  resurrectionInvincibleDuration: 3
+  resurrectedSprite: {fileID: 21300000, guid: cb4ebc9d6cedbc44c8bbcdc6d5a8dae4, type: 3}
+  blinkInterval: 0.15
 --- !u!114 &492249292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2007,6 +2012,7 @@ MonoBehaviour:
   boss: {fileID: 825278383}
   playerHealth: {fileID: 492249291}
   enableDialogueInvincible: 1
+  allowPauseGameForDialogue: 0
   dialogueCanvasGroup: {fileID: 840261535}
   phaseNameText: {fileID: 1377970399}
   dialogueText: {fileID: 2088843813}
@@ -3025,6 +3031,7 @@ MonoBehaviour:
   autoStartBattle: 1
   battleStartDelay: 1
   playerDeathDelay: 2
+  fastForwardSpeed: 3
 --- !u!4 &1336664141
 Transform:
   m_ObjectHideFlags: 0

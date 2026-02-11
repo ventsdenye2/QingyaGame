@@ -42,7 +42,6 @@ namespace DodgeDots.Player
         [Header("复活技能")]
         [SerializeField] private float resurrectionWaitTime = 1f;     // 复活等待时间（秒）
         [SerializeField] private bool hasResurrection = true;         // 本关卡是否有复活机会
-        [SerializeField] private Sprite resurrectionSprite;           // 复活时的立绘
 
         [Header("音效")]
         [SerializeField] private AudioSource sfxSource;
@@ -612,13 +611,6 @@ namespace DodgeDots.Player
             if (_rigidbody != null)
             {
                 _rigidbody.position = resurrectionPosition;
-            }
-
-            // 切换复活立绘
-            if (spriteRenderer != null && resurrectionSprite != null)
-            {
-                spriteRenderer.sprite = resurrectionSprite;
-                Debug.Log("[复活技能] 已切换为复活立绘");
             }
 
             // 标记复活已使用

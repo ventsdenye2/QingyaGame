@@ -24,12 +24,18 @@ namespace DodgeDots.Player
         [SerializeField] private AudioClip damageSfx;
         [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
 
+        [Header("复活设置")]
+        [SerializeField] private float resurrectionInvincibleDuration = 3f;
+        [SerializeField] private Sprite resurrectedSprite;
+        [SerializeField] private float blinkInterval = 0.15f;
+
         private float _currentHealth;
         private bool _isInvincible;
         private bool _isSkillInvincible;
         private bool _isDialogueInvincible;
         private float _invincibleTimer;
         private Coroutine _damageFlashRoutine;
+        private Coroutine _blinkRoutine;
         private bool _flashColorCached;
         private Color _flashOriginalColor;
 
@@ -81,6 +87,7 @@ namespace DodgeDots.Player
                 if (_invincibleTimer <= 0)
                 {
                     _isInvincible = false;
+                    StopBlink();
                     OnInvincibleEnd?.Invoke();
                 }
             }
@@ -101,13 +108,50 @@ namespace DodgeDots.Player
             {
                 _isInvincible = true;
                 _invincibleTimer = invincibleDuration;
+                StartBlink();
                 OnInvincibleStart?.Invoke();
             }
 
             // 检查是否死亡
             if (_currentHealth <= 0)
             {
+                StopBlink();
                 OnDeath?.Invoke();
+            }
+        }
+
+        private void StartBlink()
+        {
+            if (_blinkRoutine != null) StopCoroutine(_blinkRoutine);
+            _blinkRoutine = StartCoroutine(BlinkRoutine());
+        }
+
+        private void StopBlink()
+        {
+            if (_blinkRoutine != null)
+            {
+                StopCoroutine(_blinkRoutine);
+                _blinkRoutine = null;
+            }
+            if (playerSprite != null)
+            {
+                playerSprite.enabled = true;
+            }
+        }
+
+        private IEnumerator BlinkRoutine()
+        {
+            while (_isInvincible)
+            {
+                if (playerSprite != null)
+                {
+                    playerSprite.enabled = !playerSprite.enabled;
+                }
+                yield return new WaitForSeconds(blinkInterval);
+            }
+            if (playerSprite != null)
+            {
+                playerSprite.enabled = true;
             }
         }
 
@@ -160,6 +204,7 @@ namespace DodgeDots.Player
             _invincibleTimer = 0;
             _isSkillInvincible = false;
             _isDialogueInvincible = false;
+            StopBlink();
             OnHealthChanged?.Invoke(_currentHealth, maxHealth);
         }
 
@@ -202,9 +247,17 @@ namespace DodgeDots.Player
             if (IsAlive) return; // 只有死亡才能复活
 
             _currentHealth = maxHealth;
-            _isInvincible = false;
-            _invincibleTimer = 0;
+            _isInvincible = true;
+            _invincibleTimer = resurrectionInvincibleDuration;
             _isSkillInvincible = false;
+
+            // 切换图标
+            if (resurrectedSprite != null && playerSprite != null)
+            {
+                playerSprite.sprite = resurrectedSprite;
+            }
+
+            StartBlink();
             OnHealthChanged?.Invoke(_currentHealth, maxHealth);
             OnResurrected?.Invoke();
         }
