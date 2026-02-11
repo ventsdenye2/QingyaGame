@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db36be0dad0e4a04493c574d50adcaf9, type: 3}
-  m_Name: BounceBulletConfig
+  m_Name: cola
   m_EditorClassIdentifier: 
   bulletName: Normal Bullet
-  sprite: {fileID: 21300000, guid: 79aae13d3319cb24a966b2a3c2ef5a4d, type: 3}
-  color: {r: 1, g: 0, b: 0, a: 1}
+  sprite: {fileID: 21300000, guid: 9260138dfcae9984997ceb1a8d5b52ab, type: 3}
+  color: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 3, y: 3}
   defaultSpeed: 5
   defaultDamage: 1
-  lifetime: 10
+  lifetime: 6
   colliderRadius: 0.1
   isPiercing: 0
   maxPierceCount: 0
-  rotationSpeed: 0
+  rotationSpeed: 10
   faceDirection: 1
   sortingLayer: Default
   sortingOrder: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
   trailColorLighten: 0.35
   trailStartAlpha: 0.5
   trailEndAlpha: 0
-  enableSecondTrail: 0
+  enableSecondTrail: 1
   secondTrailTime: 0.16
   secondTrailStartWidth: 0.08
   secondTrailEndWidth: 0
@@ -54,3 +54,10 @@ MonoBehaviour:
   afterimageColorLighten: 0.4
   afterimageStartAlpha: 0.35
   afterimageEndAlpha: 0
+  enableAutoHoming: 0
+  homingTurnSpeed: 360
+  homingSearchRadius: 20
+  homingRetargetInterval: 0.2
+  homingTrackBoss: 1
+  homingTrackEnemy: 0
+  homingTrackPlayer: 0

@@ -245,6 +245,61 @@ namespace DodgeDots.Bullet
         }
 
         /// <summary>
+        /// 生成螺旋弹幕（使用配置）
+        /// </summary>
+        public void SpawnSpiralPattern(Vector2 position, int bulletCount, float turns, float startAngle, float radiusGrowth, Team team, BulletConfig config = null)
+        {
+            if (bulletCount <= 0) return;
+
+            float totalAngle = turns * 360f;
+            float angleStep = totalAngle / bulletCount;
+
+            for (int i = 0; i < bulletCount; i++)
+            {
+                float angle = startAngle + angleStep * i;
+                float radius = radiusGrowth * i;
+                Vector2 offset = new Vector2(
+                    Mathf.Cos(angle * Mathf.Deg2Rad) * radius,
+                    Mathf.Sin(angle * Mathf.Deg2Rad) * radius
+                );
+                Vector2 direction = new Vector2(
+                    Mathf.Cos(angle * Mathf.Deg2Rad),
+                    Mathf.Sin(angle * Mathf.Deg2Rad)
+                );
+
+                SpawnBullet(position + offset, direction, team, config);
+            }
+        }
+
+        /// <summary>
+        /// 生成花型弹幕（使用配置）
+        /// </summary>
+        public void SpawnFlowerPattern(Vector2 position, int petals, int bulletsPerPetal, float petalSpread, float startAngle, Team team, BulletConfig config = null)
+        {
+            if (petals <= 0 || bulletsPerPetal <= 0) return;
+
+            float angleStep = 360f / petals;
+
+            for (int petal = 0; petal < petals; petal++)
+            {
+                float petalCenterAngle = startAngle + angleStep * petal;
+                float petalStartAngle = petalCenterAngle - petalSpread / 2f;
+                float bulletAngleStep = bulletsPerPetal > 1 ? petalSpread / (bulletsPerPetal - 1) : 0;
+
+                for (int bullet = 0; bullet < bulletsPerPetal; bullet++)
+                {
+                    float angle = petalStartAngle + bulletAngleStep * bullet;
+                    Vector2 direction = new Vector2(
+                        Mathf.Cos(angle * Mathf.Deg2Rad),
+                        Mathf.Sin(angle * Mathf.Deg2Rad)
+                    );
+
+                    SpawnBullet(position, direction, team, config);
+                }
+            }
+        }
+
+        /// <summary>
         /// 回收弹幕
         /// </summary>
         public void ReturnBullet(Bullet bullet)

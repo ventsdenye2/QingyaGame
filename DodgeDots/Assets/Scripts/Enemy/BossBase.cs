@@ -429,6 +429,47 @@ namespace DodgeDots.Enemy
                     );
                     break;
 
+                case BossAttackType.Spiral:
+                    if (attackAction.spiralFireDuration > 0f)
+                    {
+                        // 使用协程逐个发射
+                        StartCoroutine(SpawnSpiralPatternOverTime(
+                            position,
+                            attackAction.spiralBulletCount,
+                            attackAction.spiralTurns,
+                            attackAction.spiralStartAngle,
+                            attackAction.spiralRadiusGrowth,
+                            attackAction.spiralFireDuration,
+                            attackAction.bulletConfig
+                        ));
+                    }
+                    else
+                    {
+                        // 立即全部发射（保持向后兼容）
+                        _bulletManager.SpawnSpiralPattern(
+                            position,
+                            attackAction.spiralBulletCount,
+                            attackAction.spiralTurns,
+                            attackAction.spiralStartAngle,
+                            attackAction.spiralRadiusGrowth,
+                            Team.Enemy,
+                            attackAction.bulletConfig
+                        );
+                    }
+                    break;
+
+                case BossAttackType.Flower:
+                    _bulletManager.SpawnFlowerPattern(
+                        position,
+                        attackAction.flowerPetals,
+                        attackAction.flowerBulletsPerPetal,
+                        attackAction.flowerPetalSpread,
+                        attackAction.flowerStartAngle,
+                        Team.Enemy,
+                        attackAction.bulletConfig
+                    );
+                    break;
+
                 case BossAttackType.Aiming:
                     Vector2 aimDirection = GetAimingDirection(
                         position,
@@ -457,6 +498,49 @@ namespace DodgeDots.Enemy
         protected virtual void OnCustomAttackAction(BossAttackAction attackAction)
         {
             Debug.LogWarning($"自定义攻击 {attackAction.customAttackId} 未实现");
+        }
+
+        /// <summary>
+        /// 协程：逐个发射螺旋弹幕
+        /// </summary>
+        private IEnumerator SpawnSpiralPatternOverTime(
+            Vector2 position,
+            int bulletCount,
+            float turns,
+            float startAngle,
+            float radiusGrowth,
+            float duration,
+            BulletConfig config)
+        {
+            if (bulletCount <= 0 || duration <= 0f)
+            {
+                yield break;
+            }
+
+            float totalAngle = turns * 360f;
+            float angleStep = totalAngle / bulletCount;
+            float timeBetweenBullets = duration / bulletCount;
+
+            for (int i = 0; i < bulletCount; i++)
+            {
+                float angle = startAngle + angleStep * i;
+                float radius = radiusGrowth * i;
+                Vector2 offset = new Vector2(
+                    Mathf.Cos(angle * Mathf.Deg2Rad) * radius,
+                    Mathf.Sin(angle * Mathf.Deg2Rad) * radius
+                );
+                Vector2 direction = new Vector2(
+                    Mathf.Cos(angle * Mathf.Deg2Rad),
+                    Mathf.Sin(angle * Mathf.Deg2Rad)
+                );
+
+                _bulletManager.SpawnBullet(position + offset, direction, Team.Enemy, config);
+
+                if (i < bulletCount - 1) // 最后一个子弹不需要等待
+                {
+                    yield return new WaitForSeconds(timeBetweenBullets);
+                }
+            }
         }
 
         /// <summary>

@@ -3,7 +3,7 @@ using UnityEngine;
 using DodgeDots.Enemy;
 using DodgeDots.Player;
 using DodgeDots.Bullet;
-using DodgeDots.Save;
+using DodgeDots.Audio;
 
 namespace DodgeDots.Level
 {
@@ -12,10 +12,6 @@ namespace DodgeDots.Level
     /// </summary>
     public class BossBattleLevel : MonoBehaviour
     {
-        [Header("关卡ID")]
-        [Tooltip("这个场景对应的关卡ID，必须和WorldMapConfig里的一致")]
-        [SerializeField] private string currentLevelId = "level_1";
-
         [Header("关卡引用")]
         [SerializeField] private BossBase boss;
         [SerializeField] private PlayerController player;
@@ -27,9 +23,17 @@ namespace DodgeDots.Level
         [SerializeField] private float battleStartDelay = 1f;
         [SerializeField] private float playerDeathDelay = 2f; // 延迟检查玩家失败（允许复活）
 
+        [Header("快进设置")]
+        [Tooltip("快进倍速")]
+        [SerializeField] private float fastForwardSpeed = 3f;
+
         private bool _battleStarted;
         private bool _battleEnded;
         private Coroutine _deathCheckCoroutine;
+        private bool _isFastForwarding = false;
+        private BGMManager _bgmManager;
+        private float _normalTimeScale = 1f;
+        private float _normalAudioPitch = 1f;
 
         public event Action OnBattleStart;
         public event Action OnBattleWin;
@@ -39,9 +43,21 @@ namespace DodgeDots.Level
         {
             InitializeBattle();
 
+            // 查找BGMManager
+            _bgmManager = FindObjectOfType<BGMManager>();
+
             if (autoStartBattle)
             {
                 Invoke(nameof(StartBattle), battleStartDelay);
+            }
+        }
+
+        private void Update()
+        {
+            // 检测K键切换快进
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                ToggleFastForward();
             }
         }
 
@@ -95,33 +111,16 @@ namespace DodgeDots.Level
             if (_battleEnded) return;
 
             _battleEnded = true;
-
-            // --- 核心：写入存档 ---
-            // 获取当前关卡ID
-            string levelId = "level_1"; // <--- 确保这里填的是正确的 ID，最好做成 [SerializeField] 变量
-
-            // 2. 写入 SaveSystem
-            if (SaveSystem.Current == null) SaveSystem.LoadOrCreate();
-
-            if (!SaveSystem.Current.completedLevels.Contains(levelId))
-            {
-                SaveSystem.Current.completedLevels.Add(levelId);
-                Debug.Log($"[BossLevel] 关卡 {levelId} 进度已记录。");
-            }
-
-            // 3. 强制保存文件
-            SaveSystem.Save();
-
             OnBattleWin?.Invoke();
 
             Debug.Log("胜利！Boss被击败！");
 
+            // 清空所有弹幕
             if (BulletManager.Instance != null)
             {
                 BulletManager.Instance.ClearAllBullets();
             }
         }
-
 
         /// <summary>
         /// 玩家死亡
@@ -207,8 +206,55 @@ namespace DodgeDots.Level
             Debug.Log("战斗已恢复");
         }
 
+        /// <summary>
+        /// 切换快进模式
+        /// </summary>
+        private void ToggleFastForward()
+        {
+            _isFastForwarding = !_isFastForwarding;
+
+            if (_isFastForwarding)
+            {
+                // 启用快进
+                _normalTimeScale = Time.timeScale;
+                Time.timeScale = fastForwardSpeed;
+
+                // 修改BGM播放速度
+                if (_bgmManager != null && _bgmManager.audioSource != null)
+                {
+                    _normalAudioPitch = _bgmManager.audioSource.pitch;
+                    _bgmManager.audioSource.pitch = fastForwardSpeed;
+                }
+
+                Debug.Log($"[BossBattleLevel] 快进模式开启 ({fastForwardSpeed}x)");
+            }
+            else
+            {
+                // 恢复正常速度
+                Time.timeScale = _normalTimeScale;
+
+                // 恢复BGM播放速度
+                if (_bgmManager != null && _bgmManager.audioSource != null)
+                {
+                    _bgmManager.audioSource.pitch = _normalAudioPitch;
+                }
+
+                Debug.Log("[BossBattleLevel] 快进模式关闭");
+            }
+        }
+
         private void OnDestroy()
         {
+            // 恢复时间缩放和音频速度
+            if (_isFastForwarding)
+            {
+                Time.timeScale = _normalTimeScale;
+                if (_bgmManager != null && _bgmManager.audioSource != null)
+                {
+                    _bgmManager.audioSource.pitch = _normalAudioPitch;
+                }
+            }
+
             // 取消订阅事件
             if (boss != null)
             {

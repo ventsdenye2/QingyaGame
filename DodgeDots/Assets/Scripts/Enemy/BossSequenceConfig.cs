@@ -52,6 +52,35 @@ namespace DodgeDots.Enemy
         [Tooltip("单发子弹的方向角度（0=右，90=上，180=左，270=下）")]
         public float singleDirection = 270f;
 
+        [Header("螺旋弹幕参数")]
+        [Tooltip("螺旋的总子弹数量")]
+        public int spiralBulletCount = 36;
+
+        [Tooltip("螺旋的圈数")]
+        public float spiralTurns = 3f;
+
+        [Tooltip("螺旋起始角度")]
+        public float spiralStartAngle = 0f;
+
+        [Tooltip("螺旋半径增长速度")]
+        public float spiralRadiusGrowth = 0.5f;
+
+        [Tooltip("螺旋弹幕发射总时间（秒，0表示立即全部发射）")]
+        public float spiralFireDuration = 0f;
+
+        [Header("花型弹幕参数")]
+        [Tooltip("花瓣数量")]
+        public int flowerPetals = 5;
+
+        [Tooltip("每个花瓣的子弹数量")]
+        public int flowerBulletsPerPetal = 3;
+
+        [Tooltip("花瓣扩散角度")]
+        public float flowerPetalSpread = 30f;
+
+        [Tooltip("花型起始角度")]
+        public float flowerStartAngle = 0f;
+
         [Header("自机狙参数")]
         [Tooltip("自机狙的子弹数量")]
         public int aimingBulletCount = 1;
