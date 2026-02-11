@@ -1,6 +1,7 @@
 using UnityEngine;
 using DodgeDots.Core;
 using System.Collections.Generic;
+using DodgeDots.Enemy;
 
 namespace DodgeDots.Bullet
 {
@@ -17,8 +18,8 @@ namespace DodgeDots.Bullet
         [SerializeField] private BulletTypeEntry[] bulletTypes;
 
         [Header("对象池设置")]
-        [SerializeField] private int initialPoolSize = 100;
-        [SerializeField] private int maxPoolSize = 500;
+        [SerializeField] private int initialPoolSize = 200;
+        [SerializeField] private int maxPoolSize = 2000;
 
         [Header("引用")]
         [SerializeField] private GameConfig gameConfig;
@@ -163,38 +164,49 @@ namespace DodgeDots.Bullet
         /// <summary>
         /// 生成圆形弹幕（使用配置）
         /// </summary>
-        public void SpawnCirclePattern(Vector2 position, int bulletCount, Team team, BulletConfig config = null, float startAngle = 0)
+        public void SpawnCirclePattern(Vector2 position, int bulletCount, Team team, BulletConfig config = null)
         {
+            if (bulletCount <= 0) return;
+
+            float startAngle = Random.Range(0f, 360f);
             float angleStep = 360f / bulletCount;
+            float angleRad = startAngle * Mathf.Deg2Rad;
+            float angleStepRad = angleStep * Mathf.Deg2Rad;
 
             for (int i = 0; i < bulletCount; i++)
             {
-                float angle = startAngle + angleStep * i;
+                // 使用弧度计算以减少转换开销
                 Vector2 direction = new Vector2(
-                    Mathf.Cos(angle * Mathf.Deg2Rad),
-                    Mathf.Sin(angle * Mathf.Deg2Rad)
+                    Mathf.Cos(angleRad),
+                    Mathf.Sin(angleRad)
                 );
 
                 SpawnBullet(position, direction, team, config);
+                angleRad += angleStepRad;
             }
         }
 
         /// <summary>
         /// 生成圆形弹幕（兼容旧版本）
         /// </summary>
-        public void SpawnCirclePattern(Vector2 position, int bulletCount, Team team, float speed = -1, float damage = -1, float startAngle = 0)
+        public void SpawnCirclePattern(Vector2 position, int bulletCount, Team team, float speed = -1, float damage = -1)
         {
+            if (bulletCount <= 0) return;
+
+            float startAngle = Random.Range(0f, 360f);
             float angleStep = 360f / bulletCount;
+            float angleRad = startAngle * Mathf.Deg2Rad;
+            float angleStepRad = angleStep * Mathf.Deg2Rad;
 
             for (int i = 0; i < bulletCount; i++)
             {
-                float angle = startAngle + angleStep * i;
                 Vector2 direction = new Vector2(
-                    Mathf.Cos(angle * Mathf.Deg2Rad),
-                    Mathf.Sin(angle * Mathf.Deg2Rad)
+                    Mathf.Cos(angleRad),
+                    Mathf.Sin(angleRad)
                 );
 
                 SpawnBullet(position, direction, team, speed, damage);
+                angleRad += angleStepRad;
             }
         }
 
@@ -205,16 +217,17 @@ namespace DodgeDots.Bullet
         {
             if (bulletCount <= 0) return;
 
-            float centerAngle = Mathf.Atan2(centerDirection.y, centerDirection.x) * Mathf.Rad2Deg;
-            float startAngle = centerAngle - spreadAngle / 2f;
-            float angleStep = bulletCount > 1 ? spreadAngle / (bulletCount - 1) : 0;
+            float centerAngle = Mathf.Atan2(centerDirection.y, centerDirection.x);
+            float spreadAngleRad = spreadAngle * Mathf.Deg2Rad;
+            float startAngleRad = centerAngle - spreadAngleRad * 0.5f;
+            float angleStepRad = bulletCount > 1 ? spreadAngleRad / (bulletCount - 1) : 0;
 
             for (int i = 0; i < bulletCount; i++)
             {
-                float angle = startAngle + angleStep * i;
+                float angleRad = startAngleRad + angleStepRad * i;
                 Vector2 direction = new Vector2(
-                    Mathf.Cos(angle * Mathf.Deg2Rad),
-                    Mathf.Sin(angle * Mathf.Deg2Rad)
+                    Mathf.Cos(angleRad),
+                    Mathf.Sin(angleRad)
                 );
 
                 SpawnBullet(position, direction, team, config);
@@ -228,16 +241,17 @@ namespace DodgeDots.Bullet
         {
             if (bulletCount <= 0) return;
 
-            float centerAngle = Mathf.Atan2(centerDirection.y, centerDirection.x) * Mathf.Rad2Deg;
-            float startAngle = centerAngle - spreadAngle / 2f;
-            float angleStep = bulletCount > 1 ? spreadAngle / (bulletCount - 1) : 0;
+            float centerAngle = Mathf.Atan2(centerDirection.y, centerDirection.x);
+            float spreadAngleRad = spreadAngle * Mathf.Deg2Rad;
+            float startAngleRad = centerAngle - spreadAngleRad * 0.5f;
+            float angleStepRad = bulletCount > 1 ? spreadAngleRad / (bulletCount - 1) : 0;
 
             for (int i = 0; i < bulletCount; i++)
             {
-                float angle = startAngle + angleStep * i;
+                float angleRad = startAngleRad + angleStepRad * i;
                 Vector2 direction = new Vector2(
-                    Mathf.Cos(angle * Mathf.Deg2Rad),
-                    Mathf.Sin(angle * Mathf.Deg2Rad)
+                    Mathf.Cos(angleRad),
+                    Mathf.Sin(angleRad)
                 );
 
                 SpawnBullet(position, direction, team, speed, damage);
@@ -253,19 +267,18 @@ namespace DodgeDots.Bullet
 
             float totalAngle = turns * 360f;
             float angleStep = totalAngle / bulletCount;
+            float startAngleRad = startAngle * Mathf.Deg2Rad;
+            float angleStepRad = angleStep * Mathf.Deg2Rad;
 
             for (int i = 0; i < bulletCount; i++)
             {
-                float angle = startAngle + angleStep * i;
+                float angleRad = startAngleRad + angleStepRad * i;
                 float radius = radiusGrowth * i;
-                Vector2 offset = new Vector2(
-                    Mathf.Cos(angle * Mathf.Deg2Rad) * radius,
-                    Mathf.Sin(angle * Mathf.Deg2Rad) * radius
-                );
-                Vector2 direction = new Vector2(
-                    Mathf.Cos(angle * Mathf.Deg2Rad),
-                    Mathf.Sin(angle * Mathf.Deg2Rad)
-                );
+                float cosAngle = Mathf.Cos(angleRad);
+                float sinAngle = Mathf.Sin(angleRad);
+
+                Vector2 offset = new Vector2(cosAngle * radius, sinAngle * radius);
+                Vector2 direction = new Vector2(cosAngle, sinAngle);
 
                 SpawnBullet(position + offset, direction, team, config);
             }
@@ -274,24 +287,28 @@ namespace DodgeDots.Bullet
         /// <summary>
         /// 生成花型弹幕（使用配置）
         /// </summary>
-        public void SpawnFlowerPattern(Vector2 position, int petals, int bulletsPerPetal, float petalSpread, float startAngle, Team team, BulletConfig config = null)
+        public void SpawnFlowerPattern(Vector2 position, int petals, int bulletsPerPetal, float petalSpread, Team team, BulletConfig config = null)
         {
             if (petals <= 0 || bulletsPerPetal <= 0) return;
 
+            float startAngle = Random.Range(0f, 360f);
             float angleStep = 360f / petals;
+            float angleStepRad = angleStep * Mathf.Deg2Rad;
+            float startAngleRad = startAngle * Mathf.Deg2Rad;
+            float petalSpreadRad = petalSpread * Mathf.Deg2Rad;
+            float bulletAngleStepRad = bulletsPerPetal > 1 ? petalSpreadRad / (bulletsPerPetal - 1) : 0;
 
             for (int petal = 0; petal < petals; petal++)
             {
-                float petalCenterAngle = startAngle + angleStep * petal;
-                float petalStartAngle = petalCenterAngle - petalSpread / 2f;
-                float bulletAngleStep = bulletsPerPetal > 1 ? petalSpread / (bulletsPerPetal - 1) : 0;
+                float petalCenterAngleRad = startAngleRad + angleStepRad * petal;
+                float petalStartAngleRad = petalCenterAngleRad - petalSpreadRad * 0.5f;
 
                 for (int bullet = 0; bullet < bulletsPerPetal; bullet++)
                 {
-                    float angle = petalStartAngle + bulletAngleStep * bullet;
+                    float angleRad = petalStartAngleRad + bulletAngleStepRad * bullet;
                     Vector2 direction = new Vector2(
-                        Mathf.Cos(angle * Mathf.Deg2Rad),
-                        Mathf.Sin(angle * Mathf.Deg2Rad)
+                        Mathf.Cos(angleRad),
+                        Mathf.Sin(angleRad)
                     );
 
                     SpawnBullet(position, direction, team, config);
@@ -323,14 +340,152 @@ namespace DodgeDots.Bullet
         }
 
         /// <summary>
+        /// 预加载指定配置的弹幕到对象池
+        /// </summary>
+        public void PreloadBullets(BulletConfig config, int count)
+        {
+            if (config == null || count <= 0) return;
+
+            var pool = GetOrCreatePool(config);
+            if (pool == null) return;
+
+            // 预创建并立即回收，填充对象池
+            for (int i = 0; i < count; i++)
+            {
+                var bullet = pool.Get();
+                bullet.gameObject.SetActive(false);
+                pool.Return(bullet);
+            }
+
+            Debug.Log($"预加载了 {count} 个 {config.bulletName} 弹幕");
+        }
+
+        /// <summary>
+        /// 预热所有已注册的弹幕类型
+        /// </summary>
+        public void WarmUpAllPools(int bulletsPerType = 50)
+        {
+            // 预热默认池
+            if (_defaultPool != null)
+            {
+                for (int i = 0; i < bulletsPerType; i++)
+                {
+                    var bullet = _defaultPool.Get();
+                    bullet.gameObject.SetActive(false);
+                    _defaultPool.Return(bullet);
+                }
+                Debug.Log($"预热默认弹幕池: {bulletsPerType} 个弹幕");
+            }
+
+            // 预热所有已注册的配置池
+            foreach (var kvp in _bulletPools)
+            {
+                var config = kvp.Key;
+                var pool = kvp.Value;
+
+                for (int i = 0; i < bulletsPerType; i++)
+                {
+                    var bullet = pool.Get();
+                    bullet.gameObject.SetActive(false);
+                    pool.Return(bullet);
+                }
+                Debug.Log($"预热弹幕池 {config.bulletName}: {bulletsPerType} 个弹幕");
+            }
+        }
+
+        /// <summary>
+        /// 根据序列配置预加载前N秒的弹幕
+        /// </summary>
+        public void PreloadForSequence(BossSequenceConfig sequenceConfig, float seconds, float bpm)
+        {
+            if (sequenceConfig == null || sequenceConfig.attackSequence == null) return;
+
+            // 计算前N秒有多少个节拍
+            float beatsPerSecond = bpm / 60f;
+            int totalBeats = Mathf.CeilToInt(seconds * beatsPerSecond);
+
+            // 统计每种弹幕配置需要的数量
+            Dictionary<BulletConfig, int> bulletCounts = new Dictionary<BulletConfig, int>();
+
+            for (int i = 0; i < totalBeats && i < sequenceConfig.attackSequence.Length; i++)
+            {
+                var attack = sequenceConfig.attackSequence[i];
+                if (attack.bulletConfig == null) continue;
+
+                int bulletCount = EstimateBulletCount(attack);
+
+                if (bulletCounts.ContainsKey(attack.bulletConfig))
+                {
+                    bulletCounts[attack.bulletConfig] += bulletCount;
+                }
+                else
+                {
+                    bulletCounts[attack.bulletConfig] = bulletCount;
+                }
+            }
+
+            // 预加载每种弹幕
+            foreach (var kvp in bulletCounts)
+            {
+                PreloadBullets(kvp.Key, kvp.Value);
+            }
+
+            Debug.Log($"预加载完成：前 {seconds} 秒（{totalBeats} 个节拍）的弹幕");
+        }
+
+        /// <summary>
+        /// 估算单次攻击的弹幕数量
+        /// </summary>
+        private int EstimateBulletCount(BossAttackAction attack)
+        {
+            int multiplier = attack.useMultipleEmitters && attack.multipleEmitters != null
+                ? attack.multipleEmitters.Length
+                : 1;
+
+            switch (attack.attackType)
+            {
+                case BossAttackType.Circle:
+                    return attack.circleCount * multiplier;
+
+                case BossAttackType.Fan:
+                    return attack.fanCount * multiplier;
+
+                case BossAttackType.Single:
+                    return 1 * multiplier;
+
+                case BossAttackType.Spiral:
+                    return attack.spiralBulletCount * multiplier;
+
+                case BossAttackType.Flower:
+                    return attack.flowerPetals * attack.flowerBulletsPerPetal * multiplier;
+
+                case BossAttackType.Aiming:
+                    return attack.aimingBulletCount * multiplier;
+
+                case BossAttackType.Character:
+                    if (attack.characterPattern != null && attack.characterPattern.bulletPositions != null)
+                    {
+                        return attack.characterPattern.bulletPositions.Length * multiplier;
+                    }
+                    return 0;
+
+                default:
+                    return 0;
+            }
+        }
+
+        /// <summary>
         /// 清空所有弹幕
         /// </summary>
         public void ClearAllBullets()
         {
             if (_bulletContainer == null) return;
 
-            foreach (Transform child in _bulletContainer)
+            // 使用数组缓存以避免在迭代时修改集合
+            int childCount = _bulletContainer.childCount;
+            for (int i = childCount - 1; i >= 0; i--)
             {
+                Transform child = _bulletContainer.GetChild(i);
                 var bullet = child.GetComponent<Bullet>();
                 if (bullet != null && bullet.IsActive)
                 {

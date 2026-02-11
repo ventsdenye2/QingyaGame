@@ -396,8 +396,7 @@ namespace DodgeDots.Enemy
                         position,
                         attackAction.circleCount,
                         Team.Enemy,
-                        attackAction.bulletConfig,
-                        attackAction.circleStartAngle
+                        attackAction.bulletConfig
                     );
                     break;
 
@@ -464,7 +463,6 @@ namespace DodgeDots.Enemy
                         attackAction.flowerPetals,
                         attackAction.flowerBulletsPerPetal,
                         attackAction.flowerPetalSpread,
-                        attackAction.flowerStartAngle,
                         Team.Enemy,
                         attackAction.bulletConfig
                     );
@@ -680,8 +678,7 @@ namespace DodgeDots.Enemy
                         bossPosition,
                         attackData.circleCount,
                         Team.Enemy,
-                        attackData.bulletConfig,
-                        attackData.circleStartAngle
+                        attackData.bulletConfig
                     );
                     break;
 

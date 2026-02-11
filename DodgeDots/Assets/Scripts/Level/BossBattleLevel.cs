@@ -17,11 +17,19 @@ namespace DodgeDots.Level
         [SerializeField] private PlayerController player;
         [SerializeField] private PlayerHealth playerHealth;
         [SerializeField] private PlayerWeapon playerWeapon;
+        [SerializeField] private BossSequenceController bossSequenceController;
+        [SerializeField] private BeatMapPlayer beatMapPlayer;
 
         [Header("关卡设置")]
         [SerializeField] private bool autoStartBattle = true;
         [SerializeField] private float battleStartDelay = 1f;
         [SerializeField] private float playerDeathDelay = 2f; // 延迟检查玩家失败（允许复活）
+
+        [Header("弹幕预加载设置")]
+        [Tooltip("是否启用弹幕预加载")]
+        [SerializeField] private bool enableBulletPreload = true;
+        [Tooltip("预加载前N秒的弹幕")]
+        [SerializeField] private float preloadSeconds = 5f;
 
         [Header("快进设置")]
         [Tooltip("快进倍速")]
@@ -45,6 +53,23 @@ namespace DodgeDots.Level
 
             // 查找BGMManager
             _bgmManager = FindObjectOfType<BGMManager>();
+
+            // 自动查找引用
+            if (bossSequenceController == null)
+            {
+                bossSequenceController = FindObjectOfType<BossSequenceController>();
+            }
+
+            if (beatMapPlayer == null)
+            {
+                beatMapPlayer = FindObjectOfType<BeatMapPlayer>();
+            }
+
+            // 预加载弹幕
+            if (enableBulletPreload)
+            {
+                PreloadBullets();
+            }
 
             if (autoStartBattle)
             {
@@ -81,6 +106,53 @@ namespace DodgeDots.Level
             if (playerHealth != null)
             {
                 playerHealth.OnDeath += OnPlayerDeath;
+            }
+        }
+
+        /// <summary>
+        /// 预加载弹幕
+        /// </summary>
+        private void PreloadBullets()
+        {
+            var bulletManager = BulletManager.Instance;
+            if (bulletManager == null)
+            {
+                Debug.LogWarning("[BossBattleLevel] BulletManager未找到，跳过弹幕预加载");
+                return;
+            }
+
+            if (bossSequenceController != null && bossSequenceController.sequenceConfig != null)
+            {
+                float bpm = 120f; // 默认BPM
+
+                // 尝试从BeatMap计算BPM
+                if (beatMapPlayer != null && beatMapPlayer.beatMap != null && beatMapPlayer.beatMap.beatTimes != null)
+                {
+                    var beatTimes = beatMapPlayer.beatMap.beatTimes;
+                    if (beatTimes.Length >= 2)
+                    {
+                        // 计算前几个节拍的平均间隔
+                        int sampleCount = Mathf.Min(10, beatTimes.Length - 1);
+                        double totalInterval = 0;
+                        for (int i = 0; i < sampleCount; i++)
+                        {
+                            totalInterval += beatTimes[i + 1] - beatTimes[i];
+                        }
+                        double avgInterval = totalInterval / sampleCount;
+                        if (avgInterval > 0)
+                        {
+                            bpm = (float)(60.0 / avgInterval);
+                        }
+                    }
+                }
+
+                Debug.Log($"[BossBattleLevel] 开始预加载弹幕（前 {preloadSeconds} 秒，BPM: {bpm:F1}）");
+                bulletManager.PreloadForSequence(bossSequenceController.sequenceConfig, preloadSeconds, bpm);
+            }
+            else
+            {
+                Debug.LogWarning("[BossBattleLevel] 未找到BossSequenceController或配置，使用通用预热");
+                bulletManager.WarmUpAllPools(100);
             }
         }
 

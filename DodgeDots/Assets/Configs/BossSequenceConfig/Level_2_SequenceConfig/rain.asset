@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe2440894799f064faa436b14c2e17c4, type: 3}
+  m_Name: rain
+  m_EditorClassIdentifier: 
+  configName: Boss Sequence Config
+  attackSequence:
+  - attackName: 
+    emitterType: 0
+    useMultipleEmitters: 0
+    multipleEmitters: 
+    attackType: 0
+    bulletConfig: {fileID: 11400000, guid: c43d22ee5fd96d84590e6131aea80b82, type: 2}
+    circleCount: 20
+    fanCount: 0
+    fanSpreadAngle: 0
+    fanCenterAngle: 0
+    singleDirection: 0
+    spiralBulletCount: 0
+    spiralTurns: 0
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0
+    spiralFireDuration: 0
+    flowerPetals: 0
+    flowerBulletsPerPetal: 0
+    flowerPetalSpread: 0
+    aimingBulletCount: 0
+    aimingSpreadAngle: 0
+    aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
+    customAttackId: 0
+  loopAttackSequence: 1
+  moveSequence:
+  - emitterType: 0
+    useMultipleEmitters: 0
+    multipleEmitters: 
+    moveType: 2
+    moveDuration: 0
+    moveSpeed: 5
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 270
+    moveDistance: 0
+    customMoveId: 0
+    useLocalSpace: 0
+    circleCenter: {x: 0, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 0
+    circleStartAngle: 0
+    circleClockwise: 0
+    pointA: {x: 0, y: 0}
+    pointB: {x: 0, y: 0}
+    loopSpeed: 0
+    startFromA: 0
+  - emitterType: 0
+    useMultipleEmitters: 0
+    multipleEmitters: 
+    moveType: 2
+    moveDuration: 0
+    moveSpeed: 5
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 193.5
+    moveDistance: 0
+    customMoveId: 0
+    useLocalSpace: 0
+    circleCenter: {x: 0, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 0
+    circleStartAngle: 0
+    circleClockwise: 0
+    pointA: {x: 0, y: 0}
+    pointB: {x: 0, y: 0}
+    loopSpeed: 0
+    startFromA: 0
+  - emitterType: 0
+    useMultipleEmitters: 0
+    multipleEmitters: 
+    moveType: 2
+    moveDuration: 0
+    moveSpeed: 5
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 89.7
+    moveDistance: 0
+    customMoveId: 0
+    useLocalSpace: 0
+    circleCenter: {x: 0, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 0
+    circleStartAngle: 0
+    circleClockwise: 0
+    pointA: {x: 0, y: 0}
+    pointB: {x: 0, y: 0}
+    loopSpeed: 0
+    startFromA: 0
+  - emitterType: 0
+    useMultipleEmitters: 0
+    multipleEmitters: 
+    moveType: 2
+    moveDuration: 0
+    moveSpeed: 5
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 339.1
+    moveDistance: 0
+    customMoveId: 0
+    useLocalSpace: 0
+    circleCenter: {x: 0, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 0
+    circleStartAngle: 0
+    circleClockwise: 0
+    pointA: {x: 0, y: 0}
+    pointB: {x: 0, y: 0}
+    loopSpeed: 0
+    startFromA: 0
+  - emitterType: 0
+    useMultipleEmitters: 0
+    multipleEmitters: 
+    moveType: 3
+    moveDuration: 0
+    moveSpeed: 5
+    targetPosition: {x: 0, y: 0}
+    moveDirection: 339.1
+    moveDistance: 0
+    customMoveId: 0
+    useLocalSpace: 0
+    circleCenter: {x: 0, y: 0}
+    circleRadius: 0
+    circleAngularSpeed: 0
+    circleStartAngle: 0
+    circleClockwise: 0
+    pointA: {x: 0, y: 0}
+    pointB: {x: 0, y: 0}
+    loopSpeed: 0
+    startFromA: 0
+  loopMoveSequence: 0

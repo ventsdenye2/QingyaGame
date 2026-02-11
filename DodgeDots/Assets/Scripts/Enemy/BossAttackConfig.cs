@@ -75,9 +75,6 @@ namespace DodgeDots.Enemy
         [Tooltip("圆形弹幕的子弹数量")]
         public int circleCount = 12;
 
-        [Tooltip("圆形弹幕的起始角度")]
-        public float circleStartAngle = 0f;
-
         [Header("扇形弹幕参数")]
         [Tooltip("扇形弹幕的子弹数量")]
         public int fanCount = 5;
@@ -114,9 +111,6 @@ namespace DodgeDots.Enemy
 
         [Tooltip("花瓣扩散角度")]
         public float flowerPetalSpread = 30f;
-
-        [Tooltip("花型起始角度")]
-        public float flowerStartAngle = 0f;
 
         [Header("自机狙参数")]
         [Tooltip("自机狙的子弹数量")]
@@ -259,9 +253,6 @@ namespace DodgeDots.Enemy
         [Tooltip("圆形弹幕的子弹数量")]
         public int circleCount = 12;
 
-        [Tooltip("圆形弹幕的起始角度")]
-        public float circleStartAngle = 0f;
-
         [Header("扇形弹幕参数")]
         [Tooltip("扇形弹幕的子弹数量")]
         public int fanCount = 5;
@@ -298,9 +289,6 @@ namespace DodgeDots.Enemy
 
         [Tooltip("花瓣扩散角度")]
         public float flowerPetalSpread = 30f;
-
-        [Tooltip("花型起始角度")]
-        public float flowerStartAngle = 0f;
 
         [Header("自机狙参数")]
         [Tooltip("自机狙的子弹数量")]

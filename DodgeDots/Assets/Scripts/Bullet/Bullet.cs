@@ -36,6 +36,14 @@ namespace DodgeDots.Bullet
         private static Material _defaultTrailMaterial;
         private static readonly Dictionary<int, Material> _trailMaterialCache = new Dictionary<int, Material>();
 
+        // 性能优化：缓存配置属性
+        private bool _hasRotation;
+        private bool _hasFaceDirection;
+        private bool _hasAfterimage;
+        private bool _hasBehaviors;
+        private bool _hasLifetime;
+        private bool _usePhysicsMovement;
+
         // 公共属性
         public float Damage => damage;
         public float Speed => speed;
@@ -48,6 +56,7 @@ namespace DodgeDots.Bullet
         {
             _rb = GetComponent<Rigidbody2D>();
             _rb.gravityScale = 0; // 弹幕不受重力影响
+            _rb.isKinematic = true; // 使用运动学模式以减少物理计算
 
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _collider = GetComponent<CircleCollider2D>();
@@ -56,6 +65,10 @@ namespace DodgeDots.Bullet
 
             // 获取所有行为组件
             _behaviors = GetComponents<IBulletBehavior>();
+            _hasBehaviors = _behaviors != null && _behaviors.Length > 0;
+
+            // 默认使用Transform移动（性能更好）
+            _usePhysicsMovement = false;
 
             // 如果有配置，应用配置
             if (config != null)
@@ -69,7 +82,7 @@ namespace DodgeDots.Bullet
             if (!_isActive) return;
 
             // 更新生命周期
-            if (lifetime > 0)
+            if (_hasLifetime)
             {
                 _currentLifetime -= Time.deltaTime;
                 if (_currentLifetime <= 0)
@@ -80,7 +93,7 @@ namespace DodgeDots.Bullet
             }
 
             // 调用所有行为的Update
-            if (_behaviors != null)
+            if (_hasBehaviors)
             {
                 foreach (var behavior in _behaviors)
                 {
@@ -88,19 +101,32 @@ namespace DodgeDots.Bullet
                 }
             }
 
-            // 更新视觉效果
-            UpdateVisuals();
+            // 更新视觉效果（仅在需要时）
+            if (_hasRotation || _hasFaceDirection)
+            {
+                UpdateVisuals();
+            }
 
             // 残影效果
-            UpdateAfterimage();
+            if (_hasAfterimage)
+            {
+                UpdateAfterimage();
+            }
         }
 
         private void FixedUpdate()
         {
             if (!_isActive) return;
 
-            // 移动弹幕
-            _rb.velocity = _direction * speed;
+            // 移动弹幕 - 使用Transform移动以减少物理计算开销
+            if (_usePhysicsMovement)
+            {
+                _rb.velocity = _direction * speed;
+            }
+            else
+            {
+                transform.position += (Vector3)(_direction * speed * Time.fixedDeltaTime);
+            }
         }
 
         /// <summary>
@@ -123,13 +149,14 @@ namespace DodgeDots.Bullet
             }
 
             _currentLifetime = lifetime;
+            _hasLifetime = lifetime > 0;
             _pierceCount = 0;
             _isActive = true;
             gameObject.SetActive(true);
             _afterimageTimer = 0f;
 
             // 初始化所有行为
-            if (_behaviors != null)
+            if (_hasBehaviors)
             {
                 foreach (var behavior in _behaviors)
                 {
@@ -151,13 +178,14 @@ namespace DodgeDots.Bullet
             if (damage > 0) this.damage = damage;
 
             _currentLifetime = lifetime;
+            _hasLifetime = lifetime > 0;
             _pierceCount = 0;
             _isActive = true;
             gameObject.SetActive(true);
             _afterimageTimer = 0f;
 
             // 初始化所有行为
-            if (_behaviors != null)
+            if (_hasBehaviors)
             {
                 foreach (var behavior in _behaviors)
                 {
@@ -172,7 +200,10 @@ namespace DodgeDots.Bullet
         public void Deactivate()
         {
             _isActive = false;
-            _rb.velocity = Vector2.zero;
+            if (_usePhysicsMovement)
+            {
+                _rb.velocity = Vector2.zero;
+            }
             _pierceCount = 0;
             if (_trailRenderer != null)
             {
@@ -185,7 +216,7 @@ namespace DodgeDots.Bullet
             _afterimageTimer = 0f;
 
             // 重置所有行为
-            if (_behaviors != null)
+            if (_hasBehaviors)
             {
                 foreach (var behavior in _behaviors)
                 {
@@ -222,7 +253,7 @@ namespace DodgeDots.Bullet
             {
                 // 先让行为系统处理碰撞
                 bool behaviorHandled = false;
-                if (_behaviors != null)
+                if (_hasBehaviors)
                 {
                     foreach (var behavior in _behaviors)
                     {
@@ -292,6 +323,12 @@ namespace DodgeDots.Bullet
             speed = bulletConfig.defaultSpeed;
             damage = bulletConfig.defaultDamage;
             lifetime = bulletConfig.lifetime;
+
+            // 缓存配置标志以优化Update性能
+            _hasLifetime = lifetime > 0;
+            _hasRotation = bulletConfig.rotationSpeed != 0;
+            _hasFaceDirection = bulletConfig.faceDirection;
+            _hasAfterimage = bulletConfig.enableAfterimage;
 
             // 应用视觉效果
             if (_spriteRenderer != null)
@@ -468,8 +505,6 @@ namespace DodgeDots.Bullet
 
         private void UpdateAfterimage()
         {
-            if (config == null || !config.enableAfterimage || !_isActive) return;
-
             _afterimageTimer += Time.deltaTime;
             if (_afterimageTimer < config.afterimageInterval) return;
             _afterimageTimer = 0f;
@@ -478,9 +513,9 @@ namespace DodgeDots.Bullet
             if (sprite == null) return;
 
             Color baseColor = config.color;
-            Color lightColor = Color.Lerp(baseColor, Color.white, Mathf.Clamp01(config.afterimageColorLighten));
-            Color startColor = new Color(lightColor.r, lightColor.g, lightColor.b, Mathf.Clamp01(config.afterimageStartAlpha));
-            Color endColor = new Color(lightColor.r, lightColor.g, lightColor.b, Mathf.Clamp01(config.afterimageEndAlpha));
+            Color lightColor = Color.Lerp(baseColor, Color.white, config.afterimageColorLighten);
+            Color startColor = new Color(lightColor.r, lightColor.g, lightColor.b, config.afterimageStartAlpha);
+            Color endColor = new Color(lightColor.r, lightColor.g, lightColor.b, config.afterimageEndAlpha);
 
             var afterimage = BulletAfterimage.Get(transform.parent);
             afterimage.Play(
@@ -501,16 +536,14 @@ namespace DodgeDots.Bullet
         /// </summary>
         private void UpdateVisuals()
         {
-            if (config == null) return;
-
             // 旋转效果
-            if (config.rotationSpeed != 0)
+            if (_hasRotation)
             {
                 transform.Rotate(0, 0, config.rotationSpeed * Time.deltaTime);
             }
 
             // 朝向移动方向
-            if (config.faceDirection && _direction != Vector2.zero)
+            if (_hasFaceDirection && _direction != Vector2.zero)
             {
                 float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.Euler(0, 0, angle);
@@ -522,13 +555,13 @@ namespace DodgeDots.Bullet
         /// </summary>
         private void HandleBoundaryCollision(Collider2D boundary)
         {
-            // 计算边界法线
-            Vector2 normal = CalculateBoundaryNormal(boundary);
-
             // 让行为系统处理边界碰撞
             bool behaviorHandled = false;
-            if (_behaviors != null)
+            if (_hasBehaviors)
             {
+                // 计算边界法线
+                Vector2 normal = CalculateBoundaryNormal(boundary);
+
                 foreach (var behavior in _behaviors)
                 {
                     if (behavior.OnBoundaryHit(normal))

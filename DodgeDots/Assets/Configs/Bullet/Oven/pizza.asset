@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db36be0dad0e4a04493c574d50adcaf9, type: 3}
-  m_Name: flash
+  m_Name: pizza
   m_EditorClassIdentifier: 
   bulletName: Normal Bullet
-  sprite: {fileID: 21300000, guid: 2b30a93fb86117549b9a7a4dbb869048, type: 3}
+  sprite: {fileID: 21300000, guid: fe620585fd29e454bbd30b5d86f193b3, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 3, y: 3}
   defaultSpeed: 5
   defaultDamage: 1
-  lifetime: 6
+  lifetime: 4
   colliderRadius: 0.1
   isPiercing: 0
   maxPierceCount: 0
