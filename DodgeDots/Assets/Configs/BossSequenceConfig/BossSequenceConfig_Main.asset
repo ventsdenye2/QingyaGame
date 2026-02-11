@@ -26,41 +26,71 @@ MonoBehaviour:
     fanSpreadAngle: 0
     fanCenterAngle: 0
     singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    spiralFireDuration: 0
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   - attackName: 
     emitterType: 0
     useMultipleEmitters: 0
     multipleEmitters: 00000000
     attackType: 1
-    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    bulletConfig: {fileID: 11400000, guid: a8aa71f07dfd3a549863312cd0a31127, type: 2}
     circleCount: 15
     circleStartAngle: 0
     fanCount: 6
     fanSpreadAngle: 100
     fanCenterAngle: 270
     singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    spiralFireDuration: 0
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   - attackName: 
     emitterType: 0
     useMultipleEmitters: 0
     multipleEmitters: 00000000
     attackType: 5
-    bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
+    bulletConfig: {fileID: 11400000, guid: 9e93593f785b2404b9c11897d1cd81af, type: 2}
     circleCount: 15
     circleStartAngle: 0
     fanCount: 6
     fanSpreadAngle: 80
     fanCenterAngle: 270
     singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    spiralFireDuration: 0
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
+    flowerStartAngle: 0
     aimingBulletCount: 1
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   loopAttackSequence: 1
   moveSequence: []

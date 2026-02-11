@@ -99,7 +99,7 @@ namespace DodgeDots.UI
         private void OnBattleWin()
         {
             ShowResult(
-                text: "You Win",
+                text: "你赢了！",
                 showRestart: false,
                 showWorldMap: true
             );
@@ -110,7 +110,7 @@ namespace DodgeDots.UI
         private void OnBattleLose()
         {
             ShowResult(
-                text: "You Died",
+                text: "你被干掉了。。。",
                 showRestart: true,
                 showWorldMap: true
             );

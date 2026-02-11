@@ -12,6 +12,8 @@ namespace DodgeDots.Audio
         public AudioClip clip;
         [Tooltip("是否循环播放BGM")]
         public bool loop = true;
+        [Tooltip("是否在场景启动时自动播放")]
+        public bool playOnStart = true;
 
         [Header("Timing (BPM Mode)")]
         [Tooltip("Beats per minute（仅在不使用 BeatMap 时生效）")]
@@ -51,6 +53,18 @@ namespace DodgeDots.Audio
                 audioSource.clip = clip;
             audioSource.loop = loop;
 
+            if (!playOnStart)
+            {
+                return;
+            }
+
+            PlayBgm();
+        }
+
+        public void PlayBgm()
+        {
+            if (audioSource == null) return;
+
             beatInterval = 60.0 / Mathf.Max(1f, bpm);
 
             dspStart = AudioSettings.dspTime + startDelaySeconds;
@@ -76,6 +90,14 @@ namespace DodgeDots.Audio
             if (beatDspTimes != null && beatDspTimes.Length > 0)
                 Debug.Log($"[BGMManager] Using BeatMap with {beatDspTimes.Length} beats, first at {beatDspTimes[0]-dspStart:F6}s (relative)");
             StartCoroutine(BeatLoop());
+        }
+
+        public void StopBgm()
+        {
+            if (audioSource != null)
+            {
+                audioSource.Stop();
+            }
         }
 
         IEnumerator BeatLoop()

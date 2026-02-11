@@ -124,6 +124,12 @@ namespace DodgeDots.Player
 
         private void Update()
         {
+            // 教程/暂停期间不允许释放技能（避免消耗能量或改变游戏状态）
+            if (Time.timeScale <= 0f)
+            {
+                return;
+            }
+
             // 监听鼠标左键点击（攻击技能）
             if (Input.GetMouseButtonDown(0))
             {

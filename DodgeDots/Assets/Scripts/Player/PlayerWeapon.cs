@@ -46,6 +46,9 @@ namespace DodgeDots.Player
 
         private void Update()
         {
+            // 教程/暂停期间禁止一切武器操作
+            if (Time.timeScale <= 0f) return;
+
             // 更新自动射击计时器
             if (autoShootEnabled)
             {
