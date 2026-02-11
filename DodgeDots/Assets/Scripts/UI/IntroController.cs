@@ -28,7 +28,7 @@ namespace DodgeDots.Cutscene
 
         [Header("听觉效果")]
         [Tooltip("该页面播放时触发的音效（如爆炸声、拔剑声）")]
-        public AudioClip slideSfx; // 新增：单页音效
+        public AudioClip slideSfx; // 单页音效
     }
 
     public class IntroController : MonoBehaviour
