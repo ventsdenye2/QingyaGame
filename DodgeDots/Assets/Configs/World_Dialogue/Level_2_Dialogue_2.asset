@@ -19,7 +19,7 @@ MonoBehaviour:
     nodeType: 0
     speakerName: "\u5FAE\u6CE2\u7089\u7089"
     speakerPos: 1
-    speakerSprite: {fileID: 21300000, guid: 7a942527807c5d540b14f3accc7197f9, type: 3}
+    speakerSprite: {fileID: 21300000, guid: b621dfafd0e6fc942bfd368db4637224, type: 3}
     dialogueText: "\u54FC\uFF01\u4F60\u4EEC\u522B\u60F3\u901A\u8FC7\u6211\u8FD9\u4E00\u5173\uFF01"
     nextNodeId: -1
     choices: []

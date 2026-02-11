@@ -225,6 +225,14 @@ namespace DodgeDots.Dialogue
         {
             _isPermanentlyDisabled = true;
             _playerInRange = false;
+
+            // 修复代码，最后一次手动通知 LevelNode：玩家“离开”了
+            // 由于 _isPermanentlyDisabled 为 true 导致 Update 不再更新状态
+            if (targetLevelNode != null)
+            {
+                targetLevelNode.SetPlayerNear(false);
+            }
+
             HideInteractionPrompt();
 
             if (!string.IsNullOrEmpty(interactionID))
