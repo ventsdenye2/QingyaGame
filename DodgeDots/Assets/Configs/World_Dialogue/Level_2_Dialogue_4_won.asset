@@ -23,6 +23,7 @@ MonoBehaviour:
     dialogueText: "\u90A3\uFF0C\u5FAE\u6CE2\u7089\u7089\uFF0C"
     nextNodeId: 2301
     choices: []
+    triggerFlagName: 
   - nodeId: 2301
     nodeType: 0
     speakerName: "\u5FAE\u6CE2\u7089\u7089"
@@ -31,6 +32,7 @@ MonoBehaviour:
     dialogueText: "\u53EB\u6211\u7089\u7089\u5C31\u597D~"
     nextNodeId: 2302
     choices: []
+    triggerFlagName: 
   - nodeId: 2302
     nodeType: 0
     speakerName: "\u5200\u950B"
@@ -39,6 +41,7 @@ MonoBehaviour:
     dialogueText: "\u7089\u7089\uFF0C\u53EF\u4EE5\u501F\u4F60\u5934\u4E0A\u7684\u53F6\u5B50\u4E00\u7528\u5417\uFF1F"
     nextNodeId: 2303
     choices: []
+    triggerFlagName: 
   - nodeId: 2303
     nodeType: 0
     speakerName: "\u5FAE\u6CE2\u7089\u7089"
@@ -47,6 +50,7 @@ MonoBehaviour:
     dialogueText: "\u4F60\u8BF4\u8FD9\u4E2A\uFF1F"
     nextNodeId: 2304
     choices: []
+    triggerFlagName: 
   - nodeId: 2304
     nodeType: 0
     speakerName: "\u5FAE\u6CE2\u7089\u7089"
@@ -55,12 +59,14 @@ MonoBehaviour:
     dialogueText: "\u55EF\uFF0C\u6CA1\u95EE\u9898\u7684\uFF01"
     nextNodeId: 2305
     choices: []
+    triggerFlagName: 
   - nodeId: 2305
     nodeType: 0
     speakerName: "\u5200\u950B"
     speakerPos: 0
     speakerSprite: {fileID: 21300000, guid: 2baa0c3204f3ccc43b124ac9c2ce0f26, type: 3}
-    dialogueText: "\u4E0D\u80DC\u611F\u6FC0\uFF01"
+    dialogueText: "\u4E0D\u80DC\u611F\u6FC0\uFF01\u90A3\u6211\u4EEC\u4E5F\u628A\u7076\u53F0\u6536\u62FE\u5E72\u51C0\u5427\uFF01"
     nextNodeId: -1
     choices: []
+    triggerFlagName: 
   startNodeId: 2300

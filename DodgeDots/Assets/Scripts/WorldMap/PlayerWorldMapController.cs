@@ -1,3 +1,4 @@
+using DodgeDots.Save;
 using UnityEngine;
 
 namespace DodgeDots.WorldMap
@@ -39,16 +40,36 @@ namespace DodgeDots.WorldMap
                     Debug.LogError("PlayerWorldMapController: 找不到相机！请在Inspector中指定World Map Camera。");
                 }
             }
+            bool positionRestored = false;
 
-            // 初始化位置到当前节点
-            if (currentNode != null)
+            // 1. 尝试从存档恢复精确坐标
+            // 确保 SaveSystem 已加载
+            if (SaveSystem.Current == null) SaveSystem.LoadOrCreate();
+
+            if (SaveSystem.Current.hasSavedPosition)
+            {
+                Vector3 savedPos = new Vector3(
+                    SaveSystem.Current.playerPosX,
+                    SaveSystem.Current.playerPosY,
+                    SaveSystem.Current.playerPosZ
+                );
+
+                transform.position = savedPos;
+                _targetPosition = savedPos; // 重要：同步更新目标位置，防止滑步
+                positionRestored = true;
+
+                Debug.Log($"[Player] 已恢复精确坐标: {savedPos}");
+            }
+
+            // 2. 如果没有存档坐标（第一次进入游戏），则使用 CurrentNode
+            if (!positionRestored && currentNode != null)
             {
                 transform.position = currentNode.transform.position;
                 _targetPosition = transform.position;
             }
 
             // 调试信息
-            Debug.Log($"PlayerWorldMapController 初始化: useMouseInput={useMouseInput}, useKeyboardInput={useKeyboardInput}, camera={worldMapCamera?.name}, hasRigidbody2D={_rigidbody2D != null}");
+            Debug.Log($"PlayerWorldMapController 初始化: PosRestored={positionRestored}, Node={currentNode?.name}");
         }
 
         private void Update()
