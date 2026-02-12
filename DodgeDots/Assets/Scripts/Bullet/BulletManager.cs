@@ -18,7 +18,7 @@ namespace DodgeDots.Bullet
         [SerializeField] private BulletTypeEntry[] bulletTypes;
 
         [Header("对象池设置")]
-        [SerializeField] private int initialPoolSize = 200;
+        [SerializeField] private int initialPoolSize = 1000;
         [SerializeField] private int maxPoolSize = 2000;
 
         [Header("引用")]

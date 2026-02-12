@@ -18,5 +18,5 @@ MonoBehaviour:
   bossBattleBounds: {x: 10, y: 10}
   showBoundaryGizmos: 1
   bulletDefaultSpeed: 3
-  bulletPoolInitialSize: 100
-  objectPoolMaxCapacity: 500
+  bulletPoolInitialSize: 1000
+  objectPoolMaxCapacity: 2000

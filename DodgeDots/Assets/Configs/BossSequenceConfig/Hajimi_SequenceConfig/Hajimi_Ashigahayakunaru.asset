@@ -21,7 +21,6 @@ MonoBehaviour:
     attackType: 4
     bulletConfig: {fileID: 11400000, guid: a8aa71f07dfd3a549863312cd0a31127, type: 2}
     circleCount: 50
-    circleStartAngle: 0
     fanCount: 30
     fanSpreadAngle: 0
     fanCenterAngle: 0
@@ -34,10 +33,10 @@ MonoBehaviour:
     flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
-    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   - attackName: 
     emitterType: 2
@@ -46,7 +45,6 @@ MonoBehaviour:
     attackType: 4
     bulletConfig: {fileID: 11400000, guid: a8aa71f07dfd3a549863312cd0a31127, type: 2}
     circleCount: 0
-    circleStartAngle: 0
     fanCount: 30
     fanSpreadAngle: 0
     fanCenterAngle: 0
@@ -59,10 +57,10 @@ MonoBehaviour:
     flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
-    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   - attackName: 
     emitterType: 3
@@ -71,7 +69,6 @@ MonoBehaviour:
     attackType: 0
     bulletConfig: {fileID: 11400000, guid: a8aa71f07dfd3a549863312cd0a31127, type: 2}
     circleCount: 50
-    circleStartAngle: 0
     fanCount: 30
     fanSpreadAngle: 0
     fanCenterAngle: 0
@@ -84,10 +81,10 @@ MonoBehaviour:
     flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
-    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   - attackName: 
     emitterType: 4
@@ -96,7 +93,6 @@ MonoBehaviour:
     attackType: 4
     bulletConfig: {fileID: 11400000, guid: a8aa71f07dfd3a549863312cd0a31127, type: 2}
     circleCount: 0
-    circleStartAngle: 0
     fanCount: 30
     fanSpreadAngle: 0
     fanCenterAngle: 0
@@ -109,10 +105,10 @@ MonoBehaviour:
     flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
-    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   - attackName: 
     emitterType: 4
@@ -121,7 +117,6 @@ MonoBehaviour:
     attackType: 4
     bulletConfig: {fileID: 11400000, guid: a8aa71f07dfd3a549863312cd0a31127, type: 2}
     circleCount: 0
-    circleStartAngle: 0
     fanCount: 30
     fanSpreadAngle: 0
     fanCenterAngle: 0
@@ -134,10 +129,10 @@ MonoBehaviour:
     flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
-    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   - attackName: 
     emitterType: 2
@@ -146,7 +141,6 @@ MonoBehaviour:
     attackType: 0
     bulletConfig: {fileID: 11400000, guid: a8aa71f07dfd3a549863312cd0a31127, type: 2}
     circleCount: 50
-    circleStartAngle: 0
     fanCount: 30
     fanSpreadAngle: 0
     fanCenterAngle: 0
@@ -159,10 +153,10 @@ MonoBehaviour:
     flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
-    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   - attackName: 
     emitterType: 2
@@ -171,7 +165,6 @@ MonoBehaviour:
     attackType: 4
     bulletConfig: {fileID: 11400000, guid: a8aa71f07dfd3a549863312cd0a31127, type: 2}
     circleCount: 50
-    circleStartAngle: 0
     fanCount: 30
     fanSpreadAngle: 0
     fanCenterAngle: 0
@@ -184,10 +177,10 @@ MonoBehaviour:
     flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
-    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   - attackName: 
     emitterType: 5
@@ -196,7 +189,6 @@ MonoBehaviour:
     attackType: 0
     bulletConfig: {fileID: 11400000, guid: a8aa71f07dfd3a549863312cd0a31127, type: 2}
     circleCount: 50
-    circleStartAngle: 0
     fanCount: 30
     fanSpreadAngle: 0
     fanCenterAngle: 0
@@ -209,10 +201,10 @@ MonoBehaviour:
     flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
-    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   - attackName: 
     emitterType: 1
@@ -221,7 +213,6 @@ MonoBehaviour:
     attackType: 4
     bulletConfig: {fileID: 11400000, guid: a8aa71f07dfd3a549863312cd0a31127, type: 2}
     circleCount: 0
-    circleStartAngle: 0
     fanCount: 30
     fanSpreadAngle: 0
     fanCenterAngle: 0
@@ -234,10 +225,10 @@ MonoBehaviour:
     flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
-    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   - attackName: 
     emitterType: 3
@@ -246,7 +237,6 @@ MonoBehaviour:
     attackType: 0
     bulletConfig: {fileID: 11400000, guid: a8aa71f07dfd3a549863312cd0a31127, type: 2}
     circleCount: 50
-    circleStartAngle: 0
     fanCount: 30
     fanSpreadAngle: 0
     fanCenterAngle: 0
@@ -259,10 +249,10 @@ MonoBehaviour:
     flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
-    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   - attackName: 
     emitterType: 5
@@ -271,7 +261,6 @@ MonoBehaviour:
     attackType: 0
     bulletConfig: {fileID: 11400000, guid: a8aa71f07dfd3a549863312cd0a31127, type: 2}
     circleCount: 50
-    circleStartAngle: 0
     fanCount: 30
     fanSpreadAngle: 0
     fanCenterAngle: 0
@@ -284,10 +273,10 @@ MonoBehaviour:
     flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
-    flowerStartAngle: 0
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
     customAttackId: 0
   loopAttackSequence: 1
   moveSequence: []

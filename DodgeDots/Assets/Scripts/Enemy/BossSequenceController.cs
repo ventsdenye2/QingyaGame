@@ -27,6 +27,9 @@ namespace DodgeDots.Enemy
         [Tooltip("是否执行移动序列")]
         public bool enableMoveSequence = true;
 
+        [Tooltip("是否分离发射源（分离后子物体不会跟随Boss移动）")]
+        public bool detachEmitters = true;
+
         [Header("调试")]
         [Tooltip("是否显示调试日志")]
         public bool showDebugLog = false;
@@ -56,7 +59,10 @@ namespace DodgeDots.Enemy
             }
 
             CacheDefaultPositions();
-            StartCoroutine(DetachEmittersWhenReady());
+            if (detachEmitters)
+            {
+                StartCoroutine(DetachEmittersWhenReady());
+            }
 
             // 订阅节拍事件
             if (beatMapPlayer != null && !_subscribed)
