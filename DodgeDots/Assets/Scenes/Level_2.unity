@@ -443,6 +443,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: d354006904fa93740a9f3f98b969b335, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!114 &326955894
 MonoBehaviour:
@@ -460,7 +461,7 @@ MonoBehaviour:
   beatMap: {fileID: 11400000, guid: 6a96be701696525419ef0524700c8eb3, type: 2}
   autoStart: 1
   waitForBgmStart: 1
-  startOffsetSeconds: -0.8
+  startOffsetSeconds: -1
   loop: 1
 --- !u!4 &326955895
 Transform:
@@ -1674,6 +1675,108 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 769150987}
   m_CullTransparentMesh: 1
+--- !u!1 &783103042
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 783103043}
+  - component: {fileID: 783103045}
+  - component: {fileID: 783103044}
+  m_Layer: 0
+  m_Name: Custom4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &783103043
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783103042}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -40, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1999439126}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &783103044
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783103042}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: b6d14bcb8d9dbb349beb9d3619096732, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.32, y: 0.32}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &783103045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783103042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7e87c6d34a8acb49be0fe52047be9ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emitterType: 10
+  emitterName: Emitter
+  showGizmo: 1
+  gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  gizmoSize: 0.3
 --- !u!1 &788542162
 GameObject:
   m_ObjectHideFlags: 0
@@ -1787,6 +1890,7 @@ GameObject:
   - component: {fileID: 792347919}
   - component: {fileID: 792347918}
   - component: {fileID: 792347917}
+  - component: {fileID: 792347920}
   m_Layer: 0
   m_Name: BeatMapPlayer_rain
   m_TagString: Untagged
@@ -1810,6 +1914,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: e673401d8583f3b4aa6b18acadcef278, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!114 &792347918
 MonoBehaviour:
@@ -1844,6 +1949,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &792347920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 792347916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 792347918}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 3b4b987bfd27fad4ea7bf092a986134b, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
 --- !u!1 &825278382
 GameObject:
   m_ObjectHideFlags: 0
@@ -2664,6 +2787,75 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1172021503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1172021506}
+  - component: {fileID: 1172021505}
+  - component: {fileID: 1172021504}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_daikiraimove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1172021504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172021503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1172021505}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 3ebc0e3d0453da746a6eaac2fc774898, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1172021505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172021503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 1747a183b6c6fee43a7ea375503cfe62, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &1172021506
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172021503}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1201574483
 GameObject:
   m_ObjectHideFlags: 0
@@ -3220,13 +3412,13 @@ MonoBehaviour:
   player: {fileID: 492249292}
   playerHealth: {fileID: 492249291}
   playerWeapon: {fileID: 492249290}
-  bossSequenceController: {fileID: 0}
-  beatMapPlayer: {fileID: 0}
+  bossSequenceController: {fileID: 326955893}
+  beatMapPlayer: {fileID: 326955894}
   autoStartBattle: 1
   battleStartDelay: 1
   playerDeathDelay: 2
   enableBulletPreload: 1
-  preloadSeconds: 5
+  preloadSeconds: 10
   fastForwardSpeed: 3
 --- !u!4 &1336664141
 Transform:
@@ -3377,6 +3569,151 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377970397}
   m_CullTransparentMesh: 1
+--- !u!1 &1378991914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1378991917}
+  - component: {fileID: 1378991916}
+  - component: {fileID: 1378991915}
+  - component: {fileID: 1378991921}
+  - component: {fileID: 1378991920}
+  - component: {fileID: 1378991919}
+  - component: {fileID: 1378991918}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_alarmmove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1378991915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378991914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1378991916}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 0a4cdca310487d649ac15797c4cb09d8, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1378991916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378991914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: ab7c227dffbf6cf46b4d0b611282527a, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &1378991917
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378991914}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1378991918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378991914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1378991916}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 05185a45460c934438f393b63901f640, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1378991919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378991914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1378991916}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 2f8f3f27bda297949af444415b0b3b44, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1378991920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378991914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1378991916}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 163602b3494eaf740a08a7e552e2cefa, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1378991921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378991914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1378991916}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: ab1cafe4788243f498df6b6e2b902e94, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
 --- !u!1 &1404060165
 GameObject:
   m_ObjectHideFlags: 0
@@ -3561,6 +3898,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 20116d0ecadf2cb4f94961c5fb0d86ab, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!114 &1491158979
 MonoBehaviour:
@@ -3750,6 +4088,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 246048d15cf97344193277905b73088a, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!114 &1498765807
 MonoBehaviour:
@@ -3776,6 +4115,75 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1498765805}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1522297095
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1522297098}
+  - component: {fileID: 1522297097}
+  - component: {fileID: 1522297096}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_alarm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1522297096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522297095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1522297097}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 256c9d61c5fddc84b9e9e4e58065d41b, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1522297097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522297095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 19bd77e88d3e89746822af1825dd0e9c, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &1522297098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522297095}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
@@ -3849,8 +4257,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatMapPlayer: {fileID: 1529034237}
   bossBase: {fileID: 825278383}
-  sequenceConfig: {fileID: 11400000, guid: e031463f046c0654ea85497e76988ad9, type: 2}
+  sequenceConfig: {fileID: 11400000, guid: 0c6b258c4e643bb45b7af4cf9c03403d, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!1 &1614718951
 GameObject:
@@ -3986,6 +4395,210 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1614718951}
   m_CullTransparentMesh: 1
+--- !u!1 &1764110322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1764110323}
+  - component: {fileID: 1764110325}
+  - component: {fileID: 1764110324}
+  m_Layer: 0
+  m_Name: Custom2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1764110323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764110322}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -40, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1999439126}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1764110324
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764110322}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: b6d14bcb8d9dbb349beb9d3619096732, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.32, y: 0.32}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &1764110325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764110322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7e87c6d34a8acb49be0fe52047be9ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emitterType: 8
+  emitterName: Emitter
+  showGizmo: 1
+  gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  gizmoSize: 0.3
+--- !u!1 &1783733160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1783733161}
+  - component: {fileID: 1783733163}
+  - component: {fileID: 1783733162}
+  m_Layer: 0
+  m_Name: Custom1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1783733161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783733160}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -40, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1999439126}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1783733162
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783733160}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: b6d14bcb8d9dbb349beb9d3619096732, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.32, y: 0.32}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &1783733163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783733160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7e87c6d34a8acb49be0fe52047be9ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emitterType: 7
+  emitterName: Emitter
+  showGizmo: 1
+  gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  gizmoSize: 0.3
 --- !u!1 &1823291056
 GameObject:
   m_ObjectHideFlags: 0
@@ -4120,6 +4733,108 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823291056}
   m_CullTransparentMesh: 1
+--- !u!1 &1834865971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1834865972}
+  - component: {fileID: 1834865974}
+  - component: {fileID: 1834865973}
+  m_Layer: 0
+  m_Name: Custom5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1834865972
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834865971}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -40, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1999439126}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1834865973
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834865971}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: b6d14bcb8d9dbb349beb9d3619096732, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.32, y: 0.32}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &1834865974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834865971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7e87c6d34a8acb49be0fe52047be9ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emitterType: 11
+  emitterName: Emitter
+  showGizmo: 1
+  gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  gizmoSize: 0.3
 --- !u!1 &1861971080
 GameObject:
   m_ObjectHideFlags: 0
@@ -4454,6 +5169,108 @@ MonoBehaviour:
   showGizmo: 1
   gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   gizmoSize: 0.3
+--- !u!1 &1910678889
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1910678890}
+  - component: {fileID: 1910678892}
+  - component: {fileID: 1910678891}
+  m_Layer: 0
+  m_Name: Custom3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1910678890
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910678889}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -40, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1999439126}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1910678891
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910678889}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: b6d14bcb8d9dbb349beb9d3619096732, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.32, y: 0.32}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &1910678892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910678889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7e87c6d34a8acb49be0fe52047be9ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emitterType: 9
+  emitterName: Emitter
+  showGizmo: 1
+  gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  gizmoSize: 0.3
 --- !u!1 &1922500065
 GameObject:
   m_ObjectHideFlags: 0
@@ -4507,8 +5324,8 @@ MonoBehaviour:
     prefab: {fileID: 4575700922554334577, guid: 71ff6d1e8421b2449aa55a2c0fa2e3b1, type: 3}
   - config: {fileID: 11400000, guid: c43d22ee5fd96d84590e6131aea80b82, type: 2}
     prefab: {fileID: 4575700922554334577, guid: 71ff6d1e8421b2449aa55a2c0fa2e3b1, type: 3}
-  initialPoolSize: 600
-  maxPoolSize: 1000
+  initialPoolSize: 1000
+  maxPoolSize: 2000
   gameConfig: {fileID: 11400000, guid: 1877b4648c7996b4d9f7b3a60acfff44, type: 2}
 --- !u!4 &1922500068
 Transform:
@@ -4771,6 +5588,11 @@ Transform:
   - {fileID: 788542163}
   - {fileID: 1901758161}
   - {fileID: 831860382}
+  - {fileID: 1783733161}
+  - {fileID: 1764110323}
+  - {fileID: 1910678890}
+  - {fileID: 783103043}
+  - {fileID: 1834865972}
   m_Father: {fileID: 825278390}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2033821021
@@ -5028,6 +5850,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2088843811}
   m_CullTransparentMesh: 1
+--- !u!1 &2118710259
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2118710262}
+  - component: {fileID: 2118710261}
+  - component: {fileID: 2118710263}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_rainmove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2118710261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118710259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 63bfef739ef38b640a43ab817f223913, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &2118710262
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118710259}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2118710263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2118710259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 2118710261}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 81c4c5f59e5cd1d419d6200fcb2a731f, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
 --- !u!1 &2127816905
 GameObject:
   m_ObjectHideFlags: 0
@@ -5172,10 +6063,14 @@ SceneRoots:
   - {fileID: 640476935}
   - {fileID: 1336664141}
   - {fileID: 1529034238}
+  - {fileID: 1172021506}
   - {fileID: 1498765808}
   - {fileID: 326955895}
   - {fileID: 1491158980}
   - {fileID: 792347919}
+  - {fileID: 2118710262}
+  - {fileID: 1522297098}
+  - {fileID: 1378991917}
   - {fileID: 452865494}
   - {fileID: 761823456}
   - {fileID: 492249295}

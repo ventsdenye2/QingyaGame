@@ -533,7 +533,9 @@ namespace DodgeDots.Enemy
 
                 for (int i = 0; i < positions.Length; i++)
                 {
-                    Vector2 spawnPos = centerPosition + positions[i];
+                    // 翻转Y坐标以修正上下颠倒的问题
+                    Vector2 flippedPos = new Vector2(positions[i].x, -positions[i].y);
+                    Vector2 spawnPos = centerPosition + flippedPos;
                     Vector2 direction = Vector2.zero;
                     float speed = 0f;
 
@@ -554,8 +556,8 @@ namespace DodgeDots.Enemy
                             break;
 
                         case CharacterBulletMovementMode.ExpandOutward:
-                            // 朝外扩散
-                            direction = positions[i].normalized;
+                            // 朝外扩散（也需要翻转Y）
+                            direction = flippedPos.normalized;
                             if (direction.sqrMagnitude < 0.0001f)
                             {
                                 direction = Vector2.up;
@@ -581,7 +583,9 @@ namespace DodgeDots.Enemy
                 // 同时生成所有弹幕
                 for (int i = 0; i < positions.Length; i++)
                 {
-                    Vector2 spawnPos = centerPosition + positions[i];
+                    // 翻转Y坐标以修正上下颠倒的问题
+                    Vector2 flippedPos = new Vector2(positions[i].x, -positions[i].y);
+                    Vector2 spawnPos = centerPosition + flippedPos;
                     Vector2 direction = Vector2.zero;
                     float speed = 0f;
 
@@ -602,8 +606,8 @@ namespace DodgeDots.Enemy
                             break;
 
                         case CharacterBulletMovementMode.ExpandOutward:
-                            // 朝外扩散
-                            direction = positions[i].normalized;
+                            // 朝外扩散（也需要翻转Y）
+                            direction = flippedPos.normalized;
                             if (direction.sqrMagnitude < 0.0001f)
                             {
                                 direction = Vector2.up;

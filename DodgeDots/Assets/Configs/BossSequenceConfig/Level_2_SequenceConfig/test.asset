@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe2440894799f064faa436b14c2e17c4, type: 3}
-  m_Name: normal
+  m_Name: test
   m_EditorClassIdentifier: 
   configName: Boss Sequence Config
   attackSequence:
@@ -18,12 +18,12 @@ MonoBehaviour:
     emitterType: 0
     useMultipleEmitters: 0
     multipleEmitters: 
-    attackType: 0
-    bulletConfig: {fileID: 11400000, guid: 4a92f6b93e6af544d8eeee5dd59ad62a, type: 2}
-    circleCount: 60
-    fanCount: 15
-    fanSpreadAngle: 30
-    fanCenterAngle: 90
+    attackType: 6
+    bulletConfig: {fileID: 0}
+    circleCount: 0
+    fanCount: 0
+    fanSpreadAngle: 0
+    fanCenterAngle: 0
     singleDirection: 0
     spiralBulletCount: 0
     spiralTurns: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
-    characterPattern: {fileID: 0}
+    characterPattern: {fileID: 11400000, guid: 225372ce3a7cdcd45aaa861041696753, type: 2}
     customAttackId: 0
   loopAttackSequence: 1
   moveSequence: []

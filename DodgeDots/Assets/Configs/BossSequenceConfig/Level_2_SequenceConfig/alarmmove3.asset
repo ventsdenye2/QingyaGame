@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe2440894799f064faa436b14c2e17c4, type: 3}
+  m_Name: alarmmove3
+  m_EditorClassIdentifier: 
+  configName: Boss Sequence Config
+  attackSequence: []
+  loopAttackSequence: 1
+  moveSequence:
+  - emitterType: 3
+    useMultipleEmitters: 1
+    multipleEmitters: 
+    moveType: 1
+    moveDuration: 5
+    moveSpeed: 10
+    targetPosition: {x: 0, y: -3}
+    moveDirection: 270
+    moveDistance: 4
+    customMoveId: 0
+    useLocalSpace: 0
+    circleCenter: {x: 0, y: 0}
+    circleRadius: 3
+    circleAngularSpeed: 90
+    circleStartAngle: 0
+    circleClockwise: 0
+    pointA: {x: 0, y: 0}
+    pointB: {x: 0, y: 0}
+    loopSpeed: 0
+    startFromA: 0
+  loopMoveSequence: 1

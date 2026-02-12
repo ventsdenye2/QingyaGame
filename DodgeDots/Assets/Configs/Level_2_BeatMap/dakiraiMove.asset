@@ -10,19 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2858391113ed7c54c8eaa40d5ae1cde2, type: 3}
-  m_Name: dakirai
+  m_Name: dakiraiMove
   m_EditorClassIdentifier: 
   beatTimes:
-  - 47.149333333333516
-  - 47.1494
-  - 47.36266666666688
-  - 47.37
-  - 47.59733333333338
-  - 47.6
-  - 47.78933333333339
-  - 47.8
-  - 48.002666666666755
-  - 48.15
-  - 48.3
-  - 48.45
-  - 48.6
+  - 46.5
+  - 46.5
+  - 46.5
+  - 46.5
+  - 46.5
+  - 46.5
+  - 46.5
+  - 46.5
+  - 46.5

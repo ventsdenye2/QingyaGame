@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: normal
   m_EditorClassIdentifier: 
   beatTimes:
+  - 0.2
   - 0.7
   - 1.285333333333341
   - 1.711999999999989
