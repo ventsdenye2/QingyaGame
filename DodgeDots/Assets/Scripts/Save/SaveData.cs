@@ -9,6 +9,8 @@ namespace DodgeDots.Save
         // 1. 关卡进度
         public List<string> completedLevels = new List<string>();
 
+        public List<string> unlockedLevels = new List<string>();
+
         // 2. 对话记录 (记录已读过的 DialogueConfig.name)
         public List<string> finishedDialogues = new List<string>();
 

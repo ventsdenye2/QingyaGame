@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level_3_Dialogue_2
   m_EditorClassIdentifier: 
   dialogueId: dialogue_023
-  dialogueName: Level_3_3_Dialogue
+  dialogueName: Level_3_2_Dialogue
   dialogueNodes:
   - nodeId: 3100
     nodeType: 0
@@ -23,4 +23,5 @@ MonoBehaviour:
     dialogueText: "\u53A8\u5177\u548C\u9910\u5177\u6C38\u8FDC\u52BF\u4E0D\u4E24\u7ACB\uFF01"
     nextNodeId: -1
     choices: []
+    triggerFlagName: 
   startNodeId: 3100

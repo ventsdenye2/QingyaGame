@@ -16,19 +16,23 @@ namespace DodgeDots.Cutscene
         public float duration = 4.0f;
 
         [Header("视觉效果")]
-        [Tooltip("勾选则此页切换时会有淡入淡出，不勾选则直接硬切")]
         public bool useFade = true;
-
-        [Tooltip("是否在此页开始时触发抖动")]
         public bool useShake = false;
-        [Tooltip("抖动持续时间")]
         public float shakeDuration = 0.5f;
-        [Tooltip("抖动幅度（建议 10-50）")]
         public float shakeIntensity = 20f;
 
         [Header("听觉效果")]
-        [Tooltip("该页面播放时触发的音效（如爆炸声、拔剑声）")]
-        public AudioClip slideSfx; // 单页音效
+        [Tooltip("勾选此项，播放本页音效前会强制停止之前未播完的声音")]
+        public bool stopPreviousAudio = false;
+
+        [Tooltip("音频结束前多久开始淡出（秒）")]
+        public float fadeOutTriggerTime = 0.5f; // 新增：距离结束还有多久开始淡出
+
+        [Tooltip("该页面播放时触发的音效")]
+        public AudioClip slideSfx;
+
+        [Range(0f, 1f)]
+        public float sfxVolume = 1.0f;
     }
 
     public class IntroController : MonoBehaviour
@@ -43,10 +47,8 @@ namespace DodgeDots.Cutscene
         [SerializeField] private Button skipButton;
 
         [Header("效果组件")]
-        [Tooltip("拖入你想震动的物体（比如 ContentParent 或 Image）")]
-        [SerializeField] private RectTransform shakeTarget; // 恢复：指定抖动目标
-        [Tooltip("用来播放音效的 AudioSource")]
-        [SerializeField] private AudioSource sfxAudioSource; // 新增：音频源
+        [SerializeField] private RectTransform shakeTarget;
+        [SerializeField] private AudioSource sfxAudioSource;
 
         [Header("全局设置")]
         [SerializeField] private float fadeSpeed = 1.0f;
@@ -59,22 +61,18 @@ namespace DodgeDots.Cutscene
         private float _timer = 0f;
         private bool _isTransitioning = false;
         private bool _isTyping = false;
-        // 防止重复触发结束逻辑的标志位
         private bool _isFinished = false;
 
         private Coroutine _typewriterCoroutine;
         private Coroutine _shakeCoroutine;
+        private Coroutine _audioRoutine; // 处理音频播放和淡出的协程
 
-        private Vector2 _originalPosition; // 记录抖动前的原始位置
+        private Vector2 _originalPosition;
 
         private void Start()
         {
             if (skipButton != null) skipButton.onClick.AddListener(FinishIntro);
-
-            // 初始隐藏
             if (contentCanvasGroup != null) contentCanvasGroup.alpha = 0f;
-
-            // 记录震动目标的初始位置，防止越震越歪
             if (shakeTarget != null) _originalPosition = shakeTarget.anchoredPosition;
 
             ShowNextSlide();
@@ -84,14 +82,12 @@ namespace DodgeDots.Cutscene
         {
             if (_isTransitioning || _isFinished) return;
 
-            // 计时逻辑
             if (!_isTyping)
             {
                 _timer += Time.deltaTime;
                 if (_timer >= GetCurrentDuration()) ShowNextSlide();
             }
 
-            // 点击跳过
             if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
             {
                 if (_isTyping) SkipTypewriter();
@@ -115,7 +111,7 @@ namespace DodgeDots.Cutscene
             _isTransitioning = true;
             IntroSlide currentData = slides[index];
 
-            // 1. 淡出旧内容 (如果开启)
+            // 1. 淡出旧内容
             if (index > 0 && currentData.useFade && contentCanvasGroup != null)
             {
                 while (contentCanvasGroup.alpha > 0f)
@@ -126,7 +122,7 @@ namespace DodgeDots.Cutscene
             }
             else if (contentCanvasGroup != null)
             {
-                contentCanvasGroup.alpha = 0f; // 硬切前设为透明
+                contentCanvasGroup.alpha = 0f;
             }
 
             // 2. 切换数据
@@ -136,13 +132,23 @@ namespace DodgeDots.Cutscene
             if (currentData.image != null) displayImage.sprite = currentData.image;
             displayText.text = "";
 
-            // --- 播放音效 ---
-            if (currentData.slideSfx != null && sfxAudioSource != null)
+            // --- 3. 播放音频并处理自动淡出 ---
+            if (sfxAudioSource != null)
             {
-                sfxAudioSource.PlayOneShot(currentData.slideSfx);
+                // 如果设置了强制停止，先杀掉之前的协程和声音
+                if (currentData.stopPreviousAudio)
+                {
+                    if (_audioRoutine != null) StopCoroutine(_audioRoutine);
+                    sfxAudioSource.Stop();
+                }
+
+                if (currentData.slideSfx != null)
+                {
+                    _audioRoutine = StartCoroutine(PlayAudioWithAutoFadeOut(currentData));
+                }
             }
 
-            // 3. 淡入新内容
+            // 4. 淡入新内容
             if (currentData.useFade && contentCanvasGroup != null)
             {
                 while (contentCanvasGroup.alpha < 1f)
@@ -154,22 +160,46 @@ namespace DodgeDots.Cutscene
             }
             else if (contentCanvasGroup != null)
             {
-                contentCanvasGroup.alpha = 1f; // 硬切直接显示
+                contentCanvasGroup.alpha = 1f;
             }
 
             _isTransitioning = false;
 
-            // 4. 触发震动 (使用 shakeTarget)
-            if (currentData.useShake && shakeTarget != null)
-            {
-                StartShake(currentData.shakeDuration, currentData.shakeIntensity);
-            }
-
-            // 5. 开始打字
+            if (currentData.useShake && shakeTarget != null) StartShake(currentData.shakeDuration, currentData.shakeIntensity);
             StartTypewriter(currentData.text);
         }
 
-        // --- 震动逻辑 (针对 shakeTarget) ---
+        // --- 核心：音频播放与自动淡出逻辑 ---
+        private IEnumerator PlayAudioWithAutoFadeOut(IntroSlide data)
+        {
+            sfxAudioSource.clip = data.slideSfx;
+            sfxAudioSource.volume = data.sfxVolume;
+            sfxAudioSource.Play();
+
+            float clipLength = data.slideSfx.length;
+            float fadeStartTime = clipLength - data.fadeOutTriggerTime;
+
+            // 正常播放阶段
+            while (sfxAudioSource.isPlaying && sfxAudioSource.time < fadeStartTime)
+            {
+                yield return null;
+            }
+
+            // 淡出阶段
+            float startVolume = sfxAudioSource.volume;
+            float fadeTimer = 0f;
+            while (sfxAudioSource.isPlaying && fadeTimer < data.fadeOutTriggerTime)
+            {
+                fadeTimer += Time.deltaTime;
+                sfxAudioSource.volume = Mathf.Lerp(startVolume, 0f, fadeTimer / data.fadeOutTriggerTime);
+                yield return null;
+            }
+
+            sfxAudioSource.Stop();
+            sfxAudioSource.volume = startVolume; // 重置音量备用
+        }
+
+        // --- 其余逻辑保持不变 ---
         private void StartShake(float duration, float intensity)
         {
             if (_shakeCoroutine != null) StopCoroutine(_shakeCoroutine);
@@ -179,25 +209,17 @@ namespace DodgeDots.Cutscene
         private IEnumerator ShakeTargetProcess(float duration, float intensity)
         {
             float elapsed = 0f;
-            // 确保每次震动前都以 _originalPosition 为基准
-            // 如果你的UI在播放过程中会移动（比如平移入场），这里逻辑需要调整
-            // 但对于PPT式播放，固定位置是最稳的
-
             while (elapsed < duration)
             {
                 float x = Random.Range(-1f, 1f) * intensity;
                 float y = Random.Range(-1f, 1f) * intensity;
-
                 shakeTarget.anchoredPosition = _originalPosition + new Vector2(x, y);
-
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-
-            shakeTarget.anchoredPosition = _originalPosition; // 归位
+            shakeTarget.anchoredPosition = _originalPosition;
         }
 
-        // --- 打字机逻辑 ---
         private void StartTypewriter(string text)
         {
             if (_typewriterCoroutine != null) StopCoroutine(_typewriterCoroutine);
@@ -226,11 +248,8 @@ namespace DodgeDots.Cutscene
 
         private void FinishIntro()
         {
-            // 如果已经执行过一次结束逻辑，直接拦截
             if (_isFinished) return;
-
-            _isFinished = true; // 锁死，防止后续帧再次进入
-
+            _isFinished = true;
             if (LoadingManager.Instance != null) LoadingManager.Instance.LoadScene(nextSceneName);
             else UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
         }

@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3e5315bffb86b7438c0a7c3d28c54a6, type: 3}
+  m_Name: Level_hajimi_Dialogue_1
+  m_EditorClassIdentifier: 
+  dialogueId: dialogue_030
+  dialogueName: Level_hajimi_1_Dialogue
+  dialogueNodes:
+  - nodeId: 8300
+    nodeType: 0
+    speakerName: "\u5C0F\u732B\u6C34\u9F99\u5934"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: 51e280d80c67f144ea4bdb1d9ba1da0a, type: 3}
+    dialogueText: "\u54C8\u57FA\u7C73\u5357\u5317\u8DEF\u591A......"
+    nextNodeId: 8301
+    choices: []
+    triggerFlagName: 
+  - nodeId: 8301
+    nodeType: 1
+    speakerName: "\u5C16\u5C16"
+    speakerPos: 0
+    speakerSprite: {fileID: 21300000, guid: 19b148eae96088a42944b14735730bf3, type: 3}
+    dialogueText: "\u8FD9\u662F......"
+    nextNodeId: 8302
+    choices:
+    - choiceText: "\u771F\u6B63\u7684\u827A\u672F"
+      nextNodeId: 8304
+    - choiceText: "\u53FD\u91CC\u5495\u565C\u8BF4\u5565\u5462"
+      nextNodeId: 8303
+    triggerFlagName: 
+  - nodeId: 8303
+    nodeType: 0
+    speakerName: "\u5C0F\u732B\u6C34\u9F99\u5934"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: 51e280d80c67f144ea4bdb1d9ba1da0a, type: 3}
+    dialogueText: "\u4F60\u61C2\u4EC0\u4E48\u3002"
+    nextNodeId: -1
+    choices: []
+    triggerFlagName: 
+  - nodeId: 8304
+    nodeType: 0
+    speakerName: "\u5C0F\u732B\u6C34\u9F99\u5934"
+    speakerPos: 1
+    speakerSprite: {fileID: 21300000, guid: 51e280d80c67f144ea4bdb1d9ba1da0a, type: 3}
+    dialogueText: "\u6700\u6709\u54C1\u5473\u7684\u4E00\u96C6\uFF01\u5141\u8BB8\u4F60\u6311\u6218\u6211\u4E86\u3002"
+    nextNodeId: -1
+    choices: []
+    triggerFlagName: UnlockBoss_hajimi
+  startNodeId: 8300

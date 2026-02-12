@@ -114,6 +114,14 @@ namespace DodgeDots.Dialogue
                 return;
             }
 
+            // 检查当前节点是否配置了触发 Flag
+            if (!string.IsNullOrEmpty(_currentNode.triggerFlagName))
+            {
+                // 调用 SaveSystem 设置 Flag
+                DodgeDots.Save.SaveSystem.SetFlag(_currentNode.triggerFlagName);
+                Debug.Log($"对话触发 Flag: {_currentNode.triggerFlagName}");
+            }
+
             if (_currentNode.nodeType == DialogueNodeType.End)
             {
                 EndDialogue();

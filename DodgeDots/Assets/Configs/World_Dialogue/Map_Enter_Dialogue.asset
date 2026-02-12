@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e5315bffb86b7438c0a7c3d28c54a6, type: 3}
   m_Name: Map_Enter_Dialogue
   m_EditorClassIdentifier: 
-  dialogueId: dialogue_002
+  dialogueId: dialogue_090
   dialogueName: Level_1_2_Dialogue
   dialogueNodes:
   - nodeId: 8000
@@ -23,6 +23,7 @@ MonoBehaviour:
     dialogueText: "\u2026\u2026\u6211\u7ADF\u7136\u53EF\u4EE5\u79FB\u52A8\u4E86\uFF01"
     nextNodeId: 8001
     choices: []
+    triggerFlagName: 
   - nodeId: 8001
     nodeType: 0
     speakerName: "\u6797"
@@ -31,6 +32,7 @@ MonoBehaviour:
     dialogueText: "\u8FD8\u53EF\u4EE5\u8BF4\u8BDD\uFF01"
     nextNodeId: 8002
     choices: []
+    triggerFlagName: 
   - nodeId: 8002
     nodeType: 0
     speakerName: "\u68EE"
@@ -39,6 +41,7 @@ MonoBehaviour:
     dialogueText: "\u597D\u795E\u5947\uFF01\u2026\u2026\u6211\u4EEC\u539F\u6765\u4E0D\u4F1A\u8BF4\u8BDD\u5417\uFF1F"
     nextNodeId: 8003
     choices: []
+    triggerFlagName: 
   - nodeId: 8003
     nodeType: 0
     speakerName: "\u5C16\u5C16"
@@ -47,6 +50,7 @@ MonoBehaviour:
     dialogueText: "\u53A8\u623F\u53D8\u5F97\u597D\u4E71\uFF0C\u5B8C\u5168\u4E0D\u7B26\u5408\u6211\u7684\u9AD8\u8D35\u8840\u7EDF\u3002"
     nextNodeId: 8004
     choices: []
+    triggerFlagName: 
   - nodeId: 8004
     nodeType: 0
     speakerName: "\u5200\u950B"
@@ -55,6 +59,7 @@ MonoBehaviour:
     dialogueText: "\u5927\u5BB6\u542C\u6211\u8BF4\uFF01"
     nextNodeId: 8005
     choices: []
+    triggerFlagName: 
   - nodeId: 8005
     nodeType: 0
     speakerName: "\u5200\u950B"
@@ -63,6 +68,7 @@ MonoBehaviour:
     dialogueText: "\u6211\u611F\u53D7\u5230\u4ECE\u51B0\u7BB1\u90A3\u8FB9\u4F20\u6765\u4E86\u5F88\u5F3A\u7684\u7D0A\u4E71\u6CE2\uFF0C\u4F3C\u4E4E\u4E00\u5207\u6DF7\u4E71\u7684\u6839\u6E90\u90FD\u6765\u6E90\u4E8E\u51B0\u7BB1\uFF01"
     nextNodeId: 8006
     choices: []
+    triggerFlagName: 
   - nodeId: 8006
     nodeType: 0
     speakerName: "\u5200\u950B"
@@ -71,6 +77,7 @@ MonoBehaviour:
     dialogueText: "\u4E3A\u4E86\u4E3B\u4EBA\u660E\u5929\u80FD\u6B63\u5E38\u5403\u5230\u65E9\u996D\uFF0C\u4ECA\u665A\u5C31\u7531\u6211\u4EEC\u6765\u89E3\u9664\u5371\u673A\uFF01"
     nextNodeId: 8007
     choices: []
+    triggerFlagName: 
   - nodeId: 8007
     nodeType: 0
     speakerName: "\u5C16\u5C16"
@@ -79,4 +86,5 @@ MonoBehaviour:
     dialogueText: "\u7EC8\u4E8E\u5230\u6211\u4E0A\u573A\u4E86\uFF01\u6211\u8981\u8BA9\u4E16\u754C\u770B\u770B\u4EC0\u4E48\u53EB\u771F\u6B63\u7684\u2018\u5377\u738B\u2019\u8840\u7EDF\uFF01"
     nextNodeId: -1
     choices: []
+    triggerFlagName: 
   startNodeId: 8000

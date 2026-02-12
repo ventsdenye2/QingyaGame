@@ -80,30 +80,45 @@ namespace DodgeDots.WorldMap
         /// <summary>
         /// 加载进度
         /// </summary>
+        /// <summary>
+        /// 加载进度
+        /// </summary>
         private void LoadProgress()
         {
             SaveSystem.LoadOrCreate();
             _completedLevels.Clear();
             _unlockedLevels.Clear();
 
-            if (SaveSystem.Current != null && SaveSystem.Current.completedLevels != null)
+            // 1. 加载已完成关卡
+            if (SaveSystem.Current.completedLevels != null)
             {
                 foreach (var levelId in SaveSystem.Current.completedLevels)
                 {
-                    if (!string.IsNullOrEmpty(levelId))
-                    {
-                        _completedLevels.Add(levelId);
-                    }
+                    if (!string.IsNullOrEmpty(levelId)) _completedLevels.Add(levelId);
                 }
             }
 
-            // 解锁初始关卡
+            // 2. 加载已解锁关卡
+            if (SaveSystem.Current.unlockedLevels != null)
+            {
+                foreach (var levelId in SaveSystem.Current.unlockedLevels)
+                {
+                    if (!string.IsNullOrEmpty(levelId)) _unlockedLevels.Add(levelId);
+                }
+            }
+
+            // 3. 确保初始关卡解锁
             if (mapConfig != null && !string.IsNullOrEmpty(mapConfig.initialUnlockedLevelId))
             {
                 UnlockLevel(mapConfig.initialUnlockedLevelId);
             }
 
-            RebuildUnlocksFromCompleted();
+            // 4. 把所有“已完成”的也合并进“已解锁” (兜底逻辑)
+            foreach (var levelId in _completedLevels)
+            {
+                _unlockedLevels.Add(levelId);
+            }
+
             UpdateAllNodeStates();
         }
 
@@ -153,7 +168,7 @@ namespace DodgeDots.WorldMap
             if (_completedLevels.Contains(levelId)) return;
 
             _completedLevels.Add(levelId);
-            _unlockedLevels.Add(levelId);
+            _unlockedLevels.Add(levelId); // 完成了自然算解锁
             OnLevelCompleted?.Invoke(levelId);
 
             // 更新节点状态
@@ -161,7 +176,9 @@ namespace DodgeDots.WorldMap
             {
                 node.SetState(LevelNodeState.Completed);
 
-                // 解锁下一个关卡
+                // 注释掉自动解锁下一关的逻辑
+                // 由 GeneralInteraction 控制，这里就不要了
+                /*
                 if (node.NextNodes != null)
                 {
                     foreach (var nextNode in node.NextNodes)
@@ -172,6 +189,7 @@ namespace DodgeDots.WorldMap
                         }
                     }
                 }
+                */
             }
 
             SaveProgress();
@@ -187,8 +205,14 @@ namespace DodgeDots.WorldMap
                 SaveSystem.LoadOrCreate();
             }
 
+            // 保存已完成列表
             SaveSystem.Current.completedLevels.Clear();
             SaveSystem.Current.completedLevels.AddRange(_completedLevels);
+
+            // 【关键修复】保存已解锁列表
+            SaveSystem.Current.unlockedLevels.Clear();
+            SaveSystem.Current.unlockedLevels.AddRange(_unlockedLevels);
+
             SaveSystem.Current.lastScene = SceneManager.GetActiveScene().name;
             SaveSystem.Save();
         }
@@ -201,6 +225,8 @@ namespace DodgeDots.WorldMap
 
                 _unlockedLevels.Add(levelId);
 
+                // 加载存档时也不要自动推导下一关
+                /*
                 if (_nodeDict.TryGetValue(levelId, out var node) && node != null && node.NextNodes != null)
                 {
                     foreach (var nextNode in node.NextNodes)
@@ -211,6 +237,7 @@ namespace DodgeDots.WorldMap
                         }
                     }
                 }
+                */
             }
         }
 

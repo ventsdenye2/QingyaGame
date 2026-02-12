@@ -129,6 +129,8 @@ namespace DodgeDots.Dialogue
             // 处理立绘逻辑
             UpdatePortraits(node);
 
+            ClearChoices();
+
             // 显示对话文本
             if (useTypewriterEffect)
             {
@@ -139,14 +141,9 @@ namespace DodgeDots.Dialogue
                 if (dialogueText != null)
                 {
                     dialogueText.text = node.dialogueText;
+                    // 如果不使用打字机，直接显示选项
+                    ShowChoicesIfAny(node);
                 }
-            }
-
-            // 处理选项
-            ClearChoices();
-            if (node.nodeType == DialogueNodeType.Choice && node.choices != null)
-            {
-                DisplayChoices(node.choices);
             }
         }
 
@@ -224,6 +221,12 @@ namespace DodgeDots.Dialogue
             }
 
             _isTyping = false;
+
+            // 打字结束后，如果当前节点是选项节点，则显示按钮
+            if (_dialogueManager != null && _dialogueManager.CurrentNode != null)
+            {
+                ShowChoicesIfAny(_dialogueManager.CurrentNode);
+            }
         }
 
         private void SkipTypewriter()
@@ -237,24 +240,56 @@ namespace DodgeDots.Dialogue
             if (_dialogueManager != null && _dialogueManager.CurrentNode != null)
             {
                 dialogueText.text = _dialogueManager.CurrentNode.dialogueText;
+                // 跳过打字后，立即显示选项
+                ShowChoicesIfAny(_dialogueManager.CurrentNode);
             }
 
             _isTyping = false;
         }
 
+        // 判断是否需要显示选项
+        private void ShowChoicesIfAny(DialogueNode node)
+        {
+            if (node.nodeType == DialogueNodeType.Choice && node.choices != null && node.choices.Length > 0)
+            {
+                DisplayChoices(node.choices);
+            }
+        }
+
         private void DisplayChoices(DialogueChoice[] choices)
         {
-            if (choiceButtonContainer == null || choiceButtonPrefab == null) return;
+            ClearChoices();
+            // 增加空引用报错
+            if (choiceButtonContainer == null)
+            {
+                Debug.LogError("【DialogueUI】错误：Choice Button Container 未赋值！请在 Inspector 中拖入容器对象。");
+                return;
+            }
+            if (choiceButtonPrefab == null)
+            {
+                Debug.LogError("【DialogueUI】错误：Choice Button Prefab 未赋值！请在 Inspector 中拖入按钮预制体。");
+                return;
+            }
+
+            // 确保容器是激活的
+            choiceButtonContainer.SetActive(true);
 
             for (int i = 0; i < choices.Length; i++)
             {
-                int choiceIndex = i;
+                int choiceIndex = i; // 闭包捕获索引
                 Button choiceButton = Instantiate(choiceButtonPrefab, choiceButtonContainer.transform);
 
-                TextMeshProUGUI buttonText = choiceButton.GetComponentInChildren<TextMeshProUGUI>();
-                if (buttonText != null)
+                // 获取按钮子物体中的文本组件 (支持 TMP 或 旧版 Text)
+                TextMeshProUGUI tmpText = choiceButton.GetComponentInChildren<TextMeshProUGUI>();
+                if (tmpText != null)
                 {
-                    buttonText.text = choices[i].choiceText;
+                    tmpText.text = choices[i].choiceText;
+                }
+                else
+                {
+                    // 兼容旧版 Text
+                    Text legacyText = choiceButton.GetComponentInChildren<Text>();
+                    if (legacyText != null) legacyText.text = choices[i].choiceText;
                 }
 
                 choiceButton.onClick.AddListener(() => OnChoiceSelected(choiceIndex));

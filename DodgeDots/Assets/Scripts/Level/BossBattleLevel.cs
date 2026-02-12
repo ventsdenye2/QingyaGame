@@ -12,6 +12,10 @@ namespace DodgeDots.Level
     /// </summary>
     public class BossBattleLevel : MonoBehaviour
     {
+        [Header("关卡身份")]
+        [Tooltip("当前关卡的ID，必须与大地图节点ID一致，例如 level_1")]
+        public string currentLevelId = "level_1";
+
         [Header("关卡引用")]
         [SerializeField] private BossBase boss;
         [SerializeField] private PlayerController player;
@@ -183,6 +187,35 @@ namespace DodgeDots.Level
             if (_battleEnded) return;
 
             _battleEnded = true;
+
+            if (!string.IsNullOrEmpty(currentLevelId))
+            {
+                // 确保存档已加载
+                DodgeDots.Save.SaveSystem.LoadOrCreate();
+
+                var save = DodgeDots.Save.SaveSystem.Current;
+
+                // 将当前关卡加入“已完成”列表
+                if (!save.completedLevels.Contains(currentLevelId))
+                {
+                    save.completedLevels.Add(currentLevelId);
+                }
+
+                // 将当前关卡加入“已解锁”列表
+                if (!save.unlockedLevels.Contains(currentLevelId))
+                {
+                    save.unlockedLevels.Add(currentLevelId);
+                }
+
+                // 写入磁盘
+                DodgeDots.Save.SaveSystem.Save();
+                Debug.Log($"[BossBattleLevel] 进度已保存：{currentLevelId} 已完成。");
+            }
+            else
+            {
+                Debug.LogError("[BossBattleLevel] 未设置 currentLevelId，无法保存进度！");
+            }
+
             OnBattleWin?.Invoke();
 
             Debug.Log("胜利！Boss被击败！");
