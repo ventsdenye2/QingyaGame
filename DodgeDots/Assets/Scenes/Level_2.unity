@@ -2678,7 +2678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatMapPlayer: {fileID: 1039694139}
   bossBase: {fileID: 825278383}
-  sequenceConfig: {fileID: 11400000, guid: 20116d0ecadf2cb4f94961c5fb0d86ab, type: 2}
+  sequenceConfig: {fileID: 11400000, guid: 0aff2117fc0181d4cb6a46ee62591678, type: 2}
   enableMoveSequence: 1
   detachEmitters: 1
   showDebugLog: 0
@@ -2695,7 +2695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgmManager: {fileID: 452865493}
-  beatMap: {fileID: 11400000, guid: c80190e35698865479e25bdc8702c1e1, type: 2}
+  beatMap: {fileID: 11400000, guid: 088694ff55760014893180ed92c55528, type: 2}
   autoStart: 1
   waitForBgmStart: 1
   startOffsetSeconds: -0.1
@@ -3615,6 +3615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b06c6f022de50f4f88149d0717757fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLevelId: level_1
   boss: {fileID: 825278383}
   player: {fileID: 492249292}
   playerHealth: {fileID: 492249291}
