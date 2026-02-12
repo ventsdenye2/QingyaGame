@@ -69,5 +69,9 @@ namespace DodgeDots.Dialogue
         [Header("选项设置（仅当nodeType为Choice时有效）")]
         [Tooltip("对话选项列表")]
         public DialogueChoice[] choices;
+
+        [Header("事件触发")]
+        [Tooltip("进入此节点时，自动设置该Flag（例如 'CanChallengeBoss'）")]
+        public string triggerFlagName;
     }
 }
