@@ -18,7 +18,7 @@ MonoBehaviour:
   scale: {x: 3, y: 3}
   defaultSpeed: 5
   defaultDamage: 1
-  lifetime: 4
+  lifetime: 3
   colliderRadius: 0.1
   isPiercing: 0
   maxPierceCount: 0

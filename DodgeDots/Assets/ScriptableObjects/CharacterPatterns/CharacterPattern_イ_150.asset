@@ -166,7 +166,7 @@ MonoBehaviour:
   - {x: 3.203125, y: -4.9609375}
   - {x: 3.59375, y: -4.9609375}
   - {x: 3.984375, y: -4.9609375}
-  scale: 0.2
+  scale: 0.4
   spawnDelay: 0
   movementMode: 0
   uniformDirection: 270
