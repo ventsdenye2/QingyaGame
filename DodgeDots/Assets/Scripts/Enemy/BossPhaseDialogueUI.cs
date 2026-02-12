@@ -42,6 +42,10 @@ namespace DodgeDots.UI
 
         private void Start()
         {
+            // 初始化清空文本，防止闪现默认文本
+            if (phaseNameText != null) phaseNameText.text = string.Empty;
+            if (dialogueText != null) dialogueText.text = string.Empty;
+
             // 初始化CanvasGroup
             if (dialogueCanvasGroup == null)
             {
@@ -102,45 +106,45 @@ namespace DodgeDots.UI
                 SetPlayerDialogueInvincible(true);
             }
 
-            // 淡入
-            yield return StartCoroutine(FadeInCoroutine());
-
-            // 设置文本
+            // 设置文本（先设置内容，再淡入，避免默认 "New Text" 闪现）
             if (phaseNameText != null)
             {
                 phaseNameText.text = dialogue.phaseName;
-                
+
                 // 应用字体设置
                 if (phaseFontAsset != null)
                 {
                     phaseNameText.font = phaseFontAsset;
                 }
                 phaseNameText.fontSize = phaseNameFontSize;
-                
+
                 Debug.Log($"设置阶段名称: {dialogue.phaseName}");
             }
             else
             {
                 Debug.LogWarning("phaseNameText 为空！");
             }
-            
+
             if (dialogueText != null)
             {
                 dialogueText.text = dialogue.dialogueText;
-                
+
                 // 应用字体设置
                 if (dialogueFontAsset != null)
                 {
                     dialogueText.font = dialogueFontAsset;
                 }
                 dialogueText.fontSize = dialogueFontSize;
-                
+
                 Debug.Log($"设置对话文本: {dialogue.dialogueText}");
             }
             else
             {
                 Debug.LogWarning("dialogueText 为空！");
             }
+
+            // 淡入
+            yield return StartCoroutine(FadeInCoroutine());
 
             bool shouldPauseGame = allowPauseGameForDialogue && dialogue.pauseGameForDialogue;
 

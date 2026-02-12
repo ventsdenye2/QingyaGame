@@ -216,15 +216,21 @@ namespace DodgeDots.Level
                 Debug.LogError("[BossBattleLevel] 未设置 currentLevelId，无法保存进度！");
             }
 
-            OnBattleWin?.Invoke();
-
-            Debug.Log("胜利！Boss被击败！");
+            Debug.Log("胜利！Boss被击败！展示死亡图 1.5 秒...");
 
             // 清空所有弹幕
             if (BulletManager.Instance != null)
             {
                 BulletManager.Instance.ClearAllBullets();
             }
+
+            StartCoroutine(InvokeBattleWinDelayed());
+        }
+
+        private System.Collections.IEnumerator InvokeBattleWinDelayed()
+        {
+            yield return new WaitForSeconds(1.5f);
+            OnBattleWin?.Invoke();
         }
 
         /// <summary>

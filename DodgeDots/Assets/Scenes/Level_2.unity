@@ -1704,8 +1704,8 @@ Camera:
   m_GameObject: {fileID: 761823452}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2216,6 +2216,10 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   damageSfx: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   sfxVolume: 1
+  damageSpriteA: {fileID: 21300000, guid: 6002a13c73e1d884eb8cedc23af75426, type: 3}
+  damageSpriteB: {fileID: 21300000, guid: c9cb727c129631a458a37f0aa60eda01, type: 3}
+  deathSprite: {fileID: 21300000, guid: 96c8289fe8c7a3545945df9bbf2ba592, type: 3}
+  damageVisualDuration: 0.5
   phase0Controllers: []
   phase1Controllers: []
   phase2Controllers: []
@@ -6817,6 +6821,7 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 761823456}
   - {fileID: 1129585044}
   - {fileID: 825278390}
   - {fileID: 1922500068}
@@ -6843,6 +6848,5 @@ SceneRoots:
   - {fileID: 1378991917}
   - {fileID: 543154916}
   - {fileID: 452865494}
-  - {fileID: 761823456}
   - {fileID: 492249295}
   - {fileID: 423089679}

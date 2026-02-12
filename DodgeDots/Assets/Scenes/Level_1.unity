@@ -1209,8 +1209,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279374370
-  m_fontColor: {r: 0.13207549, g: 0.069152735, b: 0.069152735, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1478,8 +1478,8 @@ Camera:
   m_GameObject: {fileID: 761823452}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1702,6 +1702,10 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   damageSfx: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   sfxVolume: 1
+  damageSpriteA: {fileID: 21300000, guid: b7b57920108bf8b488378c9402d34e61, type: 3}
+  damageSpriteB: {fileID: 21300000, guid: 88387b2423f0d4a4cb2f5bb4a9425050, type: 3}
+  deathSprite: {fileID: 21300000, guid: 57af784309992164492bc1b084089caa, type: 3}
+  damageVisualDuration: 0.5
   phase0Controllers:
   - {fileID: 825278385}
   - {fileID: 825278384}
@@ -1730,6 +1734,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 04af37ce41c6a7f4c87d1469e61bbcd5, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!114 &825278385
 MonoBehaviour:
@@ -1747,6 +1752,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 73d0ac990554a4345814b9c3347cb112, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!114 &825278386
 MonoBehaviour:
@@ -1921,6 +1927,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 72867db02877510478c8ea4756e2c397, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 1
 --- !u!114 &825278393
 MonoBehaviour:
@@ -1938,6 +1945,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: f68e0e7aec5939f4ca90088cbc19194a, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!1 &840261532
 GameObject:
@@ -3006,13 +3014,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b06c6f022de50f4f88149d0717757fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLevelId: level_1
   boss: {fileID: 825278383}
   player: {fileID: 492249292}
   playerHealth: {fileID: 492249291}
   playerWeapon: {fileID: 492249290}
+  bossSequenceController: {fileID: 0}
+  beatMapPlayer: {fileID: 0}
   autoStartBattle: 1
   battleStartDelay: 1
   playerDeathDelay: 2
+  enableBulletPreload: 1
+  preloadSeconds: 5
   fastForwardSpeed: 3
 --- !u!4 &1336664141
 Transform:
@@ -4605,6 +4618,7 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 761823456}
   - {fileID: 1129585044}
   - {fileID: 825278390}
   - {fileID: 1922500068}
@@ -4613,7 +4627,6 @@ SceneRoots:
   - {fileID: 1336664141}
   - {fileID: 1801364719}
   - {fileID: 452865494}
-  - {fileID: 761823456}
   - {fileID: 492249295}
   - {fileID: 2119755623}
   - {fileID: 423089679}

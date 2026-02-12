@@ -37,11 +37,23 @@ namespace DodgeDots.Enemy
         [SerializeField] private AudioClip damageSfx;
         [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
 
+        [Header("视觉反馈 - 图片")]
+        public Sprite damageSpriteA;   // 受击图 A
+        public Sprite damageSpriteB;   // 受击图 B
+        public Sprite deathSprite;     // 死亡图
+        [SerializeField] private float damageVisualDuration = 0.5f; // 受击图回正延迟
+
         protected float _currentHealth;
         protected BossState _currentState;
         protected int _currentPhase;
         [System.NonSerialized] protected BulletManager _bulletManager;
         protected Transform _playerTransform;
+
+        protected SpriteRenderer _spriteRenderer;
+        protected Animator _animator; // 增加对动画机的引用
+        private Sprite _originalSprite;
+        private bool _useSpriteA = true;
+        private Coroutine _damageVisualRoutine;
 
         // 发射源管理
         protected Dictionary<EmitterType, EmitterPoint> _emitters;
@@ -66,6 +78,13 @@ namespace DodgeDots.Enemy
             _currentHealth = maxHealth;
             _currentState = BossState.Idle;
             _currentPhase = 0;
+
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _animator = GetComponent<Animator>();
+            if (_spriteRenderer != null)
+            {
+                _originalSprite = _spriteRenderer.sprite;
+            }
 
             if (sfxSource == null)
             {
@@ -136,6 +155,7 @@ namespace DodgeDots.Enemy
             OnHealthChanged?.Invoke(_currentHealth, maxHealth);
             OnDamageTaken?.Invoke();
             PlayDamageSfx();
+            UpdateDamageVisual();
 
             // 检查是否进入新阶段
             CheckPhaseTransition(previousHealth, _currentHealth);
@@ -145,6 +165,43 @@ namespace DodgeDots.Enemy
             {
                 OnBossDefeated();
             }
+        }
+
+        private void UpdateDamageVisual()
+        {
+            if (_spriteRenderer == null || _damageVisualRoutine != null) return;
+            
+            Sprite targetSprite = _useSpriteA ? damageSpriteA : damageSpriteB;
+            if (targetSprite != null)
+            {
+                _damageVisualRoutine = StartCoroutine(DamageVisualCoroutine(targetSprite));
+                _useSpriteA = !_useSpriteA;
+            }
+        }
+
+        private IEnumerator DamageVisualCoroutine(Sprite targetSprite)
+        {
+            if (_animator != null) _animator.enabled = false;
+            
+            _spriteRenderer.sprite = targetSprite;
+            _spriteRenderer.color = Color.white; // 强制颜色为白色，防止其他受击闪色干扰
+
+            float timer = 0f;
+            while (timer < damageVisualDuration)
+            {
+                timer += Time.deltaTime;
+                // 每一帧都强制维持图片和颜色，防止被其他脚本（如受击闪红）篡改
+                _spriteRenderer.sprite = targetSprite;
+                _spriteRenderer.color = Color.white;
+                yield return null;
+            }
+
+            if (_currentState != BossState.Defeated)
+            {
+                _spriteRenderer.sprite = _originalSprite;
+                if (_animator != null) _animator.enabled = true;
+            }
+            _damageVisualRoutine = null;
         }
 
         public virtual void Heal(float amount)
@@ -159,6 +216,26 @@ namespace DodgeDots.Enemy
         {
             _currentHealth = maxHealth;
             _currentPhase = 0;
+
+            if (_damageVisualRoutine != null)
+            {
+                StopCoroutine(_damageVisualRoutine);
+                _damageVisualRoutine = null;
+            }
+
+            if (_spriteRenderer != null)
+            {
+                if (_originalSprite == null)
+                {
+                    _originalSprite = _spriteRenderer.sprite;
+                }
+                else
+                {
+                    _spriteRenderer.sprite = _originalSprite;
+                }
+            }
+
+            _useSpriteA = true;
             OnHealthChanged?.Invoke(_currentHealth, maxHealth);
         }
 
@@ -238,6 +315,18 @@ namespace DodgeDots.Enemy
         protected virtual void OnBossDefeated()
         {
             SetState(BossState.Defeated);
+
+            if (_damageVisualRoutine != null)
+            {
+                StopCoroutine(_damageVisualRoutine);
+                _damageVisualRoutine = null;
+            }
+
+            if (_spriteRenderer != null && deathSprite != null)
+            {
+                _spriteRenderer.sprite = deathSprite;
+            }
+
             OnDeath?.Invoke();
         }
 

@@ -398,6 +398,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 8160103e4b3e554419059eeaca22251b, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!1 &278326656
 GameObject:
@@ -570,6 +571,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   clip: {fileID: 8300000, guid: 319b2f2c71633f748b6b03c84226d2bf, type: 3}
   loop: 1
+  playOnStart: 1
   bpm: 120
   startDelaySeconds: 0.2
   beatMap: {fileID: 11400000, guid: 95bf0d4087069804f905ee86ece5ff85, type: 2}
@@ -1495,8 +1497,8 @@ Camera:
   m_GameObject: {fileID: 761823452}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1817,6 +1819,10 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   damageSfx: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   sfxVolume: 1
+  damageSpriteA: {fileID: 21300000, guid: b7b57920108bf8b488378c9402d34e61, type: 3}
+  damageSpriteB: {fileID: 21300000, guid: 88387b2423f0d4a4cb2f5bb4a9425050, type: 3}
+  deathSprite: {fileID: 21300000, guid: 57af784309992164492bc1b084089caa, type: 3}
+  damageVisualDuration: 0.5
   phase0Controllers:
   - {fileID: 129132313}
   - {fileID: 1801364720}
@@ -2286,6 +2292,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 117ec2730446d3141bba0dc73090edab, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 1
 --- !u!114 &990000001
 MonoBehaviour:
@@ -2467,8 +2474,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u518D\u8BD5\u4E00\u6B21"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
-  m_sharedMaterial: {fileID: 6783018975884615457, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2721,6 +2728,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 071258949d0c9dd48a70b580673270fe, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!114 &1195410890
 MonoBehaviour:
@@ -2814,8 +2822,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u7EE7\u7EED\u6E38\u620F"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
-  m_sharedMaterial: {fileID: 6783018975884615457, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3307,13 +3315,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b06c6f022de50f4f88149d0717757fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLevelId: level_1
   boss: {fileID: 825278383}
   player: {fileID: 492249292}
   playerHealth: {fileID: 492249291}
   playerWeapon: {fileID: 492249290}
+  bossSequenceController: {fileID: 0}
+  beatMapPlayer: {fileID: 0}
   autoStartBattle: 1
   battleStartDelay: 1
   playerDeathDelay: 2
+  enableBulletPreload: 1
+  preloadSeconds: 5
   fastForwardSpeed: 3
 --- !u!4 &1336664141
 Transform:
@@ -3364,6 +3377,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 5269b7b733b67e94da7e01e9023d9cc5, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!114 &1337763823
 MonoBehaviour:
@@ -3870,6 +3884,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: e031463f046c0654ea85497e76988ad9, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!1 &1614718951
 GameObject:
@@ -3930,8 +3945,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u8FD4\u56DE\u5927\u4E16\u754C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
-  m_sharedMaterial: {fileID: 6783018975884615457, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4072,6 +4087,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: 117ec2730446d3141bba0dc73090edab, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!1 &1805877016
 GameObject:
@@ -4107,6 +4123,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: d4a18880bdbc4eb4e8b01ce13e473ecf, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!114 &1805877018
 MonoBehaviour:
@@ -4200,8 +4217,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u8FD4\u56DE\u4E3B\u83DC\u5355"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
-  m_sharedMaterial: {fileID: 6783018975884615457, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5250,6 +5267,7 @@ MonoBehaviour:
   bossBase: {fileID: 825278383}
   sequenceConfig: {fileID: 11400000, guid: fd23c43b1e2282546a0b9c610bcfb134, type: 2}
   enableMoveSequence: 1
+  detachEmitters: 1
   showDebugLog: 0
 --- !u!1 &2127816905
 GameObject:
@@ -5310,8 +5328,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u56DE\u5230\u5927\u4E16\u754C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
-  m_sharedMaterial: {fileID: 6783018975884615457, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5389,6 +5407,7 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 761823456}
   - {fileID: 1129585044}
   - {fileID: 825278390}
   - {fileID: 1922500068}
@@ -5399,7 +5418,6 @@ SceneRoots:
   - {fileID: 865252532}
   - {fileID: 1529034238}
   - {fileID: 452865494}
-  - {fileID: 761823456}
   - {fileID: 492249295}
   - {fileID: 2119755623}
   - {fileID: 1337763824}

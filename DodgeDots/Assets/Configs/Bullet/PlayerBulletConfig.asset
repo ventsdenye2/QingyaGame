@@ -17,13 +17,14 @@ MonoBehaviour:
   color: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 3, y: 3}
   defaultSpeed: 5
-  defaultDamage: 15
+  defaultDamage: 10
   lifetime: 0
   colliderRadius: 0.1
   isPiercing: 0
   maxPierceCount: 0
   rotationSpeed: 0
   faceDirection: 1
+  visualRotationOffset: 0
   sortingLayer: Default
   sortingOrder: 0
   enableTrail: 0

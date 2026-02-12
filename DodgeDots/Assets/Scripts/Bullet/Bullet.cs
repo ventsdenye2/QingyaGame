@@ -546,7 +546,8 @@ namespace DodgeDots.Bullet
             if (_hasFaceDirection && _direction != Vector2.zero)
             {
                 float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0, 0, angle);
+                float offset = (config != null) ? config.visualRotationOffset : 0f;
+                transform.rotation = Quaternion.Euler(0, 0, angle + offset);
             }
         }
 

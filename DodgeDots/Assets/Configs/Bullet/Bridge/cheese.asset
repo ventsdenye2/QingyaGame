@@ -24,6 +24,7 @@ MonoBehaviour:
   maxPierceCount: 0
   rotationSpeed: 10
   faceDirection: 1
+  visualRotationOffset: 0
   sortingLayer: Default
   sortingOrder: 0
   enableTrail: 0

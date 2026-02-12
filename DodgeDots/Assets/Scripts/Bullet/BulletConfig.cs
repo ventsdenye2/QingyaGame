@@ -49,6 +49,9 @@ namespace DodgeDots.Bullet
         [Tooltip("是否朝向移动方向")]
         public bool faceDirection = true;
 
+        [Tooltip("视觉旋转偏移（度）。例如顺时针90度填 -90")]
+        public float visualRotationOffset = 0f;
+
         [Tooltip("排序层")]
         public string sortingLayer = "Default";
 
