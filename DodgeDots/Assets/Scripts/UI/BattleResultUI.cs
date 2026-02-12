@@ -33,6 +33,10 @@ namespace DodgeDots.UI
         [Header("引用")]
         [SerializeField] private BossBattleLevel battleLevel;
 
+        [Header("数据展示")]
+        [SerializeField] private TextMeshProUGUI timeText;
+        [SerializeField] private TextMeshProUGUI hpText;
+
         private bool _isShowing;
 
         private void Start()
@@ -128,6 +132,8 @@ namespace DodgeDots.UI
                 resultText.text = text;
             }
 
+            UpdateStatsText();
+
             if (restartButton != null)
             {
                 restartButton.gameObject.SetActive(showRestart);
@@ -184,6 +190,35 @@ namespace DodgeDots.UI
         {
             if (clip == null || sfxSource == null) return;
             sfxSource.PlayOneShot(clip, sfxVolume);
+        }
+
+        private void UpdateStatsText()
+        {
+            if (battleLevel == null)
+            {
+                if (timeText != null) timeText.text = string.Empty;
+                if (hpText != null) hpText.text = string.Empty;
+                return;
+            }
+
+            float duration = battleLevel.BattleDurationSeconds;
+            int minutes = Mathf.FloorToInt(duration / 60f);
+            int seconds = Mathf.FloorToInt(duration % 60f);
+            if (timeText != null) timeText.text = $"用时: {minutes:00}:{seconds:00}";
+
+            if (hpText != null)
+            {
+                float hp = battleLevel.PlayerRemainingHp;
+                float maxHp = battleLevel.PlayerMaxHp;
+                if (maxHp > 0f)
+                {
+                    hpText.text = $"剩余生命: {hp:F0} / {maxHp:F0}";
+                }
+                else
+                {
+                    hpText.text = $"剩余生命: {hp:F0}";
+                }
+            }
         }
     }
 }

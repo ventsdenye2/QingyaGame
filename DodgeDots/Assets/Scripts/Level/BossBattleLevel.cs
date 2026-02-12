@@ -47,6 +47,13 @@ namespace DodgeDots.Level
         private float _normalTimeScale = 1f;
         private float _normalAudioPitch = 1f;
 
+        private float _battleStartTime;
+        private float _battleDuration;
+
+        public float BattleDurationSeconds => _battleDuration;
+        public float PlayerRemainingHp => playerHealth != null ? playerHealth.CurrentHealth : 0f;
+        public float PlayerMaxHp => playerHealth != null ? playerHealth.MaxHealth : 0f;
+
         public event Action OnBattleStart;
         public event Action OnBattleWin;
         public event Action OnBattleLose;
@@ -168,6 +175,8 @@ namespace DodgeDots.Level
             if (_battleStarted) return;
 
             _battleStarted = true;
+            _battleStartTime = Time.time;
+            _battleDuration = 0f;
             OnBattleStart?.Invoke();
 
             // 启动Boss战斗
@@ -182,11 +191,18 @@ namespace DodgeDots.Level
         /// <summary>
         /// Boss被击败
         /// </summary>
+        /// <summary>
+        /// Boss被击败
+        /// </summary>
         private void OnBossDefeated()
         {
             if (_battleEnded) return;
 
             _battleEnded = true;
+            if (_battleStarted)
+            {
+                _battleDuration = Mathf.Max(0f, Time.time - _battleStartTime);
+            }
 
             if (!string.IsNullOrEmpty(currentLevelId))
             {
@@ -269,6 +285,10 @@ namespace DodgeDots.Level
             if (!_battleEnded)
             {
                 _battleEnded = true;
+                if (_battleStarted)
+                {
+                    _battleDuration = Mathf.Max(0f, Time.time - _battleStartTime);
+                }
                 OnBattleLose?.Invoke();
                 Debug.Log("失败！玩家被击败！");
             }
