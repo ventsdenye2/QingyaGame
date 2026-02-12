@@ -43,10 +43,37 @@ namespace DodgeDots.WorldMap
 
         private void Start()
         {
-            // 把原本没有描边的默认材质存下来
+            // 备份默认材质
             if (backgroundRenderer != null) _defaultMaterial = backgroundRenderer.sharedMaterial;
             if (enterHint != null) enterHint.SetActive(false);
 
+            // 初始化时主动同步状态
+            // 无论是由 NPC 解锁还是自动解锁，存档里都会有记录。
+            // 这里必须读取记录，否则节点永远是 Locked，F键就不会响应。
+            if (WorldMapManager.Instance != null)
+            {
+                bool isCompleted = WorldMapManager.Instance.IsLevelCompleted(LevelId);
+                bool isUnlocked = WorldMapManager.Instance.IsLevelUnlocked(LevelId);
+
+                if (isCompleted)
+                {
+                    SetState(LevelNodeState.Completed);
+                }
+                else if (isUnlocked)
+                {
+                    SetState(LevelNodeState.Unlocked);
+                }
+                else
+                {
+                    // 检查是否配置为默认解锁
+                    if (nodeData != null && nodeData.unlockedByDefault)
+                        SetState(LevelNodeState.Unlocked);
+                    else
+                        SetState(LevelNodeState.Locked);
+                }
+            }
+
+            // 再次强制刷新视觉（双重保险）
             UpdateVisuals();
         }
 

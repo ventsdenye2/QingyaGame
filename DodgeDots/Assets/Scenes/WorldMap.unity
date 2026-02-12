@@ -181,8 +181,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u540D\u79F0"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8bb01f1c229327a49a822f571674a241, type: 2}
-  m_sharedMaterial: {fileID: -8377389199912815815, guid: 8bb01f1c229327a49a822f571674a241, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e8492c0573d1ec94288b1d9c10c223ec, type: 2}
+  m_sharedMaterial: {fileID: -8377389199912815815, guid: e8492c0573d1ec94288b1d9c10c223ec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -305,33 +305,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionID: level_hajimi
   branches:
-  - branchName: "\u901A\u5173Level2"
-    requiredLevelId: level_2
-    triggerIfIncomplete: 0
-    requiredFlags: []
-    stages:
-    - stageName: Meet_1
-      dialogueConfig: {fileID: 11400000, guid: b6e07de5ae29a4847b42ffd2dff4fc39, type: 2}
-      onDialogueStart:
-        m_PersistentCalls:
-          m_Calls: []
-      onDialogueFinish:
-        m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 66244885}
-            m_TargetAssemblyTypeName: DodgeDots.WorldMap.LevelNode, Assembly-CSharp
-            m_MethodName: UnlockSelf
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-    loopLastDialogue: 1
-    currentIndex: 0
   - branchName: "\u89E3\u9501UnlockBoss_hajimi"
     requiredLevelId: level_2
     triggerIfIncomplete: 0
@@ -358,30 +331,21 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
-          - m_Target: {fileID: 66244884}
-            m_TargetAssemblyTypeName: DodgeDots.Dialogue.GeneralInteraction, Assembly-CSharp
-            m_MethodName: DisableInteractionForever
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-          - m_Target: {fileID: 66244884}
-            m_TargetAssemblyTypeName: DodgeDots.Dialogue.GeneralInteraction, Assembly-CSharp
-            m_MethodName: DisableInteractionForever
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
+    loopLastDialogue: 1
+    currentIndex: 0
+  - branchName: "\u901A\u5173Level2"
+    requiredLevelId: level_2
+    triggerIfIncomplete: 0
+    requiredFlags: []
+    stages:
+    - stageName: Meet_1
+      dialogueConfig: {fileID: 11400000, guid: b6e07de5ae29a4847b42ffd2dff4fc39, type: 2}
+      onDialogueStart:
+        m_PersistentCalls:
+          m_Calls: []
+      onDialogueFinish:
+        m_PersistentCalls:
+          m_Calls: []
     loopLastDialogue: 1
     currentIndex: 0
   interactionKey: 101
@@ -1982,6 +1946,18 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
+          - m_Target: {fileID: 541437199}
+            m_TargetAssemblyTypeName: DodgeDots.WorldMap.MapUnlockableObject, Assembly-CSharp
+            m_MethodName: Unlock
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
     loopLastDialogue: 0
     currentIndex: 0
   - branchName: "\u672A\u901A\u5173Level1"
@@ -2577,8 +2553,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u5BF9\u8BDD\u5185\u5BB9"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8bb01f1c229327a49a822f571674a241, type: 2}
-  m_sharedMaterial: {fileID: -8377389199912815815, guid: 8bb01f1c229327a49a822f571674a241, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e8492c0573d1ec94288b1d9c10c223ec, type: 2}
+  m_sharedMaterial: {fileID: -8377389199912815815, guid: e8492c0573d1ec94288b1d9c10c223ec, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4512,6 +4488,30 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
+          - m_Target: {fileID: 1032029086}
+            m_TargetAssemblyTypeName: DodgeDots.WorldMap.MapUnlockableObject, Assembly-CSharp
+            m_MethodName: Unlock
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+          - m_Target: {fileID: 1032029084}
+            m_TargetAssemblyTypeName: DodgeDots.Dialogue.GeneralInteraction, Assembly-CSharp
+            m_MethodName: DisableInteractionForever
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
     loopLastDialogue: 0
     currentIndex: 0
   - branchName: "\u672A\u901A\u5173Level3"
@@ -5884,6 +5884,18 @@ MonoBehaviour:
               m_BoolArgument: 0
             m_CallState: 2
           - m_Target: {fileID: 690691729}
+            m_TargetAssemblyTypeName: DodgeDots.WorldMap.MapUnlockableObject, Assembly-CSharp
+            m_MethodName: Unlock
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: Boss_Talk_Twice_2
+              m_BoolArgument: 0
+            m_CallState: 2
+          - m_Target: {fileID: 1314293638}
             m_TargetAssemblyTypeName: DodgeDots.WorldMap.MapUnlockableObject, Assembly-CSharp
             m_MethodName: Unlock
             m_Mode: 1
@@ -8233,6 +8245,9 @@ MonoBehaviour:
   mapConfig: {fileID: 11400000, guid: 4c7c76241e17ed541a55a766d61535ca, type: 2}
   levelNodesInScene:
   - {fileID: 541437198}
+  - {fileID: 1314293637}
+  - {fileID: 1032029085}
+  - {fileID: 66244885}
 --- !u!1 &2115527899
 GameObject:
   m_ObjectHideFlags: 0

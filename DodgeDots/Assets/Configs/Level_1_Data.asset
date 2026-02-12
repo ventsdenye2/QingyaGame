@@ -18,7 +18,7 @@ MonoBehaviour:
   sceneName: Level_1
   description: 
   prerequisiteLevelIds: []
-  unlockedByDefault: 1
+  unlockedByDefault: 0
   difficulty: 1
   nodeIcon: {fileID: 0}
   nodeColor: {r: 1, g: 1, b: 1, a: 1}
