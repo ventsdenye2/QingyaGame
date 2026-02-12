@@ -694,31 +694,43 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
-    slideSfx: {fileID: 0}
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
+    slideSfx: {fileID: 8300000, guid: 1f260d1f87ffff34ebf99ead42c7f1be, type: 3}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: 0f5c967086ee32c41b9e1e8d60fb1e8f, type: 3}
     text: "  - \u2014\u2014\u5207\u83DC\u65F6\u7684\u54D2\u54D2\u58F0\u3001"
     duration: 1
     useFade: 0
     useShake: 0
-    shakeDuration: 0.5
+    shakeDuration: 0
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 8300000, guid: add3be4647a4bb14fb4f2a63020ab478, type: 3}
+    sfxVolume: 0.7
   - image: {fileID: 21300000, guid: 0f5c967086ee32c41b9e1e8d60fb1e8f, type: 3}
     text: "  - \u7096\u6C64\u65F6\u7684\u5495\u561F\u58F0\u3001"
     duration: 1
     useFade: 0
     useShake: 0
-    shakeDuration: 0.5
+    shakeDuration: 0
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 8300000, guid: a489b274c0e3788458a6c60e77ee5067, type: 3}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: 0f5c967086ee32c41b9e1e8d60fb1e8f, type: 3}
     text: "  - \u7FFB\u7092\u65F6\u7684\u6ECB\u5566\u58F0\u2026"
     duration: 1
     useFade: 0
     useShake: 0
-    shakeDuration: 0.5
+    shakeDuration: 0
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 8300000, guid: 5bef85fb5ecf5fa4798907ba6d644956, type: 3}
+    sfxVolume: 0.5
   - image: {fileID: 21300000, guid: 0f5c967086ee32c41b9e1e8d60fb1e8f, type: 3}
     text: "  - \u8FD9\u4E9B\u58F0\u97F3\u6C47\u805A\u6210\u7EF4\u6301\u53A8\u623F\u548C\u8C10\u7684\u9690\u5F62\u4E50\u7AE0\u3002"
     duration: 1
@@ -726,7 +738,10 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 0}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "  - \u4F46\u5F53\u4E00\u4E2A\u53A8\u623F\u9677\u5165\u6DF7\u4E71\uFF1A"
     duration: 3
@@ -734,7 +749,10 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 0}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u98DF\u6750\u968F\u610F\u5806\u653E"
     duration: 1
@@ -742,7 +760,10 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
-    slideSfx: {fileID: 0}
+    stopPreviousAudio: 1
+    fadeOutTriggerTime: 0.5
+    slideSfx: {fileID: 8300000, guid: e09c771aede19ac489da2c56b7cb6d58, type: 3}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u53A8\u5177\u4E45\u672A\u6E05\u6D01"
     duration: 1
@@ -750,7 +771,10 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 0}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u70F9\u996A\u65F6\u5FC3\u4E0D\u5728\u7109"
     duration: 1
@@ -758,7 +782,10 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 0}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u5269\u83DC\u88AB\u9057\u5FD8\u5728\u89D2\u843D..."
     duration: 1
@@ -766,7 +793,10 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 0}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u201C\u5473\u89C9\u97F5\u5F8B\u201D\u5C31\u4F1A\u5D29\u574F\uFF0C\u8F6C\u5316\u4E3A\u201C\u53A8\u623F\u7D0A\u4E71\u6CE2\u201D\u2014\u2014"
     duration: 1
@@ -774,7 +804,10 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 0}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u4E00\u79CD\u80FD\u8BA9\u53A8\u5177\u4E0E\u98DF\u6750\u4EA7\u751F<color=red>\u5F02\u5E38\u610F\u8BC6\u7684\u80FD\u91CF\u6CE2\u52A8</color>\uFF01"
     duration: 1
@@ -782,15 +815,21 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 0}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u5468\u4E09\u51CC\u66683\u70B914\u5206\uFF0C\u8001\u5F0F\u6D17\u7897\u673A\u7A81\u7136\u5F00\u59CB\u5F02\u5E38\u9707\u52A8\u3002\u4E0D\u662F\u56E0\u4E3A\u6545\u969C\uFF0C\u800C\u662F\u56E0\u4E3A\u5B83\u68C0\u6D4B\u5230\u4E86\u5168\u53A8\u623F\u6700\u5F3A\u7684\u7D0A\u4E71\u6CE2\u6E90\u5934\uFF01"
     duration: 1
     useFade: 0
     useShake: 1
-    shakeDuration: 0.5
+    shakeDuration: 1
     shakeIntensity: 10
-    slideSfx: {fileID: 0}
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
+    slideSfx: {fileID: 8300000, guid: 944e4b82ce030ad4db7514fdf8f8feb5, type: 3}
+    sfxVolume: 0.8
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u201C\u54D0\u5F53\u2014\u2014\u5657\u565C\u565C\u2014\u2014\u201D"
     duration: 1
@@ -798,7 +837,10 @@ MonoBehaviour:
     useShake: 1
     shakeDuration: 0.5
     shakeIntensity: 10
-    slideSfx: {fileID: 0}
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
+    slideSfx: {fileID: 8300000, guid: a7bcdfc0a03e7bd4397e2c0bebe57657, type: 3}
+    sfxVolume: 0.5
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u4F34\u968F\u7740\u4E00\u5927\u5768\u5F69\u8679\u6CE1\u6CE1\uFF0C\u56DB\u4F4D\u201C\u5929\u9009\u9910\u5177\u201D\u4ECE\u6D17\u7897\u673A\u91CC\u65CB\u8F6C\u98DE\u51FA\uFF0C\u7A33\u7A33\u843D\u5728\u53A8\u623F\u5C9B\u53F0\u4E0A\uFF1A"
     duration: 1
@@ -806,7 +848,10 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
-    slideSfx: {fileID: 0}
+    stopPreviousAudio: 1
+    fadeOutTriggerTime: 0.5
+    slideSfx: {fileID: 8300000, guid: e1e3373e3e6bf73498e88cdbd4d74ecf, type: 3}
+    sfxVolume: 0.2
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u4E3B\u53A8\u5200\u5200\u950B\uFF1A\u5200\u8EAB\u5728\u6708\u5149\u4E0B\u95EA\u7740\u5BD2\u5149"
     duration: 1
@@ -814,7 +859,10 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 0}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u9910\u53C9\u5C16\u5C16\uFF1A\u53C9\u9F7F\u4E0A\u7684\u6C34\u73E0\u5982\u94BB\u77F3\u822C\u6ED1\u843D"
     duration: 1
@@ -822,7 +870,10 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 0}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u7B77\u5B50\u5144\u5F1F\uFF1A\u4E24\u6839\u7B77\u5B50\u201C\u556A\u201D\u5730\u4E00\u58F0\u5E76\u62E2\u7AD9\u7ACB"
     duration: 1
@@ -830,7 +881,10 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 0}
+    sfxVolume: 1
   - image: {fileID: 21300000, guid: af4851c377ab96c4fbab3fd6d05f7de8, type: 3}
     text: "\u6C64\u52FA\u5148\u751F\uFF1A\u52FA\u9762\u5012\u6620\u7740\u51B0\u7BB1\u6307\u793A\u706F\u7684\u5149"
     duration: 1
@@ -838,7 +892,10 @@ MonoBehaviour:
     useShake: 0
     shakeDuration: 0.5
     shakeIntensity: 10
+    stopPreviousAudio: 0
+    fadeOutTriggerTime: 0.5
     slideSfx: {fileID: 0}
+    sfxVolume: 1
 --- !u!4 &921570392
 Transform:
   m_ObjectHideFlags: 0
