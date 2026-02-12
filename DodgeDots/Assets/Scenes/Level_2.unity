@@ -1138,6 +1138,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 494210276}
   m_CullTransparentMesh: 1
+--- !u!1 &543154913
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 543154916}
+  - component: {fileID: 543154915}
+  - component: {fileID: 543154914}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_part2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &543154914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543154913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 543154915}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 77c8bd784ebf1014e8841ce68e7fb27b, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &543154915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543154913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 1c4e6c9ab4248b8489a1f06a90b95688, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &543154916
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543154913}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &570215329
 GameObject:
   m_ObjectHideFlags: 0
@@ -2774,8 +2843,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u518D\u8BD5\u4E00\u6B21"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
-  m_sharedMaterial: {fileID: 6783018975884615457, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 52e3dbcf76ae04347a9ef9a4287d82a9, type: 2}
+  m_sharedMaterial: {fileID: 6783018975884615457, guid: 52e3dbcf76ae04347a9ef9a4287d82a9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2994,6 +3063,75 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1167623622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1167623625}
+  - component: {fileID: 1167623624}
+  - component: {fileID: 1167623623}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_daikirai222
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1167623623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167623622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1167623624}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 0c6b258c4e643bb45b7af4cf9c03403d, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1167623624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167623622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 0c5bda7e066d8af4f9fffea94a1a6416, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.2
+  loop: 1
+--- !u!4 &1167623625
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167623622}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1172021503
 GameObject:
   m_ObjectHideFlags: 0
@@ -3122,8 +3260,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u7EE7\u7EED\u6E38\u620F"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
-  m_sharedMaterial: {fileID: 6783018975884615457, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8a940975567f8854fad115ef7a196271, type: 2}
+  m_sharedMaterial: {fileID: 6783018975884615457, guid: 8a940975567f8854fad115ef7a196271, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3318,6 +3456,75 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1286101753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1286101756}
+  - component: {fileID: 1286101755}
+  - component: {fileID: 1286101754}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_beat3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1286101754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1286101753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1286101755}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 682c3b8e245d1e6499d9b49a133657d4, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1286101755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1286101753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: f4a576b401866724b96047cef5a33cac, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &1286101756
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1286101753}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1305996958
 GameObject:
   m_ObjectHideFlags: 0
@@ -3702,8 +3909,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 52e3dbcf76ae04347a9ef9a4287d82a9, type: 2}
+  m_sharedMaterial: {fileID: 6783018975884615457, guid: 52e3dbcf76ae04347a9ef9a4287d82a9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4528,8 +4735,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u8FD4\u56DE\u5927\u4E16\u754C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
-  m_sharedMaterial: {fileID: 6783018975884615457, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8a940975567f8854fad115ef7a196271, type: 2}
+  m_sharedMaterial: {fileID: 6783018975884615457, guid: 8a940975567f8854fad115ef7a196271, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4664,6 +4871,75 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1640147558}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1762889916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1762889919}
+  - component: {fileID: 1762889918}
+  - component: {fileID: 1762889917}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_daikiraimove2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1762889917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762889916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1762889918}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 3ebc0e3d0453da746a6eaac2fc774898, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1762889918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762889916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: c5d519374d249964ba0dc4f6472ddcd6, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &1762889919
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1762889916}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
@@ -4935,8 +5211,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u8FD4\u56DE\u4E3B\u83DC\u5355"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
-  m_sharedMaterial: {fileID: 6783018975884615457, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8a940975567f8854fad115ef7a196271, type: 2}
+  m_sharedMaterial: {fileID: 6783018975884615457, guid: 8a940975567f8854fad115ef7a196271, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5324,7 +5600,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatMapPlayer: {fileID: 1892818903}
   bossBase: {fileID: 825278383}
-  sequenceConfig: {fileID: 11400000, guid: 20116d0ecadf2cb4f94961c5fb0d86ab, type: 2}
+  sequenceConfig: {fileID: 11400000, guid: 926e6d69db285da4c8a608d564ab9b56, type: 2}
   enableMoveSequence: 1
   detachEmitters: 1
   showDebugLog: 0
@@ -6131,6 +6407,75 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &2053688387
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2053688390}
+  - component: {fileID: 2053688389}
+  - component: {fileID: 2053688388}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_daikiraimove222
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2053688388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053688387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 2053688389}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 3ebc0e3d0453da746a6eaac2fc774898, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &2053688389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053688387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 0ed9aad0cc7e103409a5dc785ad75985, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &2053688390
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2053688387}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2088843811
 GameObject:
   m_ObjectHideFlags: 0
@@ -6393,8 +6738,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u56DE\u5230\u5927\u4E16\u754C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
-  m_sharedMaterial: {fileID: 6783018975884615457, guid: 2fd2eb712505cd844b604abc845cdb1f, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 52e3dbcf76ae04347a9ef9a4287d82a9, type: 2}
+  m_sharedMaterial: {fileID: 6783018975884615457, guid: 52e3dbcf76ae04347a9ef9a4287d82a9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6478,12 +6823,16 @@ SceneRoots:
   - {fileID: 640476935}
   - {fileID: 1336664141}
   - {fileID: 1529034238}
+  - {fileID: 1167623625}
   - {fileID: 24055478}
   - {fileID: 1838643479}
   - {fileID: 1640147561}
   - {fileID: 1172021506}
+  - {fileID: 1762889919}
+  - {fileID: 2053688390}
   - {fileID: 1498765808}
   - {fileID: 256024085}
+  - {fileID: 1286101756}
   - {fileID: 326955895}
   - {fileID: 1491158980}
   - {fileID: 1892818904}
@@ -6492,6 +6841,7 @@ SceneRoots:
   - {fileID: 2118710262}
   - {fileID: 1522297098}
   - {fileID: 1378991917}
+  - {fileID: 543154916}
   - {fileID: 452865494}
   - {fileID: 761823456}
   - {fileID: 492249295}

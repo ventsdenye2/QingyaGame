@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2858391113ed7c54c8eaa40d5ae1cde2, type: 3}
+  m_Name: beat3
+  m_EditorClassIdentifier: 
+  beatTimes:
+  - 113.77333333333331
+  - 114.09333333333348
+  - 114.47733333333349
+  - 114.92533333333336
+  - 115.41599999999994
+  - 115.84266666666667
+  - 116.78133333333335
+  - 117.2506666666668
+  - 117.69866666666667
+  - 118.16800000000012
+  - 118.63733333333334
+  - 119.12800000000016
+  - 119.49066666666681

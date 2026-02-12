@@ -30,7 +30,7 @@ MonoBehaviour:
     spiralStartAngle: 0
     spiralRadiusGrowth: 0
     spiralFireDuration: 0
-    flowerPetals: 10
+    flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
     aimingBulletCount: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
     spiralStartAngle: 0
     spiralRadiusGrowth: 0
     spiralFireDuration: 0
-    flowerPetals: 10
+    flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
     aimingBulletCount: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
     spiralStartAngle: 0
     spiralRadiusGrowth: 0
     spiralFireDuration: 0
-    flowerPetals: 10
+    flowerPetals: 6
     flowerBulletsPerPetal: 5
     flowerPetalSpread: 30
     aimingBulletCount: 0
@@ -90,7 +90,7 @@ MonoBehaviour:
     emitterType: 5
     useMultipleEmitters: 0
     multipleEmitters: 
-    attackType: 1
+    attackType: 4
     bulletConfig: {fileID: 11400000, guid: c43d22ee5fd96d84590e6131aea80b82, type: 2}
     circleCount: 20
     fanCount: 10
@@ -102,9 +102,9 @@ MonoBehaviour:
     spiralStartAngle: 0
     spiralRadiusGrowth: 0
     spiralFireDuration: 0
-    flowerPetals: 0
-    flowerBulletsPerPetal: 0
-    flowerPetalSpread: 0
+    flowerPetals: 6
+    flowerBulletsPerPetal: 5
+    flowerPetalSpread: 30
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
@@ -126,9 +126,9 @@ MonoBehaviour:
     spiralStartAngle: 0
     spiralRadiusGrowth: 0
     spiralFireDuration: 0
-    flowerPetals: 0
-    flowerBulletsPerPetal: 0
-    flowerPetalSpread: 0
+    flowerPetals: 6
+    flowerBulletsPerPetal: 5
+    flowerPetalSpread: 30
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
     emitterType: 4
     useMultipleEmitters: 0
     multipleEmitters: 
-    attackType: 1
+    attackType: 4
     bulletConfig: {fileID: 11400000, guid: c43d22ee5fd96d84590e6131aea80b82, type: 2}
     circleCount: 20
     fanCount: 10
@@ -150,9 +150,9 @@ MonoBehaviour:
     spiralStartAngle: 0
     spiralRadiusGrowth: 0
     spiralFireDuration: 0
-    flowerPetals: 0
-    flowerBulletsPerPetal: 0
-    flowerPetalSpread: 0
+    flowerPetals: 6
+    flowerBulletsPerPetal: 5
+    flowerPetalSpread: 30
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
     emitterType: 5
     useMultipleEmitters: 0
     multipleEmitters: 
-    attackType: 1
+    attackType: 4
     bulletConfig: {fileID: 11400000, guid: c43d22ee5fd96d84590e6131aea80b82, type: 2}
     circleCount: 20
     fanCount: 10
@@ -174,9 +174,9 @@ MonoBehaviour:
     spiralStartAngle: 0
     spiralRadiusGrowth: 0
     spiralFireDuration: 0
-    flowerPetals: 0
-    flowerBulletsPerPetal: 0
-    flowerPetalSpread: 0
+    flowerPetals: 6
+    flowerBulletsPerPetal: 5
+    flowerPetalSpread: 30
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
@@ -186,7 +186,7 @@ MonoBehaviour:
     emitterType: 3
     useMultipleEmitters: 0
     multipleEmitters: 
-    attackType: 1
+    attackType: 4
     bulletConfig: {fileID: 11400000, guid: c43d22ee5fd96d84590e6131aea80b82, type: 2}
     circleCount: 20
     fanCount: 10
@@ -198,9 +198,9 @@ MonoBehaviour:
     spiralStartAngle: 0
     spiralRadiusGrowth: 0
     spiralFireDuration: 0
-    flowerPetals: 0
-    flowerBulletsPerPetal: 0
-    flowerPetalSpread: 0
+    flowerPetals: 6
+    flowerBulletsPerPetal: 5
+    flowerPetalSpread: 30
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0
