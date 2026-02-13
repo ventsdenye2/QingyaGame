@@ -12,6 +12,7 @@ namespace DodgeDots.Player
     /// </summary>
     public class PlayerSkillSystem : MonoBehaviour
     {
+        private bool _inputLocked = false;
         [Header("攻击技能")]
         [SerializeField] private float skillDuration = 3f;             // 技能持续时间（秒）
         [SerializeField] private float skillDamage = 30f;              // 技能对Boss的伤害
@@ -122,17 +123,11 @@ namespace DodgeDots.Player
             CacheBossReference();
         }
 
-        private bool _inputLocked = false;
-
-        public void SetInputLocked(bool locked)
-        {
-            _inputLocked = locked;
-        }
-
         private void Update()
         {
-            // 外部锁定输入
-            if (_inputLocked)
+            if (_inputLocked) return;
+            // 教程/暂停期间不允许释放技能（避免消耗能量或改变游戏状态）
+            if (Time.timeScale <= 0f)
             {
                 return;
             }
@@ -692,6 +687,11 @@ namespace DodgeDots.Player
         public bool HasAvailableResurrection()
         {
             return !_resurrectionUsed && hasResurrection && HasSkill(PlayerSkillType.Resurrection);
+        }
+
+        public void SetInputLocked(bool locked)
+        {
+            _inputLocked = locked;
         }
 
         private bool HasSkill(PlayerSkillType skillType)

@@ -28,6 +28,8 @@ namespace DodgeDots.Level
         [SerializeField] private bool autoStartBattle = true;
         [SerializeField] private float battleStartDelay = 1f;
         [SerializeField] private float playerDeathDelay = 2f; // 延迟检查玩家失败（允许复活）
+        [Tooltip("是否允许开始Boss战（用于教程或流程控制）")]
+        public bool allowBossBattle = true;
 
         [Header("弹幕预加载设置")]
         [Tooltip("是否启用弹幕预加载")]
@@ -39,26 +41,33 @@ namespace DodgeDots.Level
         [Tooltip("快进倍速")]
         [SerializeField] private float fastForwardSpeed = 3f;
 
-        public bool allowBossBattle = true; // 教程期间可设为 false
-
         private bool _battleStarted;
         private bool _battleEnded;
+        private float _battleStartTime = -1f;
         private Coroutine _deathCheckCoroutine;
         private bool _isFastForwarding = false;
         private BGMManager _bgmManager;
         private float _normalTimeScale = 1f;
         private float _normalAudioPitch = 1f;
 
-        private float _battleStartTime;
-        private float _battleDuration;
-
-        public float BattleDurationSeconds => _battleDuration;
-        public float PlayerRemainingHp => playerHealth != null ? playerHealth.CurrentHealth : 0f;
-        public float PlayerMaxHp => playerHealth != null ? playerHealth.MaxHealth : 0f;
-
         public event Action OnBattleStart;
         public event Action OnBattleWin;
         public event Action OnBattleLose;
+
+        public float BattleDurationSeconds
+        {
+            get
+            {
+                if (_battleStartTime < 0f) return 0f;
+                float endTime = _battleEnded ? _battleEndTime : Time.time;
+                return Mathf.Max(0f, endTime - _battleStartTime);
+            }
+        }
+
+        public float PlayerRemainingHp => playerHealth != null ? playerHealth.CurrentHealth : 0f;
+        public float PlayerMaxHp => playerHealth != null ? playerHealth.MaxHealth : 0f;
+
+        private float _battleEndTime = -1f;
 
         private void Start()
         {
@@ -175,24 +184,26 @@ namespace DodgeDots.Level
         public void StartBattle()
         {
             if (_battleStarted) return;
+            if (!allowBossBattle)
+            {
+                Debug.Log("[BossBattleLevel] allowBossBattle=false，StartBattle 被阻止");
+                return;
+            }
 
             _battleStarted = true;
             _battleStartTime = Time.time;
-            _battleDuration = 0f;
+            _battleEndTime = -1f;
             OnBattleStart?.Invoke();
 
             // 启动Boss战斗
-            if (boss != null && allowBossBattle)
+            if (boss != null)
             {
                 boss.StartBattle();
             }
 
-            Debug.Log(allowBossBattle ? "Boss战开始！" : "Boss战已记录开始，但Boss行为被锁定（教程中）");
+            Debug.Log("Boss战开始！");
         }
 
-        /// <summary>
-        /// Boss被击败
-        /// </summary>
         /// <summary>
         /// Boss被击败
         /// </summary>
@@ -201,10 +212,7 @@ namespace DodgeDots.Level
             if (_battleEnded) return;
 
             _battleEnded = true;
-            if (_battleStarted)
-            {
-                _battleDuration = Mathf.Max(0f, Time.time - _battleStartTime);
-            }
+            _battleEndTime = Time.time;
 
             if (!string.IsNullOrEmpty(currentLevelId))
             {
@@ -234,21 +242,15 @@ namespace DodgeDots.Level
                 Debug.LogError("[BossBattleLevel] 未设置 currentLevelId，无法保存进度！");
             }
 
-            Debug.Log("胜利！Boss被击败！展示死亡图 1.5 秒...");
+            OnBattleWin?.Invoke();
+
+            Debug.Log("胜利！Boss被击败！");
 
             // 清空所有弹幕
             if (BulletManager.Instance != null)
             {
                 BulletManager.Instance.ClearAllBullets();
             }
-
-            StartCoroutine(InvokeBattleWinDelayed());
-        }
-
-        private System.Collections.IEnumerator InvokeBattleWinDelayed()
-        {
-            yield return new WaitForSeconds(1.5f);
-            OnBattleWin?.Invoke();
         }
 
         /// <summary>
@@ -287,10 +289,7 @@ namespace DodgeDots.Level
             if (!_battleEnded)
             {
                 _battleEnded = true;
-                if (_battleStarted)
-                {
-                    _battleDuration = Mathf.Max(0f, Time.time - _battleStartTime);
-                }
+                _battleEndTime = Time.time;
                 OnBattleLose?.Invoke();
                 Debug.Log("失败！玩家被击败！");
             }
@@ -305,6 +304,8 @@ namespace DodgeDots.Level
         {
             _battleStarted = false;
             _battleEnded = false;
+            _battleStartTime = -1f;
+            _battleEndTime = -1f;
 
             // 重置Boss
             if (boss != null)

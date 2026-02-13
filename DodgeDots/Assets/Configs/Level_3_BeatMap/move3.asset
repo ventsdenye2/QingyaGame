@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2858391113ed7c54c8eaa40d5ae1cde2, type: 3}
+  m_Name: move3
+  m_EditorClassIdentifier: 
+  beatTimes:
+  - 185.1333333333332
+  - 186.00800000000072
+  - 186.92533333333358
+  - 187.75733333333392
+  - 188.67466666666678
+  - 189.5706666666665
+  - 190.44533333333402
+  - 191.36266666666688
+  - 192.2586666666666
+  - 193.11200000000008
+  - 194.02933333333385
+  - 194.90400000000045
+  - 195.77866666666705
+  - 196.65333333333365
+  - 197.54933333333338
+  - 198.44533333333402

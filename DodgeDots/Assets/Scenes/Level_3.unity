@@ -331,6 +331,75 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &107414865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 107414868}
+  - component: {fileID: 107414867}
+  - component: {fileID: 107414866}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_mainSinger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &107414866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107414865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 107414867}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: c31415ef46043034194d288d44765c09, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &107414867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107414865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: ddc31a0689b65ff45828f8f611470883, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &107414868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107414865}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &167682547
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,6 +746,144 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 278326656}
   m_CullTransparentMesh: 1
+--- !u!1 &345121557
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 345121560}
+  - component: {fileID: 345121559}
+  - component: {fileID: 345121558}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_ao
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &345121558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345121557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 345121559}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 60e2ba1c02d8b36448cc575f6f823f2b, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &345121559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345121557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: d195b1974e01d9d4d936637b03a2c00e, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.2
+  loop: 1
+--- !u!4 &345121560
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345121557}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &387784298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 387784301}
+  - component: {fileID: 387784300}
+  - component: {fileID: 387784299}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_piano
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &387784299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387784298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 387784300}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: dbc4034f2d574ca4188f553e7f7be719, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &387784300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387784298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 10c637db05279064988d82eb8b5cbb76, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &387784301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387784298}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &423089677
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,6 +991,75 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1203.3154, y: 814.76917, z: -6.8870625}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &466416315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 466416318}
+  - component: {fileID: 466416317}
+  - component: {fileID: 466416316}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_move2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &466416316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466416315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 466416317}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: c31415ef46043034194d288d44765c09, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &466416317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466416315}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: f239c749d592d6649bd22b654a160139, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.3
+  loop: 1
+--- !u!4 &466416318
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466416315}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1203,6 +1479,144 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 494210276}
   m_CullTransparentMesh: 1
+--- !u!1 &515702192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 515702195}
+  - component: {fileID: 515702194}
+  - component: {fileID: 515702193}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_mainSinger2move
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &515702193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515702192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 515702194}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: e835cb5d3fc537a47b6dd903b4d2fd3b, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &515702194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515702192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: a2710eeb754ed9b40a2c93234f993f99, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &515702195
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 515702192}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &539211587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 539211590}
+  - component: {fileID: 539211589}
+  - component: {fileID: 539211588}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_piano2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &539211588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539211587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 539211589}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: dbc4034f2d574ca4188f553e7f7be719, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &539211589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539211587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: e68d2c03c11252841a04b6602300646b, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &539211590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539211587}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &543154913
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,7 +1629,7 @@ GameObject:
   - component: {fileID: 543154915}
   - component: {fileID: 543154914}
   m_Layer: 0
-  m_Name: BeatMapPlayer_part2
+  m_Name: BeatMapPlayer_opening
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1235,7 +1649,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatMapPlayer: {fileID: 543154915}
   bossBase: {fileID: 825278383}
-  sequenceConfig: {fileID: 11400000, guid: 77c8bd784ebf1014e8841ce68e7fb27b, type: 2}
+  sequenceConfig: {fileID: 11400000, guid: 822303ab17f914d4c8d4a1d5aa8e38d3, type: 2}
   enableMoveSequence: 1
   detachEmitters: 1
   showDebugLog: 0
@@ -1252,7 +1666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgmManager: {fileID: 452865493}
-  beatMap: {fileID: 11400000, guid: 1c4e6c9ab4248b8489a1f06a90b95688, type: 2}
+  beatMap: {fileID: 11400000, guid: bd0f3f8f22722fc4592beb181ca3ebd4, type: 2}
   autoStart: 1
   waitForBgmStart: 1
   startOffsetSeconds: -0.1
@@ -1613,7 +2027,7 @@ Transform:
   m_GameObject: {fileID: 692187051}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12, y: -23, z: 0}
+  m_LocalPosition: {x: 23.1, y: -48.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2075,7 +2489,7 @@ Transform:
   m_GameObject: {fileID: 788542162}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -20, z: 0}
+  m_LocalPosition: {x: 8.5, y: -43.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2349,7 +2763,7 @@ Transform:
   m_GameObject: {fileID: 825278382}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: -14.68, y: 3.23, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2383,7 +2797,7 @@ Transform:
   m_GameObject: {fileID: 831860381}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24, y: -26, z: 0}
+  m_LocalPosition: {x: 13.7, y: -46.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2458,6 +2872,75 @@ MonoBehaviour:
   showGizmo: 1
   gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   gizmoSize: 0.3
+--- !u!1 &879909931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 879909934}
+  - component: {fileID: 879909933}
+  - component: {fileID: 879909932}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_beat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &879909932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879909931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 879909933}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 1ba245790f706b7438b3af7129d433ff, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &879909933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879909931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: b5de6906a11a9844b80f37b326d9aa54, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.3
+  loop: 1
+--- !u!4 &879909934
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 879909931}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &990000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2504,7 +2987,7 @@ Transform:
   m_GameObject: {fileID: 1038067522}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 24, y: -26, z: 0}
+  m_LocalPosition: {x: 29.8, y: -44.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2858,6 +3341,75 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1160579122
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1160579125}
+  - component: {fileID: 1160579124}
+  - component: {fileID: 1160579123}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_mainSinger2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1160579123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160579122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1160579124}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: e0e29617e1b0222429e6e4ad1b71118c, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1160579124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160579122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 362ce255b52a8c849a1c6305341aca9d, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &1160579125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160579122}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1201574483
 GameObject:
   m_ObjectHideFlags: 0
@@ -2992,6 +3544,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1201574483}
   m_CullTransparentMesh: 1
+--- !u!1 &1221498736
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1221498739}
+  - component: {fileID: 1221498738}
+  - component: {fileID: 1221498737}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_aomove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1221498737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221498736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1221498738}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 9be726dbcbc77944f8c20ee6e5f4464d, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1221498738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221498736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: d195b1974e01d9d4d936637b03a2c00e, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.3
+  loop: 1
+--- !u!4 &1221498739
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221498736}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1250343971
 GameObject:
   m_ObjectHideFlags: 0
@@ -3420,6 +4041,7 @@ MonoBehaviour:
   autoStartBattle: 1
   battleStartDelay: 1
   playerDeathDelay: 2
+  allowBossBattle: 1
   enableBulletPreload: 1
   preloadSeconds: 10
   fastForwardSpeed: 3
@@ -3433,6 +4055,144 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1360437819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1360437822}
+  - component: {fileID: 1360437821}
+  - component: {fileID: 1360437820}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_move4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1360437820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360437819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1360437821}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 16d50973b9868344f80e299104682a68, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1360437821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360437819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: e3d575a9b55ed2b49b53c7dedf216552, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.3
+  loop: 1
+--- !u!4 &1360437822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360437819}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1390787705
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1390787708}
+  - component: {fileID: 1390787707}
+  - component: {fileID: 1390787706}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_crowdmove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1390787706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390787705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1390787707}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 338625b6385d9954f9f826e08234bb8a, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1390787707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390787705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: ee867c5bfe438ae4397890787c6bf806, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.3
+  loop: 1
+--- !u!4 &1390787708
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390787705}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3513,6 +4273,75 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1424051103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1424051106}
+  - component: {fileID: 1424051105}
+  - component: {fileID: 1424051104}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_walk
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1424051104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424051103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1424051105}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 948178983dbc6a84daf79f98f88bd1dc, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1424051105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424051103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 5426d105cde4bdf4bb834490bff5711f, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &1424051106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424051103}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1475380508
 GameObject:
   m_ObjectHideFlags: 0
@@ -3709,6 +4538,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494147198}
   m_CullTransparentMesh: 1
+--- !u!1 &1501667417
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1501667420}
+  - component: {fileID: 1501667419}
+  - component: {fileID: 1501667418}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_move3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1501667418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501667417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1501667419}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: 16d50973b9868344f80e299104682a68, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1501667419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501667417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 42c02bd4f09fc184c8ba42d625c29713, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.3
+  loop: 1
+--- !u!4 &1501667420
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501667417}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1614718951
 GameObject:
   m_ObjectHideFlags: 0
@@ -3843,6 +4741,144 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1614718951}
   m_CullTransparentMesh: 1
+--- !u!1 &1676348626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1676348629}
+  - component: {fileID: 1676348628}
+  - component: {fileID: 1676348627}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_last
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1676348627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676348626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1676348628}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: c31415ef46043034194d288d44765c09, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1676348628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676348626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 3ae3fb44c38059447bf600cb6395896e, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.3
+  loop: 1
+--- !u!4 &1676348629
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676348626}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1717387236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1717387239}
+  - component: {fileID: 1717387238}
+  - component: {fileID: 1717387237}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_pianomove
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1717387237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717387236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1717387238}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: e28bd23327475e64ca31eda107f02fc9, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1717387238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717387236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: f8a039c7730956949a6c3e32abc8104d, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.3
+  loop: 1
+--- !u!4 &1717387239
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1717387236}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1764110322
 GameObject:
   m_ObjectHideFlags: 0
@@ -4047,6 +5083,75 @@ MonoBehaviour:
   showGizmo: 1
   gizmoColor: {r: 1, g: 0, b: 0, a: 1}
   gizmoSize: 0.3
+--- !u!1 &1821459919
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1821459922}
+  - component: {fileID: 1821459921}
+  - component: {fileID: 1821459920}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_hpop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1821459920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821459919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1821459921}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: b96545770d8fcba48877d3275f29b6fa, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1821459921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821459919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: e755ca9fd05df544bab4f4bcef9f8f19, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.1
+  loop: 1
+--- !u!4 &1821459922
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821459919}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1823291056
 GameObject:
   m_ObjectHideFlags: 0
@@ -4208,7 +5313,7 @@ Transform:
   m_GameObject: {fileID: 1834865971}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -40, z: 0}
+  m_LocalPosition: {x: 5.4, y: -37.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4542,7 +5647,7 @@ Transform:
   m_GameObject: {fileID: 1901758160}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12, y: -23, z: 0}
+  m_LocalPosition: {x: 21, y: -39.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4924,6 +6029,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925333695}
   m_CullTransparentMesh: 1
+--- !u!1 &1976345884
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1976345887}
+  - component: {fileID: 1976345886}
+  - component: {fileID: 1976345885}
+  m_Layer: 0
+  m_Name: BeatMapPlayer_crowd
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1976345885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976345884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a9434dd6ed31349ba65d965a962a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapPlayer: {fileID: 1976345886}
+  bossBase: {fileID: 825278383}
+  sequenceConfig: {fileID: 11400000, guid: ad7b9982fec458942b0e185ef4d4b14e, type: 2}
+  enableMoveSequence: 1
+  detachEmitters: 1
+  showDebugLog: 0
+--- !u!114 &1976345886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976345884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmManager: {fileID: 452865493}
+  beatMap: {fileID: 11400000, guid: 68b7eaae67b1f054dbb3b6f3edd61b66, type: 2}
+  autoStart: 1
+  waitForBgmStart: 1
+  startOffsetSeconds: -0.3
+  loop: 1
+--- !u!4 &1976345887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1976345884}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1989826683
 GameObject:
   m_ObjectHideFlags: 0
@@ -5309,6 +6483,23 @@ SceneRoots:
   - {fileID: 640476935}
   - {fileID: 1336664141}
   - {fileID: 543154916}
+  - {fileID: 107414868}
+  - {fileID: 1424051106}
+  - {fileID: 1821459922}
+  - {fileID: 1160579125}
+  - {fileID: 515702195}
+  - {fileID: 345121560}
+  - {fileID: 1221498739}
+  - {fileID: 879909934}
+  - {fileID: 387784301}
+  - {fileID: 539211590}
+  - {fileID: 1717387239}
+  - {fileID: 1390787708}
+  - {fileID: 1976345887}
+  - {fileID: 1676348629}
+  - {fileID: 466416318}
+  - {fileID: 1501667420}
+  - {fileID: 1360437822}
   - {fileID: 452865494}
   - {fileID: 492249295}
   - {fileID: 423089679}

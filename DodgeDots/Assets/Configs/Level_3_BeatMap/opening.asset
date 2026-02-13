@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2858391113ed7c54c8eaa40d5ae1cde2, type: 3}
+  m_Name: opening
+  m_EditorClassIdentifier: 
+  beatTimes:
+  - 0.45066666666667743
+  - 1.1333333333333258
+  - 1.5600000000000023
+  - 2.0079999999999814
+  - 2.8613333333333344
+  - 3.330666666666673
+  - 3.778666666666652
+  - 3.9
+  - 6
+  - 6.46666666666664
+  - 6.893333333333317
+  - 7.341333333333353
+  - 8.23733333333331
+  - 9.112000000000023
+  - 9.986666666666679
+  - 10.434666666666658
+  - 11

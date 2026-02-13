@@ -540,7 +540,7 @@ namespace DodgeDots.Enemy
 
             _defaultPositions[bossBase.transform] = bossBase.transform.position;
 
-            foreach (var emitter in GetComponentsInChildren<EmitterPoint>())
+            foreach (var emitter in bossBase.GetComponentsInChildren<EmitterPoint>(true))
             {
                 if (emitter != null)
                 {
@@ -561,7 +561,7 @@ namespace DodgeDots.Enemy
                 _emittersRoot.SetParent(bossBase.transform.parent, worldPositionStays: true);
             }
 
-            foreach (var emitter in GetComponentsInChildren<EmitterPoint>())
+            foreach (var emitter in bossBase.GetComponentsInChildren<EmitterPoint>(true))
             {
                 if (emitter == null) continue;
                 Transform t = emitter.transform;
