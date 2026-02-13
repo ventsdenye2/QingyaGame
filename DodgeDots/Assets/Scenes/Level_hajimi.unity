@@ -669,6 +669,15 @@ MonoBehaviour:
   skillActiveSprite: {fileID: 21300000, guid: 43be78ea5be992d4c93474f00a8be9a2, type: 3}
   skillActiveColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   skillInactiveColor: {r: 1, g: 1, b: 1, a: 1}
+  bossLowHpPercentForSlashFx: 0.1
+  slashFxSprite: {fileID: 3807744920287542333, guid: 90f53065140625242aaa6c9e55fcf2f3, type: 3}
+  slashFxLength: 15
+  slashFxWidth: 0.5
+  slashFxDuration: 0.25
+  slashFxCooldown: 0.08
+  slashFxSortingLayer: Default
+  slashFxSortingOrder: 50
+  slashFxColor: {r: 1, g: 1, b: 1, a: 1}
   resurrectionWaitTime: 1
   hasResurrection: 1
   sfxSource: {fileID: 0}
@@ -3349,6 +3358,7 @@ MonoBehaviour:
   enableBulletPreload: 1
   preloadSeconds: 5
   fastForwardSpeed: 3
+  allowBossBattle: 1
 --- !u!4 &1336664141
 Transform:
   m_ObjectHideFlags: 0
@@ -4415,7 +4425,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 39, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1879904207
