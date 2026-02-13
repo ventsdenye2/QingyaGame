@@ -779,23 +779,26 @@ namespace DodgeDots.Player
             // 3. 计算方向：玩家划过 Boss 的方向
             // 使用玩家上一帧到这一帧的位移作为划过方向
             Vector2 slashDir = ((Vector2)transform.position - _lastFramePosition).normalized;
-            
+
             // 如果玩家没动，则使用玩家指向 Boss 的方向作为兜底
             if (slashDir.sqrMagnitude < 0.001f)
             {
                 slashDir = ((Vector2)boss.transform.position - (Vector2)transform.position).normalized;
             }
 
-            // 4. 执行特效表现
+            // 4. 执行特效表现并给予玩家无敌状态
             StartCoroutine(SlashFxRoutine(boss.transform.position, slashDir));
         }
 
         private IEnumerator SlashFxRoutine(Vector2 center, Vector2 dir)
         {
+            // 开启玩家无敌状态
+            SetSkillInvincible(true);
+
             // 创建临时特效物体
             GameObject fxGo = new GameObject("SlashFx_Runtime");
             fxGo.transform.position = center;
-            
+
             // 设置朝向
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             fxGo.transform.rotation = Quaternion.Euler(0, 0, angle);
@@ -821,8 +824,11 @@ namespace DodgeDots.Player
                 yield return null;
             }
 
-            // 销毁
+            // 销毁特效
             Destroy(fxGo);
+
+            // 关闭玩家无敌状态
+            SetSkillInvincible(false);
         }
 
         /// <summary>

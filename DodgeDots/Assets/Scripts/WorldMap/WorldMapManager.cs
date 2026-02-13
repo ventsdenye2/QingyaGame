@@ -171,6 +171,23 @@ namespace DodgeDots.WorldMap
             _unlockedLevels.Add(levelId); // 完成了自然算解锁
             OnLevelCompleted?.Invoke(levelId);
 
+            // 设置关卡专用标记（与BossBattleLevel保持一致）
+            if (levelId == "level_2")
+            {
+                SaveSystem.SetFlag("Boss_2_Beat");
+                // 通关level_2后解锁level_hajimi
+                if (!_unlockedLevels.Contains("level_hajimi"))
+                {
+                    UnlockLevel("level_hajimi");
+                    Debug.Log("[WorldMapManager] level_2完成，已解锁level_hajimi");
+                }
+            }
+            else if (levelId == "level_3")
+            {
+                SaveSystem.SetFlag("Boss_3_Beat");
+                Debug.Log("[WorldMapManager] level_3完成，设置Boss_3_Beat标志");
+            }
+
             // 更新节点状态
             if (_nodeDict.TryGetValue(levelId, out var node))
             {
@@ -304,7 +321,7 @@ namespace DodgeDots.WorldMap
             }
         }
 
-        /*private void Update()
+        private void Update()
         {
             // 测试专用：按下 'C' 键直接完成 level_1
             if (Input.GetKeyDown(KeyCode.C))
@@ -348,6 +365,6 @@ namespace DodgeDots.WorldMap
                 Debug.Log("【测试】强制完成 level_beginner");
                 CompleteLevel("level_beginner"); // 关卡ID，默认是 level_1
             }
-        }*/
+        }
     }
 }

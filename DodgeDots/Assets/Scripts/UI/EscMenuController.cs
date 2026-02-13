@@ -60,6 +60,30 @@ namespace DodgeDots.UI
         {
             AutoWireButtonEvents();
             ConfigureButtonVisibility();
+
+            // 检查EventSystem
+            var eventSystem = UnityEngine.EventSystems.EventSystem.current;
+            if (eventSystem == null)
+            {
+                Debug.LogError("[EscMenu] No EventSystem found in scene! UI interactions will not work.");
+            }
+            else
+            {
+                Debug.Log("[EscMenu] EventSystem found and active");
+            }
+
+            // 检查Canvas设置
+            var canvas = GetComponentInParent<Canvas>();
+            if (canvas != null)
+            {
+                Debug.Log($"[EscMenu] Canvas found - RenderMode: {canvas.renderMode}, sortingOrder: {canvas.sortingOrder}");
+                var raycaster = canvas.GetComponent<UnityEngine.UI.GraphicRaycaster>();
+                if (raycaster == null)
+                {
+                    Debug.LogWarning("[EscMenu] No GraphicRaycaster on Canvas! Adding one...");
+                    canvas.gameObject.AddComponent<UnityEngine.UI.GraphicRaycaster>();
+                }
+            }
         }
 
         private void Update()
@@ -110,6 +134,17 @@ namespace DodgeDots.UI
             if (menuRoot != null)
             {
                 menuRoot.SetActive(open);
+
+                // 确保Canvas Group设置正确（如果存在）
+                var canvasGroup = menuRoot.GetComponent<UnityEngine.CanvasGroup>();
+                if (canvasGroup != null)
+                {
+                    canvasGroup.interactable = open;
+                    canvasGroup.blocksRaycasts = open;
+                    Debug.Log($"[EscMenu] CanvasGroup found - interactable: {open}, blocksRaycasts: {open}");
+                }
+
+                Debug.Log($"[EscMenu] MenuRoot set to active: {open}");
             }
 
             if (pauseTimeScaleWhenOpen)
@@ -118,10 +153,12 @@ namespace DodgeDots.UI
                 {
                     _cachedTimeScale = Time.timeScale;
                     Time.timeScale = 0f;
+                    Debug.Log($"[EscMenu] Time.timeScale set to 0, cached: {_cachedTimeScale}");
                 }
                 else
                 {
                     Time.timeScale = _cachedTimeScale <= 0f ? 1f : _cachedTimeScale;
+                    Debug.Log($"[EscMenu] Time.timeScale restored to {Time.timeScale}");
                 }
             }
 
@@ -129,8 +166,9 @@ namespace DodgeDots.UI
             if (pauseBgmWhenOpenInLevelScenes)
             {
                 string scene = SceneManager.GetActiveScene().name;
-                // 约定：关卡场景名以 "Level_" 开头，例如 "Level_1"
-                bool isLevelScene = scene.StartsWith("Level_", System.StringComparison.OrdinalIgnoreCase);
+                // 约定：关卡场景名以 "Level_" 开头，例如 "Level_1", "Level_2", "Level_3", "Level_hajimi"
+                bool isLevelScene = scene.StartsWith("Level_", System.StringComparison.OrdinalIgnoreCase) ||
+                                   scene.Equals("Level_hajimi", System.StringComparison.OrdinalIgnoreCase);
                 if (isLevelScene)
                 {
                     var bgm = FindFirstObjectByType<BGMManager>();
@@ -212,18 +250,36 @@ namespace DodgeDots.UI
             {
                 resumeButton.onClick.RemoveListener(OnClickResume);
                 resumeButton.onClick.AddListener(OnClickResume);
+                resumeButton.interactable = true;
+                Debug.Log("[EscMenu] Resume button wired and set to interactable");
+            }
+            else
+            {
+                Debug.LogWarning("[EscMenu] Resume button is null!");
             }
 
             if (backToWorldMapButton != null)
             {
                 backToWorldMapButton.onClick.RemoveListener(OnClickBackToWorldMap);
                 backToWorldMapButton.onClick.AddListener(OnClickBackToWorldMap);
+                backToWorldMapButton.interactable = true;
+                Debug.Log("[EscMenu] BackToWorldMap button wired and set to interactable");
+            }
+            else
+            {
+                Debug.LogWarning("[EscMenu] BackToWorldMap button is null!");
             }
 
             if (backToMainMenuButton != null)
             {
                 backToMainMenuButton.onClick.RemoveListener(OnClickBackToMainMenu);
                 backToMainMenuButton.onClick.AddListener(OnClickBackToMainMenu);
+                backToMainMenuButton.interactable = true;
+                Debug.Log("[EscMenu] BackToMainMenu button wired and set to interactable");
+            }
+            else
+            {
+                Debug.LogWarning("[EscMenu] BackToMainMenu button is null!");
             }
         }
 
@@ -231,11 +287,13 @@ namespace DodgeDots.UI
 
         public void OnClickResume()
         {
+            Debug.Log("[EscMenu] OnClickResume called");
             SetOpen(false);
         }
 
         public void OnClickBackToWorldMap()
         {
+            Debug.Log("[EscMenu] OnClickBackToWorldMap called");
             // 切场景前先保存
             SaveSystem.Save();
             if (pauseTimeScaleWhenOpen) Time.timeScale = 1f;
@@ -244,6 +302,7 @@ namespace DodgeDots.UI
 
         public void OnClickBackToMainMenu()
         {
+            Debug.Log("[EscMenu] OnClickBackToMainMenu called");
             SaveSystem.Save();
             if (pauseTimeScaleWhenOpen) Time.timeScale = 1f;
             DodgeDots.UI.LoadingManager.Instance.LoadScene(mainMenuSceneName);

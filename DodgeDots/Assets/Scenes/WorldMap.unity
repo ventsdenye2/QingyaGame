@@ -181,8 +181,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u540D\u79F0"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e8492c0573d1ec94288b1d9c10c223ec, type: 2}
-  m_sharedMaterial: {fileID: -8377389199912815815, guid: e8492c0573d1ec94288b1d9c10c223ec, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8bb01f1c229327a49a822f571674a241, type: 2}
+  m_sharedMaterial: {fileID: -8377389199912815815, guid: 8bb01f1c229327a49a822f571674a241, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -335,7 +335,8 @@ MonoBehaviour:
   - branchName: "\u901A\u5173Level2"
     requiredLevelId: level_2
     triggerIfIncomplete: 0
-    requiredFlags: []
+    requiredFlags:
+    - Boss_2_Beat
     stages:
     - stageName: Meet_1
       dialogueConfig: {fileID: 11400000, guid: b6e07de5ae29a4847b42ffd2dff4fc39, type: 2}
@@ -344,7 +345,19 @@ MonoBehaviour:
           m_Calls: []
       onDialogueFinish:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 66244885}
+            m_TargetAssemblyTypeName: DodgeDots.WorldMap.LevelNode, Assembly-CSharp
+            m_MethodName: UnlockSelf
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
     loopLastDialogue: 1
     currentIndex: 0
   interactionKey: 101
@@ -372,6 +385,7 @@ MonoBehaviour:
   backgroundRenderer: {fileID: 125074372}
   enterHint: {fileID: 2046804389}
   outlineMaterial: {fileID: 2100000, guid: a83cae9b5e0abce41944be3f25af4171, type: 2}
+  interactRangeExpand: 0.4
 --- !u!1 &77749081
 GameObject:
   m_ObjectHideFlags: 0
@@ -1905,6 +1919,7 @@ MonoBehaviour:
   backgroundRenderer: {fileID: 515919250}
   enterHint: {fileID: 2144793761}
   outlineMaterial: {fileID: 2100000, guid: a83cae9b5e0abce41944be3f25af4171, type: 2}
+  interactRangeExpand: 0.4
 --- !u!114 &541437199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2371,8 +2386,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u5BF9\u8BDD\u5185\u5BB9"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e8492c0573d1ec94288b1d9c10c223ec, type: 2}
-  m_sharedMaterial: {fileID: -8377389199912815815, guid: e8492c0573d1ec94288b1d9c10c223ec, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8bb01f1c229327a49a822f571674a241, type: 2}
+  m_sharedMaterial: {fileID: -8377389199912815815, guid: 8bb01f1c229327a49a822f571674a241, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3947,8 +3962,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "S\uFF1A\u8DF3\u8FC7"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e8492c0573d1ec94288b1d9c10c223ec, type: 2}
-  m_sharedMaterial: {fileID: -8377389199912815815, guid: e8492c0573d1ec94288b1d9c10c223ec, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8bb01f1c229327a49a822f571674a241, type: 2}
+  m_sharedMaterial: {fileID: -8377389199912815815, guid: 8bb01f1c229327a49a822f571674a241, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4607,6 +4622,7 @@ MonoBehaviour:
   backgroundRenderer: {fileID: 411874451}
   enterHint: {fileID: 824133156}
   outlineMaterial: {fileID: 2100000, guid: a83cae9b5e0abce41944be3f25af4171, type: 2}
+  interactRangeExpand: 0.4
 --- !u!1 &1048728676
 GameObject:
   m_ObjectHideFlags: 0
@@ -5081,6 +5097,7 @@ MonoBehaviour:
   backgroundRenderer: {fileID: 1143516573}
   enterHint: {fileID: 1426658888}
   outlineMaterial: {fileID: 2100000, guid: a83cae9b5e0abce41944be3f25af4171, type: 2}
+  interactRangeExpand: 0.4
 --- !u!1 &1143516570
 GameObject:
   m_ObjectHideFlags: 0
@@ -6218,6 +6235,7 @@ MonoBehaviour:
   backgroundRenderer: {fileID: 2103904440}
   enterHint: {fileID: 373341748}
   outlineMaterial: {fileID: 2100000, guid: a83cae9b5e0abce41944be3f25af4171, type: 2}
+  interactRangeExpand: 0.4
 --- !u!1 &1327941105
 GameObject:
   m_ObjectHideFlags: 0

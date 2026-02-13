@@ -236,6 +236,25 @@ namespace DodgeDots.Level
                 // 写入磁盘
                 DodgeDots.Save.SaveSystem.Save();
                 Debug.Log($"[BossBattleLevel] 进度已保存：{currentLevelId} 已完成。");
+
+                // 关卡专用标记（用于世界地图对话分支）
+                if (currentLevelId == "level_2")
+                {
+                    DodgeDots.Save.SaveSystem.SetFlag("Boss_2_Beat");
+                    // 通关level_2后解锁level_hajimi
+                    if (!save.unlockedLevels.Contains("level_hajimi"))
+                    {
+                        save.unlockedLevels.Add("level_hajimi");
+                        Debug.Log("[BossBattleLevel] level_2通关，已解锁level_hajimi");
+                    }
+                }
+
+                // level_3通关后的处理
+                if (currentLevelId == "level_3")
+                {
+                    DodgeDots.Save.SaveSystem.SetFlag("Boss_3_Beat");
+                    Debug.Log("[BossBattleLevel] level_3通关，设置Boss_3_Beat标志");
+                }
             }
             else
             {

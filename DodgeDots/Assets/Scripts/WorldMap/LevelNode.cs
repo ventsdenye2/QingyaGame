@@ -7,8 +7,8 @@ namespace DodgeDots.WorldMap
     public enum LevelNodeState
     {
         Locked,         // 锁定
-        Unlocked,       // 已解�?
-        Completed,      // 已完�?
+        Unlocked,       // 已解锁
+        Completed,      // 已完成
         Current         // 当前选中
     }
 
@@ -31,10 +31,10 @@ namespace DodgeDots.WorldMap
 
         private LevelNodeState _currentState = LevelNodeState.Locked;
         private bool _isPlayerNear = false;
-        private Material _defaultMaterial; // 用来�?Unity 默认材质
+        private Material _defaultMaterial; // 用来存Unity默认材质
         private Transform _playerTransform;
 
-        // 公开属�?
+        // 公开属性
         public LevelNodeData NodeData => nodeData;
         public LevelNode[] NextNodes => nextNodes;
         public string LevelId => nodeData != null ? nodeData.levelId : "";
@@ -50,9 +50,9 @@ namespace DodgeDots.WorldMap
             if (backgroundRenderer != null) _defaultMaterial = backgroundRenderer.sharedMaterial;
             if (enterHint != null) enterHint.SetActive(false);
 
-            // 初始化时主动同步状�?
-            // 无论是由 NPC 解锁还是自动解锁，存档里都会有记录�?
-            // 这里必须读取记录，否则节点永远是 Locked，F键就不会响应�?
+            // 初始化时主动同步状态
+            // 无论是由NPC解锁还是自动解锁，存档里都会有记录
+            // 这里必须读取记录，否则节点永远是Locked，F键就不会响应
             if (WorldMapManager.Instance != null)
             {
                 bool isCompleted = WorldMapManager.Instance.IsLevelCompleted(LevelId);
@@ -133,13 +133,13 @@ namespace DodgeDots.WorldMap
             if (iconRenderer != null && nodeData.nodeIcon != null)
                 iconRenderer.sprite = nodeData.nodeIcon;
 
-            // 删除了所有状态下的颜色切�?
+            // 删除了所有状态下的颜色切换
             if (backgroundRenderer != null)
             {
                 backgroundRenderer.color = nodeData.nodeColor;
             }
 
-            // 锁定状态依然需要强制关闭提�?
+            // 锁定状态依然需要强制关闭提示
             if (_currentState == LevelNodeState.Locked)
             {
                 if (enterHint != null) enterHint.SetActive(false);
@@ -153,7 +153,7 @@ namespace DodgeDots.WorldMap
 
             if (enterHint != null) enterHint.SetActive(show);
 
-            // 只有非锁定状态，才允许切换描边材�?
+            // 只有非锁定状态，才允许切换描边材质
             if (backgroundRenderer != null && outlineMaterial != null)
             {
                 backgroundRenderer.material = show ? outlineMaterial : _defaultMaterial;
@@ -163,18 +163,44 @@ namespace DodgeDots.WorldMap
         // 鼠标交互
         private void TryUpdatePlayerNearFallback()
         {
-            if (_playerTransform == null || backgroundRenderer == null) return;
+            if (_playerTransform == null) return;
 
-            Bounds b = backgroundRenderer.bounds;
-            b.Expand(interactRangeExpand);
-
-            Vector3 checkPos = _playerTransform.position;
-            checkPos.z = b.center.z;
-
-            bool isInside = b.Contains(checkPos);
-            if (isInside != _isPlayerNear)
+            var renderer = iconRenderer != null ? iconRenderer : backgroundRenderer;
+            if (renderer != null)
             {
-                _isPlayerNear = isInside;
+                Bounds b = renderer.bounds;
+                b.Expand(interactRangeExpand);
+
+                // 如果范围异常大（可能是放大的图或地图），改用半径判断
+                if (b.extents.x > 5f || b.extents.y > 5f)
+                {
+                    float radius = 1.5f + interactRangeExpand;
+                    bool nearByRadius = Vector2.Distance(_playerTransform.position, transform.position) <= radius;
+                    if (nearByRadius != _isPlayerNear)
+                    {
+                        _isPlayerNear = nearByRadius;
+                        ToggleHighlight(_isPlayerNear);
+                    }
+                    return;
+                }
+
+                Vector3 checkPos = _playerTransform.position;
+                checkPos.z = b.center.z;
+
+                bool isInside = b.Contains(checkPos);
+                if (isInside != _isPlayerNear)
+                {
+                    _isPlayerNear = isInside;
+                    ToggleHighlight(_isPlayerNear);
+                }
+                return;
+            }
+
+            float fallbackRadius = 1.5f + interactRangeExpand;
+            bool isNear = Vector2.Distance(_playerTransform.position, transform.position) <= fallbackRadius;
+            if (isNear != _isPlayerNear)
+            {
+                _isPlayerNear = isNear;
                 ToggleHighlight(_isPlayerNear);
             }
         }
@@ -184,12 +210,3 @@ namespace DodgeDots.WorldMap
         public void OnPointerExit(PointerEventData eventData) => SetPlayerNear(false);
     }
 }
-
-
-
-
-
-
-
-
-
