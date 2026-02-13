@@ -20,8 +20,7 @@ MonoBehaviour:
     multipleEmitters: 00000000
     attackType: 0
     bulletConfig: {fileID: 11400000, guid: 0003981ddcba8c14f89c3d8b039f6884, type: 2}
-    circleCount: 8
-    circleStartAngle: 0
+    circleCount: 15
     fanCount: 0
     fanSpreadAngle: 0
     fanCenterAngle: 0
@@ -34,7 +33,30 @@ MonoBehaviour:
     flowerPetals: 5
     flowerBulletsPerPetal: 3
     flowerPetalSpread: 30
-    flowerStartAngle: 0
+    aimingBulletCount: 0
+    aimingSpreadAngle: 0
+    aimingPredictMovement: 0
+    characterPattern: {fileID: 0}
+    customAttackId: 0
+  - attackName: 
+    emitterType: 0
+    useMultipleEmitters: 0
+    multipleEmitters: 00000000
+    attackType: 1
+    bulletConfig: {fileID: 11400000, guid: c43d22ee5fd96d84590e6131aea80b82, type: 2}
+    circleCount: 15
+    fanCount: 8
+    fanSpreadAngle: 100
+    fanCenterAngle: 270
+    singleDirection: 0
+    spiralBulletCount: 36
+    spiralTurns: 3
+    spiralStartAngle: 0
+    spiralRadiusGrowth: 0.5
+    spiralFireDuration: 0
+    flowerPetals: 5
+    flowerBulletsPerPetal: 3
+    flowerPetalSpread: 30
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0

@@ -17,28 +17,43 @@ namespace DodgeDots.Tutorial
         [SerializeField] private TextMeshProUGUI continueHintText;
 
         [Header("教程内容")]
-        [SerializeField, TextArea] private string energyTutorial = "这是你的【能量条】。\n释放技能需要消耗能量，能量会随时间恢复。";
-        [SerializeField, TextArea] private string movementTutorial = "【移动方式】\n使用 WASD 或方向键控制你的角色移动。";
-        [SerializeField, TextArea] private string attackTutorial = "【攻击技能】\n点击 [鼠标左键] 释放近战攻击，可对 Boss 造成大量伤害。";
-        [SerializeField, TextArea] private string shieldTutorial = "【护盾技能】\n点击 [鼠标右键] 开启无敌护盾，可抵挡所有弹幕。";
+        [SerializeField, TextArea] private string energyTutorial = "这是你的【能量条】。\n释放技能需要消耗能量。点击左键继续...";
+        [SerializeField, TextArea] private string movementTutorial = "【移动方式】\n通过移动鼠标来控制角色位置。试着动一动...";
+        [SerializeField, TextArea] private string attackTutorial = "【攻击技能】\n点击 [鼠标左键] 释放近战攻击！";
+        [SerializeField, TextArea] private string shieldTutorial = "【护盾技能】\n点击 [鼠标右键] 开启无敌护盾！";
         [SerializeField, TextArea] private string gameStartMessage = "教程结束，干掉 Boss 吧！";
-        [SerializeField] private float gameStartMessageDuration = 2f; // 可配置的正式开始提示显示时长
         [SerializeField, TextArea] private string lowHealthTutorial = "【新技能解锁】\n检测到 Boss 血量进入衰弱期！\n现在点击 [鼠标左键] 可发射强力追踪弹！";
+
+        [Header("交互配置")]
+        [SerializeField] private float movementDurationThreshold = 2f; // 需要持续移动的时长
+        [SerializeField] private float mouseMoveSensitivity = 10f;    // 判定为“正在移动”的像素阈值
 
         [Header("场景引用")]
         [SerializeField] private BossBattleLevel battleLevel;
         [SerializeField] private BossBase boss;
-        [SerializeField] private BGMManager bgmManager; // 增加 BGMManager 引用
+        [SerializeField] private BGMManager bgmManager;
 
-        private bool _isWaitingForClick = false;
+        private PlayerSkillSystem _playerSkillSystem;
+        private PlayerWeapon _playerWeapon;
+        private PlayerEnergy _playerEnergy;
+
+        private enum TutorialStep { Energy, Movement, Attack, Shield, Final }
+        private TutorialStep _currentStep;
+        
+        private bool _isStepCompleted = false;
         private bool _lowHealthTriggered = false;
-        private Coroutine _tutorialCoroutine;
+        private Vector3 _lastMousePos;
+        private Vector2 _lastPlayerPos;
+        private float _movementHoldTimer = 0f;
 
         private void Start()
         {
             if (tutorialPanel != null) tutorialPanel.SetActive(false);
-            if (continueHintText != null) continueHintText.text = "点击鼠标左键继续...";
             
+            _playerSkillSystem = FindFirstObjectByType<PlayerSkillSystem>();
+            _playerWeapon = FindFirstObjectByType<PlayerWeapon>();
+            _playerEnergy = FindFirstObjectByType<PlayerEnergy>();
+
             // 教程期间禁用 BGM 自动播放，并停止当前播放
             if (bgmManager == null) bgmManager = FindFirstObjectByType<BGMManager>();
             if (bgmManager != null)
@@ -47,18 +62,19 @@ namespace DodgeDots.Tutorial
                 bgmManager.StopBgm();
             }
 
-            // 确保 BossBattleLevel 不要自动开始战斗，由教程控制
-            _tutorialCoroutine = StartCoroutine(TutorialSequence());
+            _lastMousePos = Input.mousePosition;
+            StartCoroutine(TutorialSequence());
+        }
+
+        private void SetInputLocked(bool locked)
+        {
+            if (_playerSkillSystem != null) _playerSkillSystem.SetInputLocked(locked);
+            if (_playerWeapon != null) _playerWeapon.SetInputLocked(locked);
         }
 
         private void Update()
         {
-            if (_isWaitingForClick && Input.GetMouseButtonDown(0))
-            {
-                _isWaitingForClick = false;
-            }
-
-            // 实时监测 Boss 血量
+            // 持续监测 Boss 血量，用于触发最后阶段教程
             if (!_lowHealthTriggered && boss != null && boss.CurrentHealth > 0)
             {
                 float healthPercent = boss.CurrentHealth / boss.MaxHealth;
@@ -68,86 +84,94 @@ namespace DodgeDots.Tutorial
                     StartCoroutine(ShowLowHealthTip());
                 }
             }
+
+            if (_lowHealthTriggered && _isStepCompleted == false && Input.GetMouseButtonDown(0))
+            {
+                _isStepCompleted = true;
+                return;
+            }
+
+            if (_isStepCompleted) return;
+
+            switch (_currentStep)
+            {
+                case TutorialStep.Energy:
+                    // 能量条阶段：点击左键继续
+                    if (Input.GetMouseButtonDown(0)) _isStepCompleted = true;
+                    break;
+                case TutorialStep.Movement:
+                    // 移动阶段：检测鼠标位移量
+                    float mouseDist = Vector3.Distance(Input.mousePosition, _lastMousePos);
+                    
+                    // 只要有微小移动就认为是在“移动中”
+                    if (mouseDist > 1f) 
+                    {
+                        // 使用真实时间，不受 TimeScale 影响
+                        _movementHoldTimer += Time.unscaledDeltaTime;
+                    }
+                    else
+                    {
+                        // 停下来时计时器缓慢回落，而不是直接归零（增加容错）
+                        _movementHoldTimer = Mathf.Max(0, _movementHoldTimer - Time.unscaledDeltaTime * 2f);
+                    }
+
+                    _lastMousePos = Input.mousePosition;
+
+                    if (_movementHoldTimer >= movementDurationThreshold)
+                    {
+                        _isStepCompleted = true;
+                        _movementHoldTimer = 0f;
+                        Debug.Log("[Tutorial] 移动阶段完成");
+                    }
+                    break;
+                case TutorialStep.Attack:
+                    // 攻击阶段：允许左键
+                    if (Input.GetMouseButtonDown(0)) _isStepCompleted = true;
+                    break;
+                case TutorialStep.Shield:
+                    // 护盾阶段：需要能量>=60，且右键成功触发
+                    if (_playerEnergy != null && _playerEnergy.CurrentEnergy >= 60f && Input.GetMouseButtonDown(1))
+                    {
+                        _isStepCompleted = true;
+                    }
+                    break;
+            }
         }
 
         private IEnumerator TutorialSequence()
         {
-            // 等待一帧确保所有对象初始化完成
             yield return null;
 
-            // 暂停时间，开始教程
-            Time.timeScale = 0f;
+            if (battleLevel == null) battleLevel = FindFirstObjectByType<BossBattleLevel>();
+            if (boss == null) boss = FindFirstObjectByType<BossBase>();
+
             if (tutorialPanel != null) tutorialPanel.SetActive(true);
 
-            // 1. 能量条
-            yield return ShowStep(energyTutorial);
+            // 1. 能量条 - 左键点击继续 (锁定输入，不触发攻击)
+            _currentStep = TutorialStep.Energy;
+            SetInputLocked(true);
+            yield return ShowStep(energyTutorial, true);
 
-            // 2. 移动方式
-            yield return ShowStep(movementTutorial);
+            // 2. 移动方式 - 鼠标移动 (锁定输入，不触发攻击)
+            _currentStep = TutorialStep.Movement;
+            SetInputLocked(true);
+            yield return ShowStep(movementTutorial, false);
 
-            // 3. 攻击
-            yield return ShowStep(attackTutorial);
+            // 3. 攻击 - 左键 (解锁输入，允许发动攻击)
+            _currentStep = TutorialStep.Attack;
+            SetInputLocked(false);
+            yield return ShowStep(attackTutorial, false);
 
-            // 4. 护盾
-            yield return ShowStep(shieldTutorial);
+            // 4. 护盾 - 右键 (解锁输入，允许开盾)
+            _currentStep = TutorialStep.Shield;
+            SetInputLocked(false);
+            yield return ShowStep(shieldTutorial, false);
 
             // 5. 正式开始
-            _isWaitingForClick = false; // 确保不处于等待点击状态
+            SetInputLocked(false); // 确保完全解锁
             if (continueHintText != null) continueHintText.gameObject.SetActive(false);
             tutorialText.text = gameStartMessage;
             
-            Debug.Log("[Tutorial] 进入正式开始提示，等待 2 秒...");
-            float timer = 0f;
-            while (timer < 2f)
-            {
-                timer += Time.unscaledDeltaTime; // 使用不受 timescale 影响的真实时间
-                yield return null;
-            }
-
-            Debug.Log("[Tutorial] 2 秒已到，关闭教程面板并开始战斗。");
-            CloseTutorialPanel();
-            
-            if (bgmManager != null) bgmManager.PlayBgm();
-            if (battleLevel != null) battleLevel.StartBattle();
-        }
-
-        private void CloseTutorialPanel()
-        {
-            _isWaitingForClick = false; 
-            if (tutorialPanel != null) tutorialPanel.SetActive(false);
-            Time.timeScale = 1f;
-            Debug.Log("[Tutorial] 教程面板已关闭，Time.timeScale 恢复为 1。");
-        }
-
-        private IEnumerator ShowStep(string content)
-        {
-            tutorialText.text = content;
-            if (continueHintText != null) continueHintText.gameObject.SetActive(true);
-            
-            _isWaitingForClick = true;
-            while (_isWaitingForClick)
-            {
-                yield return null;
-            }
-            
-            // 点击后的短暂缓冲，防止连续触发
-            float buffer = 0f;
-            while (buffer < 0.1f)
-            {
-                buffer += Time.unscaledDeltaTime;
-                yield return null;
-            }
-        }
-
-        private IEnumerator ShowLowHealthTip()
-        {
-            _isWaitingForClick = false;
-            Time.timeScale = 0f;
-            if (tutorialPanel != null) tutorialPanel.SetActive(true);
-            if (continueHintText != null) continueHintText.gameObject.SetActive(false);
-            tutorialText.text = lowHealthTutorial;
-
-            Debug.Log("[Tutorial] 触发 Boss 低血量提示，等待 2 秒...");
             float timer = 0f;
             while (timer < 2f)
             {
@@ -156,6 +180,68 @@ namespace DodgeDots.Tutorial
             }
 
             CloseTutorialPanel();
+            if (bgmManager != null) bgmManager.PlayBgm();
+            if (battleLevel != null)
+            {
+                battleLevel.allowBossBattle = true;
+                battleLevel.StartBattle();
+            }
+        }
+
+        private IEnumerator ShowStep(string content, bool showHint)
+        {
+            tutorialText.text = content;
+            if (continueHintText != null)
+            {
+                continueHintText.gameObject.SetActive(showHint);
+                continueHintText.text = "点击鼠标左键继续...";
+            }
+            
+            _isStepCompleted = false;
+            _lastMousePos = Input.mousePosition;
+
+            while (!_isStepCompleted)
+            {
+                yield return null;
+            }
+            
+            yield return new WaitForSecondsRealtime(0.2f);
+        }
+
+        private void CloseTutorialPanel()
+        {
+            if (tutorialPanel != null) tutorialPanel.SetActive(false);
+            Time.timeScale = 1f;
+            SetInputLocked(false);
+            
+            // 确保教程彻底关闭后恢复 Boss 战斗许可
+            if (battleLevel != null)
+            {
+                battleLevel.allowBossBattle = true;
+            }
+        }
+
+        private IEnumerator ShowLowHealthTip()
+        {
+            // 最后阶段不再暂停游戏，不再锁定输入
+            if (tutorialPanel != null) tutorialPanel.SetActive(true);
+            tutorialText.text = lowHealthTutorial;
+            if (continueHintText != null)
+            {
+                continueHintText.gameObject.SetActive(false); // 不再显示点击提示
+            }
+
+            SetInputLocked(false); // 确保此时可以正常释放技能
+
+            // 展示 3 秒后自动消失
+            float timer = 0f;
+            while (timer < 3f)
+            {
+                timer += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            if (tutorialPanel != null) tutorialPanel.SetActive(false);
         }
     }
 }

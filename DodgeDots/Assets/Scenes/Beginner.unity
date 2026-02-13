@@ -331,56 +331,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &129132310
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 129132312}
-  - component: {fileID: 129132311}
-  m_Layer: 0
-  m_Name: BeatMapPlayer_Complex
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &129132311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 129132310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgmManager: {fileID: 452865493}
-  beatMap: {fileID: 11400000, guid: 0e18e38b72ac7c44ca33af1adb2cbeb5, type: 2}
-  autoStart: 1
-  waitForBgmStart: 1
-  startOffsetSeconds: 0
-  loop: 1
---- !u!4 &129132312
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 129132310}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &278326656
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,15 +443,16 @@ MonoBehaviour:
   continueHintText: {fileID: 446719855}
   energyTutorial: "\u53F3\u4E0B\u89D2\u4F60\u7684\u3010\u80FD\u91CF\u6761\u3011\u3002\n\u91CA\u653E\u6280\u80FD\u9700\u8981\u6D88\u8017\u80FD\u91CF\uFF0C\u80FD\u91CF\u4F1A\u968F\u65F6\u95F4\u6062\u590D\u3002"
   movementTutorial: "\u3010\u79FB\u52A8\u65B9\u5F0F\u3011\n\u76F4\u63A5\u7528\u9F20\u6807\u63A7\u5236\u4E3B\u89D2\u8EB2\u907F\u5F39\u5E55\u54E6~"
-  attackTutorial: "\u3010\u653B\u51FB\u6280\u80FD\u3011\n\u70B9\u51FB [\u9F20\u6807\u5DE6\u952E]
-    \u91CA\u653E\u653B\u51FB\uFF0C\u53EF\u5BF9 Boss \u9020\u6210\u5927\u91CF\u4F24\u5BB3\u3002"
-  shieldTutorial: "\u3010\u62A4\u76FE\u6280\u80FD\u3011\n\u70B9\u51FB [\u9F20\u6807\u53F3\u952E]
-    \u5F00\u542F\u65E0\u654C\u62A4\u76FE\uFF0C\u53EF\u62B5\u6321\u6240\u6709\u5F39\u5E55\u3002"
+  attackTutorial: "\u3010\u653B\u51FB\u6280\u80FD\u3011\n\u80FD\u91CF\u5927\u4E8E60\u65F6\uFF0C\u70B9\u51FB
+    [\u9F20\u6807\u5DE6\u952E] \u91CA\u653E\u653B\u51FB\uFF0C\u53EF\u5BF9 Boss \u9020\u6210\u5927\u91CF\u4F24\u5BB3\u3002"
+  shieldTutorial: "\u3010\u62A4\u76FE\u6280\u80FD\u3011\n\u80FD\u91CF\u5927\u4E8E60\u65F6\uFF0C\u70B9\u51FB
+    [\u9F20\u6807\u53F3\u952E] \u5F00\u542F\u65E0\u654C\u62A4\u76FE\uFF0C\u53EF\u62B5\u6321\u6240\u6709\u5F39\u5E55\u3002"
   gameStartMessage: "\u6559\u7A0B\u7ED3\u675F\uFF0C\u5F00\u59CB\u4F60\u7684\u6218\u6597\u5427\uFF01"
-  gameStartMessageDuration: 2
   lowHealthTutorial: "\u3010\u65B0\u6280\u80FD\u89E3\u9501\u3011\n\u68C0\u6D4B\u5230
     Boss \u8840\u91CF\u8FDB\u5165\u8870\u5F31\u671F\uFF01\n\u73B0\u5728\u70B9\u51FB
     [\u9F20\u6807\u5DE6\u952E] \u53EF\u76F4\u63A5\u5316\u8EAB\u5200\u950B\uFF01\u89E6\u78B0Boss\u5373\u53EF\uFF01"
+  movementDurationThreshold: 0.5
+  mouseMoveSensitivity: 1
   battleLevel: {fileID: 1336664140}
   boss: {fileID: 825278383}
   bgmManager: {fileID: 0}
@@ -745,7 +696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
-  clip: {fileID: 8300000, guid: 3a576a7c25bacd14ba5d08f891b296b4, type: 3}
+  clip: {fileID: 8300000, guid: b3373b7e61f44da42866c9862d97bc92, type: 3}
   loop: 1
   playOnStart: 1
   bpm: 120
@@ -1385,7 +1336,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -19.378174, y: 3.0125656}
+  m_AnchoredPosition: {x: -18.7, y: -0.01}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &586853234
@@ -1435,8 +1386,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26
-  m_fontSizeBase: 26
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2094,7 +2045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatMapPlayer: {fileID: 1801364718}
   bossBase: {fileID: 825278383}
-  sequenceConfig: {fileID: 11400000, guid: 73d0ac990554a4345814b9c3347cb112, type: 2}
+  sequenceConfig: {fileID: 11400000, guid: 1290aab303f8a1e4884d9cc46cd0c773, type: 2}
   enableMoveSequence: 1
   detachEmitters: 1
   showDebugLog: 0
@@ -3093,8 +3044,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3195,6 +3146,7 @@ MonoBehaviour:
   enableBulletPreload: 1
   preloadSeconds: 5
   fastForwardSpeed: 3
+  allowBossBattle: 1
 --- !u!4 &1336664141
 Transform:
   m_ObjectHideFlags: 0
@@ -3779,7 +3731,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgmManager: {fileID: 452865493}
-  beatMap: {fileID: 11400000, guid: e77726d741e77314f91fc91a35a491ef, type: 2}
+  beatMap: {fileID: 11400000, guid: d5554c728fd0ba749b7e161eb0c9bd4b, type: 2}
   autoStart: 1
   waitForBgmStart: 1
   startOffsetSeconds: 0
@@ -4698,56 +4650,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &2119755621
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2119755623}
-  - component: {fileID: 2119755622}
-  m_Layer: 0
-  m_Name: BeatMapPlayer_Move
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2119755622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2119755621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b9f2dc3dd007e34092ec7e078342ae2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgmManager: {fileID: 452865493}
-  beatMap: {fileID: 11400000, guid: 269e733a5ce840d45b85d2a5daab0656, type: 2}
-  autoStart: 1
-  waitForBgmStart: 1
-  startOffsetSeconds: 0
-  loop: 1
---- !u!4 &2119755623
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2119755621}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1306.8259, y: 535.787, z: -3.8161886}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2127816905
 GameObject:
   m_ObjectHideFlags: 0
@@ -4890,12 +4792,10 @@ SceneRoots:
   - {fileID: 1129585044}
   - {fileID: 825278390}
   - {fileID: 1922500068}
-  - {fileID: 129132312}
   - {fileID: 640476935}
   - {fileID: 1336664141}
   - {fileID: 1801364719}
   - {fileID: 452865494}
   - {fileID: 492249295}
-  - {fileID: 2119755623}
   - {fileID: 423089679}
   - {fileID: 315023735}
