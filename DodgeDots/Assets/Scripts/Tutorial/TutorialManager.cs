@@ -53,6 +53,13 @@ namespace DodgeDots.Tutorial
             _playerWeapon = FindFirstObjectByType<PlayerWeapon>();
             _playerEnergy = FindFirstObjectByType<PlayerEnergy>();
 
+            if (_playerSkillSystem != null)
+            {
+                _playerSkillSystem.OnShieldStarted += () => {
+                    if (_currentStep == TutorialStep.Shield) _isStepCompleted = true;
+                };
+            }
+
             if (bgmManager == null) bgmManager = FindFirstObjectByType<BGMManager>();
             if (bgmManager != null)
             {

@@ -28,7 +28,7 @@ MonoBehaviour:
     nodeType: 0
     speakerName: "\u7096\u9505"
     speakerPos: 1
-    speakerSprite: {fileID: 21300000, guid: a1d5cdbd2cf1b974dbbf22dc4e9107e1, type: 3}
+    speakerSprite: {fileID: 21300000, guid: 94ea335689a98204fbd5670f555978c5, type: 3}
     dialogueText: "......\u771F\u7684\uFF1F"
     nextNodeId: 1302
     choices: []
@@ -46,7 +46,7 @@ MonoBehaviour:
     nodeType: 0
     speakerName: "\u7096\u9505"
     speakerPos: 1
-    speakerSprite: {fileID: 21300000, guid: a1d5cdbd2cf1b974dbbf22dc4e9107e1, type: 3}
+    speakerSprite: {fileID: 21300000, guid: 94ea335689a98204fbd5670f555978c5, type: 3}
     dialogueText: "\u7096\u9505\u59B9\u59B9\u8FD8\u6B62\u4E0D\u4F4F\u5730\u62BD\u6CE3\uFF0C\u4F46\u60C5\u7EEA\u5DF2\u7ECF\u660E\u663E\u7F13\u548C\u4E86\u3002"
     nextNodeId: 1304
     choices: []
@@ -55,7 +55,7 @@ MonoBehaviour:
     nodeType: 0
     speakerName: "\u7096\u9505"
     speakerPos: 1
-    speakerSprite: {fileID: 21300000, guid: a1d5cdbd2cf1b974dbbf22dc4e9107e1, type: 3}
+    speakerSprite: {fileID: 21300000, guid: 94ea335689a98204fbd5670f555978c5, type: 3}
     dialogueText: "\u4E00\u8A00\u4E3A\u5B9A\u54E6\uFF0C\u90A3\u6211\u7B49\u4F60\u4EEC\u56DE\u6765\uFF01"
     nextNodeId: 1305
     choices: []

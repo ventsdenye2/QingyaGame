@@ -21,9 +21,15 @@ namespace DodgeDots.Player
         [Header("追踪弹幕技能")]
         [SerializeField] private BulletConfig homingBulletConfig;
         [SerializeField] private float homingTurnSpeed = 360f;         // 追踪转向速度（度/秒）
-        [SerializeField] private int homingBurstCount = 10;            // 连发数量
+        [SerializeField] private int homingBurstCount = 1;            // 连发数量
         [SerializeField] private float homingBurstInterval = 0.05f;    // 连发间隔（秒）
         [SerializeField] private float instantSkillSpriteDuration = 0.2f;
+
+        [Header("攻击动画")]
+        [SerializeField] private Animator attackAnimator;
+        [SerializeField] private string attackTriggerName = "Attack";
+        [SerializeField] private string shieldBoolName = "IsShielding";
+        [SerializeField] private string resurrectBoolName = "IsResurrected";
 
         [Header("攻击视觉效果")]
         [SerializeField] private Sprite attackActiveSprite;
@@ -96,6 +102,8 @@ namespace DodgeDots.Player
 
         public event Action OnSkillStarted;
         public event Action OnSkillEnded;
+        public event Action OnShieldStarted;
+        public event Action OnShieldEnded;
 
         private void Start()
         {
@@ -104,6 +112,11 @@ namespace DodgeDots.Player
             _skillManager = GetComponent<PlayerSkillManager>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<CircleCollider2D>();
+
+            if (attackAnimator == null)
+            {
+                attackAnimator = GetComponent<Animator>();
+            }
 
             if (spriteRenderer == null)
             {
@@ -132,9 +145,27 @@ namespace DodgeDots.Player
             if (_playerHealth != null)
             {
                 _playerHealth.OnDeath += OnPlayerDeath;
+                _playerHealth.OnResurrected += OnResurrected;
+                _playerHealth.OnInvincibleEnd += OnInvincibleEnd;
             }
 
             CacheBossReference();
+        }
+
+        private void OnResurrected()
+        {
+            if (attackAnimator != null)
+            {
+                attackAnimator.SetBool(resurrectBoolName, true);
+            }
+        }
+
+        private void OnInvincibleEnd()
+        {
+            if (attackAnimator != null)
+            {
+                attackAnimator.SetBool(resurrectBoolName, false);
+            }
         }
 
         private bool _inputLocked = false;
@@ -171,6 +202,8 @@ namespace DodgeDots.Player
             if (_playerHealth != null)
             {
                 _playerHealth.OnDeath -= OnPlayerDeath;
+                _playerHealth.OnResurrected -= OnResurrected;
+                _playerHealth.OnInvincibleEnd -= OnInvincibleEnd;
             }
         }
 
@@ -207,11 +240,11 @@ namespace DodgeDots.Player
 
             if (useHoming)
             {
-                StartCoroutine(FireHomingShotBurst(_boss));
+                TriggerAttackAnimation(isHoming: true);
                 return;
             }
 
-            ActivateAttackSkill();
+            TriggerAttackAnimation(isHoming: false);
         }
 
         /// <summary>
@@ -264,17 +297,61 @@ namespace DodgeDots.Player
             EndAttackSkill();
         }
 
-        private IEnumerator FireHomingShotBurst(Enemy.BossBase boss)
+        private bool _pendingHomingAttack;
+
+        private void TriggerAttackAnimation(bool isHoming)
         {
+            _pendingHomingAttack = isHoming;
+
+            if (attackAnimator == null)
+            {
+                Debug.LogWarning("未绑定Animator，无法播放攻击动画，将直接发射。");
+                LaunchProjectile();
+                return;
+            }
+
+            attackAnimator.ResetTrigger(attackTriggerName);
+            attackAnimator.SetTrigger(attackTriggerName);
+        }
+
+        /// <summary>
+        /// 动画事件回调：在攻击动画的某一帧调用该函数
+        /// </summary>
+        public void LaunchProjectile()
+        {
+            CacheBossReference();
+            if (_boss == null)
+            {
+                Debug.LogWarning("未找到Boss，无法锁定目标。");
+                return;
+            }
+
+            if (!_pendingHomingAttack)
+            {
+                ActivateAttackSkill();
+                return;
+            }
+
             if (BulletManager.Instance == null)
             {
                 Debug.LogWarning("BulletManager未初始化，无法发射追踪弹幕。");
-                yield break;
+                return;
+            }
+
+            if (homingBulletConfig == null)
+            {
+                Debug.LogWarning("homingBulletConfig 未配置，无法发射追踪弹幕。");
+                return;
             }
 
             int count = Mathf.Max(1, homingBurstCount);
             float interval = Mathf.Max(0f, homingBurstInterval);
 
+            StartCoroutine(FireHomingShotBurstCoroutine(_boss, count, interval));
+        }
+
+        private IEnumerator FireHomingShotBurstCoroutine(Enemy.BossBase boss, int count, float interval)
+        {
             for (int i = 0; i < count; i++)
             {
                 Vector2 origin = transform.position;
@@ -302,8 +379,6 @@ namespace DodgeDots.Player
             }
 
             PlayInstantSkillVisual(PlayerSkillType.AttackHoming);
-
-            // 发射追踪弹幕不进入技能持续状态，也不赋予无敌
         }
 
         private void CacheBossReference()
@@ -359,6 +434,7 @@ namespace DodgeDots.Player
 
             Debug.Log("护盾技能激活！");
             PlayShieldSfx();
+            OnShieldStarted?.Invoke();
             _shieldCoroutine = StartCoroutine(ShieldSkillCoroutine());
         }
 
@@ -374,6 +450,10 @@ namespace DodgeDots.Player
                 OnSkillStarted?.Invoke();
             }
             UpdateSkillVisual();
+            if (attackAnimator != null)
+            {
+                attackAnimator.SetBool(shieldBoolName, true);
+            }
             if (_playerHealth != null)
             {
                 SetSkillInvincible(true);
@@ -517,8 +597,13 @@ namespace DodgeDots.Player
             if (!_isShieldActive) return;
             int beforeCount = GetActiveSkillCount();
             _isShieldActive = false;
+            if (attackAnimator != null)
+            {
+                attackAnimator.SetBool(shieldBoolName, false);
+            }
             SetSkillInvincible(false);
             UpdateSkillVisual();
+            OnShieldEnded?.Invoke();
             if (beforeCount > 0 && GetActiveSkillCount() == 0)
             {
                 OnSkillEnded?.Invoke();
@@ -548,12 +633,14 @@ namespace DodgeDots.Player
 
         private void UpdateSkillVisual()
         {
+            // 角色形象现在完全由 Animator 管理，避免脚本换图与动画系统冲突。
+            // 仅在没有 Animator 的情况下作为兜底（可选）
+            if (attackAnimator != null) return;
+
             if (spriteRenderer == null) return;
 
             if (_isAttackActive)
             {
-                // 视觉优先级：攻击形象 > 护盾形象。
-                // 需求：开盾期间左键释放“刀形象”的近战技能时，应显示刀而不是一直保持盾。
                 if (attackActiveSprite != null)
                 {
                     spriteRenderer.sprite = attackActiveSprite;

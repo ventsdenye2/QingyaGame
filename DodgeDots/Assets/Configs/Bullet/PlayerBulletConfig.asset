@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: PlayerBulletConfig
   m_EditorClassIdentifier: 
   bulletName: Normal Bullet
-  sprite: {fileID: 21300000, guid: 2b30a93fb86117549b9a7a4dbb869048, type: 3}
+  sprite: {fileID: 2060991996, guid: 530bc574f043e434f8c075a3a0f5d77f, type: 3}
   color: {r: 1, g: 1, b: 1, a: 1}
-  scale: {x: 3, y: 3}
-  defaultSpeed: 5
-  defaultDamage: 10
+  scale: {x: 0.1, y: 0.1}
+  defaultSpeed: 10
+  defaultDamage: 100
   lifetime: 0
   colliderRadius: 0.1
   isPiercing: 0
   maxPierceCount: 0
   rotationSpeed: 0
   faceDirection: 1
-  visualRotationOffset: 0
+  visualRotationOffset: -90
   sortingLayer: Default
   sortingOrder: 0
   enableTrail: 0

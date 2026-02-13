@@ -23,12 +23,14 @@ MonoBehaviour:
     dialogueText: "\u7096\u9505\u59B9\u59B9\uFF1F"
     nextNodeId: 1201
     choices: []
+    triggerFlagName: 
   - nodeId: 1201
     nodeType: 0
     speakerName: "\u7096\u9505"
     speakerPos: 1
-    speakerSprite: {fileID: 21300000, guid: a1d5cdbd2cf1b974dbbf22dc4e9107e1, type: 3}
+    speakerSprite: {fileID: 21300000, guid: 94ea335689a98204fbd5670f555978c5, type: 3}
     dialogueText: "\u7096\u9505\u59B9\u59B9\u4E00\u58F0\u4E0D\u542D\uFF0C\u53EA\u662F\u9ED8\u9ED8\u62BD\u6CE3\u3002"
     nextNodeId: -1
     choices: []
+    triggerFlagName: 
   startNodeId: 1200
