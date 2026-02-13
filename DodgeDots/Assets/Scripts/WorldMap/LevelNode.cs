@@ -120,37 +120,17 @@ namespace DodgeDots.WorldMap
             if (iconRenderer != null && nodeData.nodeIcon != null)
                 iconRenderer.sprite = nodeData.nodeIcon;
 
-            // 准备颜色变量
-            Color targetColor = nodeData.nodeColor; // 默认为配置的颜色
-
-            switch (_currentState)
+            // 删除了所有状态下的颜色切换
+            if (backgroundRenderer != null)
             {
-                case LevelNodeState.Locked:
-                    // 锁定状态下，强制把材质换回默认
-                    if (backgroundRenderer != null && _defaultMaterial != null)
-                    {
-                        backgroundRenderer.material = _defaultMaterial;
-                    }
-
-                    targetColor = Color.gray; // 设置为灰色
-                    if (enterHint != null) enterHint.SetActive(false); // 强制关闭提示
-                    break;
-
-                case LevelNodeState.Unlocked:
-                    targetColor = nodeData.nodeColor; // 恢复原色
-                    break;
-
-                case LevelNodeState.Completed:
-                    targetColor = Color.green; // 完成变绿
-                    break;
-
-                case LevelNodeState.Current:
-                    targetColor = Color.yellow; // 当前变黄
-                    break;
+                backgroundRenderer.color = nodeData.nodeColor;
             }
 
-            // 4. 应用颜色
-            if (backgroundRenderer != null) backgroundRenderer.color = targetColor;
+            // 锁定状态依然需要强制关闭提示
+            if (_currentState == LevelNodeState.Locked)
+            {
+                if (enterHint != null) enterHint.SetActive(false);
+            }
         }
 
         private void ToggleHighlight(bool show)

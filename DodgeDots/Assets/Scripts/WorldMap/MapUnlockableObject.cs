@@ -1,52 +1,72 @@
-using DodgeDots.Save; // 引用存档系统
+using DodgeDots.Save;
 using UnityEngine;
 
 namespace DodgeDots.WorldMap
 {
     public class MapUnlockableObject : MonoBehaviour
     {
-        [Header("状态保存")]
-        [Tooltip("用于记住这个路障是否已经被消除了，这将作为 Flag Key 存入 SaveSystem，例如 'Bridge_Level1_Unlocked'")]
-        public string unlockSaveKey;
+        public enum InitialState { Show, Hide }
 
-        [Header("场景物体")]
-        public GameObject objectToShow; // 桥
-        public GameObject objectToHide; // 空气墙
-        public ParticleSystem unlockEffect;
+        [Header("基础设置")]
+        [Tooltip("在没有任何 Flag 满足的情况下，物体的默认状态")]
+        public InitialState defaultState = InitialState.Hide;
+
+        [Header("显示条件")]
+        [Tooltip("满足该 Flag 时，物体变为【显示】状态")]
+        public string showIfFlag;
+
+        [Header("隐藏条件 (优先级最高)")]
+        [Tooltip("满足该 Flag 时，物体变为【隐藏】状态 (哪怕满足了显示条件也会被隐藏)")]
+        public string hideIfFlag;
+
+        [Header("目标物体")]
+        public GameObject targetObject;
 
         private void Start()
         {
-            // 初始化时，从 SaveSystem 读取 Flag
-            bool isUnlocked = false;
-
-            if (!string.IsNullOrEmpty(unlockSaveKey))
+            // 自动关联逻辑：如果没填，找子物体；没子物体，找自己
+            if (targetObject == null)
             {
-                isUnlocked = SaveSystem.HasFlag(unlockSaveKey);
+                if (transform.childCount > 0) targetObject = transform.GetChild(0).gameObject;
+                else targetObject = this.gameObject;
             }
 
-            UpdateState(isUnlocked);
+            RefreshState();
         }
 
-        // --- 给 GeneralInteraction 调用的方法 ---
-        public void Unlock()
+        private void Update()
         {
-            // 播放特效
-            if (unlockEffect != null) unlockEffect.Play();
+            // 每 0.5 秒同步一次状态，确保交互后立即反应
+            if (Time.frameCount % 30 == 0) RefreshState();
+        }
 
-            // 切换显隐
-            UpdateState(true);
+        public void RefreshState()
+        {
+            if (targetObject == null) return;
+            if (SaveSystem.Current == null) SaveSystem.LoadOrCreate();
 
-            // 永久保存状态 (存入 SaveSystem)
-            if (!string.IsNullOrEmpty(unlockSaveKey))
+            // --- 核心逻辑计算 ---
+
+            // 1. 设定初始值
+            bool finalState = (defaultState == InitialState.Show);
+
+            // 2. 检查显示条件：如果填了且满足，状态设为 true
+            if (!string.IsNullOrEmpty(showIfFlag) && SaveSystem.HasFlag(showIfFlag))
             {
-                SaveSystem.SetFlag(unlockSaveKey);
+                finalState = true;
             }
-        }
 
-        private void UpdateState(bool isUnlocked)
-        {
-            if (objectToShow != null) objectToShow.SetActive(isUnlocked);
-            if (objectToHide != null) objectToHide.SetActive(!isUnlocked);
+            // 3. 检查隐藏条件：如果填了且满足，状态强制设为 false
+            if (!string.IsNullOrEmpty(hideIfFlag) && SaveSystem.HasFlag(hideIfFlag))
+            {
+                finalState = false;
+            }
+
+            // 应用状态
+            if (targetObject.activeSelf != finalState)
+            {
+                targetObject.SetActive(finalState);
+            }
         }
     }
 }

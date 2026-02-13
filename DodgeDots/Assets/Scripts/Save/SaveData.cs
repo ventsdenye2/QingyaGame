@@ -23,5 +23,11 @@ namespace DodgeDots.Save
 
         public string lastScene = "WorldMap";
         public string savedAtUtc = "";
+
+        // --- 玩家世界地图精确坐标 ---
+        public bool hasSavedPosition = false; // 是否有有效的坐标记录
+        public float playerPosX;
+        public float playerPosY;
+        public float playerPosZ;
     }
 }

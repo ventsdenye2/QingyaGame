@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using DodgeDots.UI;
+using DodgeDots.UI; // 保持你原有的命名空间引用
 
 namespace DodgeDots.Cutscene
 {
@@ -22,11 +22,8 @@ namespace DodgeDots.Cutscene
         public float shakeIntensity = 20f;
 
         [Header("听觉效果")]
-        [Tooltip("勾选此项，播放本页音效前会强制停止之前未播完的声音")]
+        [Tooltip("勾选此项，播放本页音效前会强制停止之前所有未播完的声音")]
         public bool stopPreviousAudio = false;
-
-        [Tooltip("音频结束前多久开始淡出（秒）")]
-        public float fadeOutTriggerTime = 0.5f; // 新增：距离结束还有多久开始淡出
 
         [Tooltip("该页面播放时触发的音效")]
         public AudioClip slideSfx;
@@ -48,11 +45,13 @@ namespace DodgeDots.Cutscene
 
         [Header("效果组件")]
         [SerializeField] private RectTransform shakeTarget;
-        [SerializeField] private AudioSource sfxAudioSource;
+        // 注意：不再需要拖拽 AudioSource，代码会自动创建
 
         [Header("全局设置")]
         [SerializeField] private float fadeSpeed = 1.0f;
         [SerializeField] private float typewriterSpeed = 0.05f;
+        [Tooltip("音频在结束前多少秒开始自动淡出（全局统一设置）")]
+        [SerializeField] private float globalAudioFadeDuration = 1.5f;
 
         [Header("数据配置")]
         [SerializeField] private List<IntroSlide> slides;
@@ -65,8 +64,9 @@ namespace DodgeDots.Cutscene
 
         private Coroutine _typewriterCoroutine;
         private Coroutine _shakeCoroutine;
-        private Coroutine _audioRoutine; // 处理音频播放和淡出的协程
 
+        // 用来记录当前所有正在播放的音频对象，以便实现“强制停止”功能
+        private List<GameObject> _activeAudioObjects = new List<GameObject>();
         private Vector2 _originalPosition;
 
         private void Start()
@@ -111,7 +111,7 @@ namespace DodgeDots.Cutscene
             _isTransitioning = true;
             IntroSlide currentData = slides[index];
 
-            // 1. 淡出旧内容
+            // 1. 淡出旧画面
             if (index > 0 && currentData.useFade && contentCanvasGroup != null)
             {
                 while (contentCanvasGroup.alpha > 0f)
@@ -132,23 +132,21 @@ namespace DodgeDots.Cutscene
             if (currentData.image != null) displayImage.sprite = currentData.image;
             displayText.text = "";
 
-            // --- 3. 播放音频并处理自动淡出 ---
-            if (sfxAudioSource != null)
-            {
-                // 如果设置了强制停止，先杀掉之前的协程和声音
-                if (currentData.stopPreviousAudio)
-                {
-                    if (_audioRoutine != null) StopCoroutine(_audioRoutine);
-                    sfxAudioSource.Stop();
-                }
+            // --- 3. 音频处理逻辑 (新) ---
 
-                if (currentData.slideSfx != null)
-                {
-                    _audioRoutine = StartCoroutine(PlayAudioWithAutoFadeOut(currentData));
-                }
+            // 如果需要强制打断之前的声音
+            if (currentData.stopPreviousAudio)
+            {
+                StopAllActiveAudio();
             }
 
-            // 4. 淡入新内容
+            // 播放新声音（独立播放，互不干扰）
+            if (currentData.slideSfx != null)
+            {
+                StartCoroutine(PlayIndependentAudio(currentData));
+            }
+
+            // 4. 淡入新画面
             if (currentData.useFade && contentCanvasGroup != null)
             {
                 while (contentCanvasGroup.alpha < 1f)
@@ -169,37 +167,74 @@ namespace DodgeDots.Cutscene
             StartTypewriter(currentData.text);
         }
 
-        // --- 核心：音频播放与自动淡出逻辑 ---
-        private IEnumerator PlayAudioWithAutoFadeOut(IntroSlide data)
+        // --- 音频核心逻辑：独立播放并自动淡出 ---
+        private IEnumerator PlayIndependentAudio(IntroSlide data)
         {
-            sfxAudioSource.clip = data.slideSfx;
-            sfxAudioSource.volume = data.sfxVolume;
-            sfxAudioSource.Play();
+            // 创建临时 GameObject
+            GameObject audioObj = new GameObject($"TempSFX_{data.slideSfx.name}");
+            audioObj.transform.SetParent(this.transform);
 
-            float clipLength = data.slideSfx.length;
-            float fadeStartTime = clipLength - data.fadeOutTriggerTime;
+            // 添加并配置 AudioSource
+            AudioSource source = audioObj.AddComponent<AudioSource>();
+            source.clip = data.slideSfx;
+            source.volume = data.sfxVolume;
+            source.loop = false;
+            source.playOnAwake = false;
 
-            // 正常播放阶段
-            while (sfxAudioSource.isPlaying && sfxAudioSource.time < fadeStartTime)
+            // 加入列表管理
+            _activeAudioObjects.Add(audioObj);
+
+            source.Play();
+
+            // 计算时间：总时长 - 全局淡出时间
+            // 比如 10秒音频，全局淡出1.5秒，那么播放 8.5秒后开始淡出
+            float fadeStartTime = Mathf.Max(0, data.slideSfx.length - globalAudioFadeDuration);
+
+            // 等待直到需要淡出的那一刻
+            // 增加 source != null 检查，防止外部被 StopAllActiveAudio 销毁后这里报错
+            while (source != null && source.isPlaying && source.time < fadeStartTime)
             {
                 yield return null;
             }
 
-            // 淡出阶段
-            float startVolume = sfxAudioSource.volume;
-            float fadeTimer = 0f;
-            while (sfxAudioSource.isPlaying && fadeTimer < data.fadeOutTriggerTime)
+            // 执行淡出
+            if (source != null && source.isPlaying)
             {
-                fadeTimer += Time.deltaTime;
-                sfxAudioSource.volume = Mathf.Lerp(startVolume, 0f, fadeTimer / data.fadeOutTriggerTime);
-                yield return null;
+                float startVol = source.volume;
+                float fadeTimer = 0f;
+                // 实际淡出时长取 Min，防止音频本身极短
+                float actualFadeDuration = Mathf.Min(globalAudioFadeDuration, data.slideSfx.length);
+
+                while (source != null && source.isPlaying && fadeTimer < actualFadeDuration)
+                {
+                    fadeTimer += Time.deltaTime;
+                    source.volume = Mathf.Lerp(startVol, 0f, fadeTimer / actualFadeDuration);
+                    yield return null;
+                }
             }
 
-            sfxAudioSource.Stop();
-            sfxAudioSource.volume = startVolume; // 重置音量备用
+            // 播放完毕，清理垃圾
+            if (audioObj != null)
+            {
+                _activeAudioObjects.Remove(audioObj);
+                Destroy(audioObj);
+            }
         }
 
-        // --- 其余逻辑保持不变 ---
+        private void StopAllActiveAudio()
+        {
+            // 倒序遍历销毁
+            for (int i = _activeAudioObjects.Count - 1; i >= 0; i--)
+            {
+                if (_activeAudioObjects[i] != null)
+                {
+                    Destroy(_activeAudioObjects[i]);
+                }
+            }
+            _activeAudioObjects.Clear();
+        }
+
+        // --- 视觉效果逻辑 (保持原样) ---
         private void StartShake(float duration, float intensity)
         {
             if (_shakeCoroutine != null) StopCoroutine(_shakeCoroutine);
@@ -250,6 +285,10 @@ namespace DodgeDots.Cutscene
         {
             if (_isFinished) return;
             _isFinished = true;
+
+            // 离开前把所有声音清理干净
+            StopAllActiveAudio();
+
             if (LoadingManager.Instance != null) LoadingManager.Instance.LoadScene(nextSceneName);
             else UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
         }

@@ -214,6 +214,20 @@ namespace DodgeDots.WorldMap
             SaveSystem.Current.unlockedLevels.AddRange(_unlockedLevels);
 
             SaveSystem.Current.lastScene = SceneManager.GetActiveScene().name;
+
+            // --- 保存玩家精确坐标 ---
+            // 尝试在场景中找到玩家控制器
+            var playerController = FindFirstObjectByType<PlayerWorldMapController>();
+            if (playerController != null)
+            {
+                Vector3 pos = playerController.transform.position;
+                SaveSystem.Current.playerPosX = pos.x;
+                SaveSystem.Current.playerPosY = pos.y;
+                SaveSystem.Current.playerPosZ = pos.z;
+                SaveSystem.Current.hasSavedPosition = true;
+
+                Debug.Log($"[WorldMapManager] 已保存玩家坐标: {pos}");
+            }
             SaveSystem.Save();
         }
 

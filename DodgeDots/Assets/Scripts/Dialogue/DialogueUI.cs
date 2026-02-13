@@ -63,8 +63,8 @@ namespace DodgeDots.Dialogue
         {
             if (_dialogueManager != null && _dialogueManager.IsDialogueActive)
             {
-                // --- 新增：ESC 退出功能 ---
-                if (Input.GetKeyDown(KeyCode.Escape))
+                // S键跳过功能
+                if (Input.GetKeyDown(KeyCode.S))
                 {
                     _dialogueManager.EndDialogue();
                     return; // 退出当前帧处理
