@@ -32,7 +32,7 @@ MonoBehaviour:
     spiralFireDuration: 0
     flowerPetals: 6
     flowerBulletsPerPetal: 12
-    flowerPetalSpread: 30
+    flowerPetalSpread: 20
     aimingBulletCount: 0
     aimingSpreadAngle: 0
     aimingPredictMovement: 0

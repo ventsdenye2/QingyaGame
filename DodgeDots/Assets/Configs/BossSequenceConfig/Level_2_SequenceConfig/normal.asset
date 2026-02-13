@@ -20,7 +20,7 @@ MonoBehaviour:
     multipleEmitters: 
     attackType: 0
     bulletConfig: {fileID: 11400000, guid: 4a92f6b93e6af544d8eeee5dd59ad62a, type: 2}
-    circleCount: 60
+    circleCount: 50
     fanCount: 15
     fanSpreadAngle: 30
     fanCenterAngle: 90

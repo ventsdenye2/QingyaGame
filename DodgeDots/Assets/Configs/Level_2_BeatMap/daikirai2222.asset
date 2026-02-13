@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2858391113ed7c54c8eaa40d5ae1cde2, type: 3}
+  m_Name: daikirai2222
+  m_EditorClassIdentifier: 
+  beatTimes:
+  - 135.66133333333335
+  - 135.67
+  - 135.832
+  - 135.84
+  - 136.024
+  - 136.025
+  - 136.23733333333337
+  - 136.24
+  - 136.25
+  - 136.4
+  - 136.55
+  - 136.7
+  - 136.856

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 440175c534e054944a674770e1f118ff, type: 3}
+  m_Name: Boss_Dialogue_level2
+  m_EditorClassIdentifier: 
+  configName: Boss Dialogue Config
+  phaseDialogues:
+  - phaseId: 2
+    phaseName: "\u6700\u7EC8\u9636\u6BB5"
+    dialogueText: "\u545C\u545C\u545C......\u4F60\u4EEC\u6B3A\u8D1F\u4EBA\uFF01\u6211\u8981\u54ED\u7ED9\u4F60\u4EEC\u770B\uFF01"
+    dialogueDuration: 3
+    pauseGameForDialogue: 0
+  - phaseId: 1
+    phaseName: "\u7B2C\u4E8C\u9636\u6BB5"
+    dialogueText: "\u4E0D\u884C\uFF0C\u6756\u6756\u662F\u6211\u7684\u670B\u53CB\uFF01"
+    dialogueDuration: 3
+    pauseGameForDialogue: 0
