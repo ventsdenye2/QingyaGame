@@ -58,6 +58,8 @@ namespace DodgeDots.UI
 
         private void Start()
         {
+            TryFindPlayerReferences();
+
             // 自动查找Boss（如果没有手动设置）
             if (boss == null)
             {
@@ -73,33 +75,6 @@ namespace DodgeDots.UI
                 }
             }
 
-            if (playerHealth == null)
-            {
-                playerHealth = FindObjectOfType<PlayerHealth>();
-                if (playerHealth != null)
-                {
-                    Debug.Log("BattleUI: 自动找到PlayerHealth");
-                }
-            }
-
-            if (playerEnergy == null)
-            {
-                playerEnergy = FindObjectOfType<PlayerEnergy>();
-                if (playerEnergy != null)
-                {
-                    Debug.Log("BattleUI: 自动找到PlayerEnergy");
-                }
-            }
-
-            if (playerSkill == null)
-            {
-                playerSkill = FindObjectOfType<PlayerSkillSystem>();
-                if (playerSkill != null)
-                {
-                    Debug.Log("BattleUI: 自动找到PlayerSkillSystem");
-                }
-            }
-
             // 监听事件
             if (boss != null)
             {
@@ -107,25 +82,6 @@ namespace DodgeDots.UI
                 boss.OnStateChanged += OnBossStateChanged;
                 boss.OnDamageTaken += OnBossDamageTaken;
                 Debug.Log("BattleUI: 已绑定Boss事件");
-            }
-
-            if (playerHealth != null)
-            {
-                playerHealth.OnHealthChanged += UpdatePlayerHealthBar;
-                playerHealth.OnDamageTaken += OnPlayerDamageTaken;
-                Debug.Log("BattleUI: 已绑定玩家血条事件");
-            }
-
-            if (playerEnergy != null)
-            {
-                playerEnergy.OnEnergyChanged += UpdatePlayerEnergyBar;
-                playerEnergy.OnEnergyFull += OnEnergyFull;
-            }
-
-            if (playerSkill != null)
-            {
-                playerSkill.OnSkillStarted += OnSkillStarted;
-                playerSkill.OnSkillEnded += OnSkillEnded;
             }
 
             UpdateSkillEnergyCostText();
@@ -157,6 +113,42 @@ namespace DodgeDots.UI
             {
                 UpdateBossHealthBar(boss.CurrentHealth, boss.MaxHealth);
                 Debug.Log($"BattleUI: 初始化Boss血条 - 当前: {boss.CurrentHealth}, 最大: {boss.MaxHealth}");
+            }
+        }
+
+        private void TryFindPlayerReferences()
+        {
+            if (playerHealth == null)
+            {
+                playerHealth = FindObjectOfType<PlayerHealth>();
+                if (playerHealth != null)
+                {
+                    playerHealth.OnHealthChanged += UpdatePlayerHealthBar;
+                    playerHealth.OnDamageTaken += OnPlayerDamageTaken;
+                    Debug.Log("BattleUI: 自动找到并绑定 PlayerHealth");
+                }
+            }
+
+            if (playerEnergy == null)
+            {
+                playerEnergy = FindObjectOfType<PlayerEnergy>();
+                if (playerEnergy != null)
+                {
+                    playerEnergy.OnEnergyChanged += UpdatePlayerEnergyBar;
+                    playerEnergy.OnEnergyFull += OnEnergyFull;
+                    Debug.Log("BattleUI: 自动找到并绑定 PlayerEnergy");
+                }
+            }
+
+            if (playerSkill == null)
+            {
+                playerSkill = FindObjectOfType<PlayerSkillSystem>();
+                if (playerSkill != null)
+                {
+                    playerSkill.OnSkillStarted += OnSkillStarted;
+                    playerSkill.OnSkillEnded += OnSkillEnded;
+                    Debug.Log("BattleUI: 自动找到并绑定 PlayerSkillSystem");
+                }
             }
 
             if (playerEnergy != null)
@@ -195,6 +187,12 @@ namespace DodgeDots.UI
 
         private void Update()
         {
+            // 动态检查玩家引用（防止替换Prefab或复活后引用丢失）
+            if (playerHealth == null || playerEnergy == null || playerSkill == null)
+            {
+                TryFindPlayerReferences();
+            }
+
             // 实时更新Boss血条（防止事件失火）
             if (boss != null && boss.IsAlive)
             {
@@ -232,6 +230,16 @@ namespace DodgeDots.UI
                 if (playerEnergyBar != null)
                 {
                     playerEnergyBar.fillAmount = energyFillAmount;
+
+                    // 根据能量是否满盈改变颜色
+                    if (Mathf.Approximately(playerEnergy.CurrentEnergy, playerEnergy.MaxEnergy))
+                    {
+                        playerEnergyBar.color = energyFullColor;
+                    }
+                    else
+                    {
+                        playerEnergyBar.color = energyBarColor;
+                    }
                 }
 
                 if (playerEnergyText != null)
