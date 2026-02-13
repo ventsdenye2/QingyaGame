@@ -34,6 +34,9 @@ namespace DodgeDots.UI
         [SerializeField] private Image skillStatusIcon;
         [SerializeField] private TextMeshProUGUI skillStatusText;
 
+        [Header("技能能量消耗")]
+        [SerializeField] private TextMeshProUGUI skillEnergyCostText;
+
         [Header("受击反馈")]
         [SerializeField] private Image damageFlashIcon;
         [SerializeField] private Color damageFlashColor = new Color(1f, 0.2f, 0.2f, 1f);
@@ -124,6 +127,8 @@ namespace DodgeDots.UI
                 playerSkill.OnSkillStarted += OnSkillStarted;
                 playerSkill.OnSkillEnded += OnSkillEnded;
             }
+
+            UpdateSkillEnergyCostText();
 
             if (damageFlashIcon == null)
             {
@@ -410,6 +415,25 @@ namespace DodgeDots.UI
             }
 
             camTransform.localPosition = startPos;
+        }
+
+        private void UpdateSkillEnergyCostText()
+        {
+            if (skillEnergyCostText == null) return;
+
+            if (playerSkill == null)
+            {
+                playerSkill = FindFirstObjectByType<PlayerSkillSystem>();
+            }
+
+            if (playerSkill != null)
+            {
+                skillEnergyCostText.text = $"攻击技能：{playerSkill.AttackEnergyCost:F0}点\n护盾技能：{playerSkill.ShieldEnergyCost:F0}点";
+            }
+            else
+            {
+                skillEnergyCostText.text = string.Empty;
+            }
         }
     }
 }

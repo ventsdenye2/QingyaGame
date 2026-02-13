@@ -17,7 +17,7 @@ MonoBehaviour:
   color: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 3, y: 3}
   defaultSpeed: 5
-  defaultDamage: 1
+  defaultDamage: 5
   lifetime: 3
   colliderRadius: 0.1
   isPiercing: 0

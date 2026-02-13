@@ -9,13 +9,6 @@ namespace DodgeDots.Player
     /// </summary>
     public class PlayerWeapon : MonoBehaviour
     {
-        private bool _inputLocked = false;
-
-        public void SetInputLocked(bool locked)
-        {
-            _inputLocked = locked;
-        }
-
         [Header("自动射击设置")]
         [SerializeField] private bool autoShootEnabled = true;
         [SerializeField] private float autoShootInterval = 0.2f;
@@ -53,7 +46,8 @@ namespace DodgeDots.Player
 
         private void Update()
         {
-            if (_inputLocked) return;
+            // 教程/暂停期间禁止一切武器操作
+            if (Time.timeScale <= 0f) return;
 
             // 更新自动射击计时器
             if (autoShootEnabled)
