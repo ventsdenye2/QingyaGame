@@ -169,10 +169,16 @@ namespace DodgeDots.Player
         }
 
         private bool _inputLocked = false;
+        private bool _attackDisabled = false;
 
         public void SetInputLocked(bool locked)
         {
             _inputLocked = locked;
+        }
+
+        public void SetAttackDisabled(bool disabled)
+        {
+            _attackDisabled = disabled;
         }
 
         private void Update()
@@ -184,7 +190,7 @@ namespace DodgeDots.Player
             }
 
             // 监听鼠标左键点击（攻击技能）
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !_attackDisabled)
             {
                 TryActivateAttackSkill();
             }

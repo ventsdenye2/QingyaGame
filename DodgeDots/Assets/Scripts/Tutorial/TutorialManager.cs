@@ -148,7 +148,9 @@ namespace DodgeDots.Tutorial
             // 4. 护盾
             _currentStep = TutorialStep.Shield;
             SetInputLocked(false);
+            if (_playerSkillSystem != null) _playerSkillSystem.SetAttackDisabled(true);
             yield return ShowStep(shieldTutorial, false);
+            if (_playerSkillSystem != null) _playerSkillSystem.SetAttackDisabled(false);
 
             // 5. 正式开始
             SetInputLocked(false);
