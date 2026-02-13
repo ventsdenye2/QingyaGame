@@ -40,6 +40,36 @@ namespace DodgeDots.Audio
         double nextLoopDsp;
         bool useBgmLoop;
 
+        private bool _isPaused;
+        private double _pauseStartDsp;
+
+        public void SetPaused(bool paused)
+        {
+            if (_isPaused == paused) return;
+            
+            _isPaused = paused;
+            if (_isPaused)
+            {
+                _pauseStartDsp = AudioSettings.dspTime;
+            }
+            else
+            {
+                // 恢复时，将所有 DSP 时间线整体向后平移暂停的持续时间
+                double pauseDuration = AudioSettings.dspTime - _pauseStartDsp;
+                if (pauseDuration > 0)
+                {
+                    if (beatDspTimes != null)
+                    {
+                        for (int i = 0; i < beatDspTimes.Length; i++)
+                        {
+                            beatDspTimes[i] += pauseDuration;
+                        }
+                    }
+                    nextLoopDsp += pauseDuration;
+                }
+            }
+        }
+
         void OnEnable()
         {
             if (autoStart)
@@ -116,6 +146,12 @@ namespace DodgeDots.Audio
         {
             while (beatDspTimes != null && beatDspTimes.Length > 0)
             {
+                if (_isPaused)
+                {
+                    yield return null;
+                    continue;
+                }
+
                 double dsp = AudioSettings.dspTime;
                 if (useBgmLoop && dsp + 0.001 >= nextLoopDsp)
                 {

@@ -183,8 +183,8 @@ namespace DodgeDots.Player
 
         private void Update()
         {
-            // 外部锁定输入
-            if (_inputLocked)
+            // 外部锁定输入或游戏暂停时，不处理输入
+            if (_inputLocked || Mathf.Approximately(Time.timeScale, 0f))
             {
                 return;
             }
