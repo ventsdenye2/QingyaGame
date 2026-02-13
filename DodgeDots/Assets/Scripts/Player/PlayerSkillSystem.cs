@@ -39,6 +39,17 @@ namespace DodgeDots.Player
         [SerializeField] private Color skillActiveColor = Color.yellow;
         [SerializeField] private Color skillInactiveColor = Color.white;
 
+        [Header("低血量斩击特效")]
+        [SerializeField, Range(0f, 1f)] private float bossLowHpPercentForSlashFx = 0.1f;
+        [SerializeField] private Sprite slashFxSprite;
+        [SerializeField] private float slashFxLength = 15f;
+        [SerializeField] private float slashFxWidth = 0.5f;
+        [SerializeField] private float slashFxDuration = 0.25f;
+        [SerializeField] private float slashFxCooldown = 0.08f;
+        [SerializeField] private string slashFxSortingLayer = "Default";
+        [SerializeField] private int slashFxSortingOrder = 50;
+        [SerializeField] private Color slashFxColor = Color.white;
+
         [Header("复活技能")]
         [SerializeField] private float resurrectionWaitTime = 1f;     // 复活等待时间（秒）
         [SerializeField] private bool hasResurrection = true;         // 本关卡是否有复活机会
@@ -67,6 +78,8 @@ namespace DodgeDots.Player
         private Sprite _originalSprite;
         private bool _resurrectionUsed = false; // 本关卡复活是否已使用
         private Coroutine _resurrectionCoroutine; // 复活协程
+
+        private float _lastSlashFxTime = -999f;
 
         private enum SkillType
         {
@@ -426,6 +439,9 @@ namespace DodgeDots.Player
                         // 对Boss造成伤害
                         boss.TakeDamage(skillDamage, gameObject);
                         Debug.Log($"技能命中Boss！造成 {skillDamage} 点伤害，Boss血量: {boss.CurrentHealth}/{boss.MaxHealth}");
+
+                        TryPlayLowHpSlashFx(boss);
+
                     }
                     else
                     {
@@ -633,6 +649,70 @@ namespace DodgeDots.Player
             NotifyBattleResumed();
 
             _resurrectionCoroutine = null;
+        }
+
+        /// <summary>
+        /// 尝试在 Boss 血量较低且被近战击中时播放斩击特效
+        /// </summary>
+        private void TryPlayLowHpSlashFx(Enemy.BossBase boss)
+        {
+            if (boss == null || slashFxSprite == null) return;
+
+            // 1. 检查血量阈值 (<= 10%)
+            float healthPercent = boss.CurrentHealth / boss.MaxHealth;
+            if (healthPercent > bossLowHpPercentForSlashFx) return;
+
+            // 2. 检查冷却
+            if (Time.time - _lastSlashFxTime < slashFxCooldown) return;
+            _lastSlashFxTime = Time.time;
+
+            // 3. 计算方向：玩家划过 Boss 的方向
+            // 使用玩家上一帧到这一帧的位移作为划过方向
+            Vector2 slashDir = ((Vector2)transform.position - _lastFramePosition).normalized;
+            
+            // 如果玩家没动，则使用玩家指向 Boss 的方向作为兜底
+            if (slashDir.sqrMagnitude < 0.001f)
+            {
+                slashDir = ((Vector2)boss.transform.position - (Vector2)transform.position).normalized;
+            }
+
+            // 4. 执行特效表现
+            StartCoroutine(SlashFxRoutine(boss.transform.position, slashDir));
+        }
+
+        private IEnumerator SlashFxRoutine(Vector2 center, Vector2 dir)
+        {
+            // 创建临时特效物体
+            GameObject fxGo = new GameObject("SlashFx_Runtime");
+            fxGo.transform.position = center;
+            
+            // 设置朝向
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            fxGo.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            // 添加 SpriteRenderer
+            SpriteRenderer sr = fxGo.AddComponent<SpriteRenderer>();
+            sr.sprite = slashFxSprite;
+            sr.color = slashFxColor;
+            sr.sortingLayerName = slashFxSortingLayer;
+            sr.sortingOrder = slashFxSortingOrder;
+
+            // 设置初始缩放 (长条形)
+            Vector3 targetScale = new Vector3(slashFxLength, slashFxWidth, 1f);
+            fxGo.transform.localScale = targetScale;
+
+            // 渐隐动画
+            float elapsed = 0f;
+            while (elapsed < slashFxDuration)
+            {
+                elapsed += Time.deltaTime;
+                float alpha = 1f - (elapsed / slashFxDuration);
+                sr.color = new Color(slashFxColor.r, slashFxColor.g, slashFxColor.b, alpha);
+                yield return null;
+            }
+
+            // 销毁
+            Destroy(fxGo);
         }
 
         private void PlayShieldSfx()
