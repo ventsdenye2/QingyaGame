@@ -17,12 +17,23 @@ namespace DodgeDots.Bullet
 
         public static BulletAfterimage Get(Transform parent)
         {
-            BulletAfterimage instance;
-            if (Pool.Count > 0)
+            BulletAfterimage instance = null;
+
+            // 从池中获取有效的实例，跳过已销毁的对象
+            while (Pool.Count > 0)
             {
                 instance = Pool.Pop();
+                // 检查实例是否仍然有效（未被销毁）
+                if (instance != null && instance.gameObject != null)
+                {
+                    break;
+                }
+                // 如果实例已被销毁，继续尝试下一个
+                instance = null;
             }
-            else
+
+            // 如果没有找到有效实例，创建新的
+            if (instance == null)
             {
                 var go = new GameObject("BulletAfterimage");
                 instance = go.AddComponent<BulletAfterimage>();
