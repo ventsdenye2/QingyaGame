@@ -102,12 +102,7 @@ namespace DodgeDots.UI
                 shakeCamera = Camera.main;
             }
 
-            // 初始化显示
-            if (boss != null && bossNameText != null)
-            {
-                // 从Boss配置中读取Boss的实际名称
-                bossNameText.text = boss.BossName;
-            }
+            // 初始化显示：不再强制覆盖场景里配置的Boss名字
 
             if (boss != null)
             {

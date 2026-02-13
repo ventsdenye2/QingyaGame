@@ -37,6 +37,7 @@ namespace DodgeDots.WorldMap
         public LevelNode[] NextNodes => nextNodes;
         public string LevelId => nodeData != null ? nodeData.levelId : "";
         public LevelNodeState CurrentState => _currentState;
+        public bool IsPlayerNear => _isPlayerNear;
 
         // 事件
         public event Action<LevelNode> OnNodeClicked;

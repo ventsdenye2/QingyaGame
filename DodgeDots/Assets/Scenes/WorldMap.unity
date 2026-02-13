@@ -564,8 +564,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u7EE7\u7EED\u6E38\u620F"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8a940975567f8854fad115ef7a196271, type: 2}
+  m_sharedMaterial: {fileID: 6783018975884615457, guid: 8a940975567f8854fad115ef7a196271, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2942,8 +2942,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u8FD4\u56DE\u4E3B\u83DC\u5355"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 52e3dbcf76ae04347a9ef9a4287d82a9, type: 2}
+  m_sharedMaterial: {fileID: 6783018975884615457, guid: 52e3dbcf76ae04347a9ef9a4287d82a9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4439,6 +4439,14 @@ MonoBehaviour:
           m_Calls: []
       onDialogueFinish:
         m_PersistentCalls:
+          m_Calls: []
+    - stageName: Final
+      dialogueConfig: {fileID: 11400000, guid: 3523a17cebe64ba7b61b48c658692bf3, type: 2}
+      onDialogueStart:
+        m_PersistentCalls:
+          m_Calls: []
+      onDialogueFinish:
+        m_PersistentCalls:
           m_Calls:
           - m_Target: {fileID: 1032029084}
             m_TargetAssemblyTypeName: DodgeDots.Dialogue.GeneralInteraction, Assembly-CSharp
@@ -5408,8 +5416,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u8FD4\u56DE\u5927\u4E16\u754C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 52e3dbcf76ae04347a9ef9a4287d82a9, type: 2}
+  m_sharedMaterial: {fileID: 6783018975884615457, guid: 52e3dbcf76ae04347a9ef9a4287d82a9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7737,7 +7745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e02111be5eea6442a4c0b670e6983d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultState: 1
+  defaultState: 0
   showIfFlag: 
   hideIfFlag: 
   targetObject: {fileID: 0}

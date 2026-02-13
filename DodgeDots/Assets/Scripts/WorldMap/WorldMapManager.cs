@@ -315,8 +315,24 @@ namespace DodgeDots.WorldMap
             // 测试专用：按下 'V' 键直接完成 level_2
             if (Input.GetKeyDown(KeyCode.V))
             {
-                Debug.Log("【测试】强制完成 level_2");
-                CompleteLevel("level_2"); // 关卡ID，默认是 level_1
+                LevelNode nearNode = null;
+                if (levelNodesInScene != null)
+                {
+                    foreach (var node in levelNodesInScene)
+                    {
+                        if (node != null && node.IsPlayerNear && node.CurrentState != LevelNodeState.Locked)
+                        {
+                            nearNode = node;
+                            break;
+                        }
+                    }
+                }
+
+                if (nearNode != null)
+                {
+                    Debug.Log($"【测试】强制完成 {nearNode.LevelId}");
+                    CompleteLevel(nearNode.LevelId);
+                }
             }
 
             // 测试专用：按下 'B' 键直接完成 level_3

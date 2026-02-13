@@ -74,7 +74,7 @@ MonoBehaviour:
     speakerName: "\u5200\u950B"
     speakerPos: 0
     speakerSprite: {fileID: 21300000, guid: 2baa0c3204f3ccc43b124ac9c2ce0f26, type: 3}
-    dialogueText: "\u4E3A\u4E86\u4E3B\u4EBA\u660E\u5929\u80FD\u6B63\u5E38\u5403\u5230\u65E9\u996D\uFF0C\u4ECA\u665A\u5C31\u7531\u6211\u4EEC\u6765\u89E3\u9664\u5371\u673A\uFF01"
+    dialogueText: "\u4E3A\u4E86\u4E3B\u4EBA\u4ECA\u665A\u80FD\u6B63\u5E38\u5403\u5230\u665A\u996D\uFF0C\u73B0\u5728\u5C31\u7531\u6211\u4EEC\u6765\u89E3\u9664\u5371\u673A\uFF01"
     nextNodeId: 8007
     choices: []
     triggerFlagName: 
