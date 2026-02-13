@@ -304,7 +304,7 @@ namespace DodgeDots.WorldMap
             }
         }
 
-        private void Update()
+        /*private void Update()
         {
             // 测试专用：按下 'C' 键直接完成 level_1
             if (Input.GetKeyDown(KeyCode.C))
@@ -348,6 +348,6 @@ namespace DodgeDots.WorldMap
                 Debug.Log("【测试】强制完成 level_beginner");
                 CompleteLevel("level_beginner"); // 关卡ID，默认是 level_1
             }
-        }
+        }*/
     }
 }
