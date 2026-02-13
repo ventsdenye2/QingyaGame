@@ -451,8 +451,7 @@ MonoBehaviour:
   lowHealthTutorial: "\u3010\u65B0\u6280\u80FD\u89E3\u9501\u3011\n\u68C0\u6D4B\u5230
     Boss \u8840\u91CF\u8FDB\u5165\u8870\u5F31\u671F\uFF01\n\u73B0\u5728\u70B9\u51FB
     [\u9F20\u6807\u5DE6\u952E] \u53EF\u76F4\u63A5\u5316\u8EAB\u5200\u950B\uFF01\u89E6\u78B0Boss\u5373\u53EF\uFF01"
-  movementDurationThreshold: 0.5
-  mouseMoveSensitivity: 1
+  movementDistanceThreshold: 1500
   battleLevel: {fileID: 1336664140}
   boss: {fileID: 825278383}
   bgmManager: {fileID: 0}

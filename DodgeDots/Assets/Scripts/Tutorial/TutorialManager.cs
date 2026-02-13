@@ -25,8 +25,7 @@ namespace DodgeDots.Tutorial
         [SerializeField, TextArea] private string lowHealthTutorial = "【新技能解锁】\n检测到 Boss 血量进入衰弱期！\n现在点击 [鼠标左键] 可发射强力追踪弹！";
 
         [Header("交互配置")]
-        [SerializeField] private float movementDurationThreshold = 2f; // 需要持续移动的时长
-        [SerializeField] private float mouseMoveSensitivity = 10f;    // 判定为“正在移动”的像素阈值
+        [SerializeField] private float movementDistanceThreshold = 800f; // 累计移动像素距离阈值
 
         [Header("场景引用")]
         [SerializeField] private BossBattleLevel battleLevel;
@@ -44,7 +43,7 @@ namespace DodgeDots.Tutorial
         private bool _lowHealthTriggered = false;
         private Vector3 _lastMousePos;
         private Vector2 _lastPlayerPos;
-        private float _movementHoldTimer = 0f;
+        private float _movementAccumulatedDistance = 0f;
 
         private void Start()
         {
@@ -100,27 +99,15 @@ namespace DodgeDots.Tutorial
                     if (Input.GetMouseButtonDown(0)) _isStepCompleted = true;
                     break;
                 case TutorialStep.Movement:
-                    // 移动阶段：检测鼠标位移量
+                    // 移动阶段：累计鼠标移动距离，达到阈值后进入下一阶段
                     float mouseDist = Vector3.Distance(Input.mousePosition, _lastMousePos);
-                    
-                    // 只要有微小移动就认为是在“移动中”
-                    if (mouseDist > 1f) 
-                    {
-                        // 使用真实时间，不受 TimeScale 影响
-                        _movementHoldTimer += Time.unscaledDeltaTime;
-                    }
-                    else
-                    {
-                        // 停下来时计时器缓慢回落，而不是直接归零（增加容错）
-                        _movementHoldTimer = Mathf.Max(0, _movementHoldTimer - Time.unscaledDeltaTime * 2f);
-                    }
-
+                    _movementAccumulatedDistance += mouseDist;
                     _lastMousePos = Input.mousePosition;
 
-                    if (_movementHoldTimer >= movementDurationThreshold)
+                    if (_movementAccumulatedDistance >= movementDistanceThreshold)
                     {
                         _isStepCompleted = true;
-                        _movementHoldTimer = 0f;
+                        _movementAccumulatedDistance = 0f;
                         Debug.Log("[Tutorial] 移动阶段完成");
                     }
                     break;
