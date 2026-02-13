@@ -867,7 +867,7 @@ MonoBehaviour:
   beatMap: {fileID: 11400000, guid: 10c637db05279064988d82eb8b5cbb76, type: 2}
   autoStart: 1
   waitForBgmStart: 1
-  startOffsetSeconds: -0.1
+  startOffsetSeconds: 0
   loop: 1
 --- !u!4 &387784301
 Transform:
@@ -1028,7 +1028,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatMapPlayer: {fileID: 466416317}
   bossBase: {fileID: 825278383}
-  sequenceConfig: {fileID: 11400000, guid: c31415ef46043034194d288d44765c09, type: 2}
+  sequenceConfig: {fileID: 11400000, guid: 16d50973b9868344f80e299104682a68, type: 2}
   enableMoveSequence: 1
   detachEmitters: 1
   showDebugLog: 0
@@ -1048,7 +1048,7 @@ MonoBehaviour:
   beatMap: {fileID: 11400000, guid: f239c749d592d6649bd22b654a160139, type: 2}
   autoStart: 1
   waitForBgmStart: 1
-  startOffsetSeconds: -0.3
+  startOffsetSeconds: 0
   loop: 1
 --- !u!4 &466416318
 Transform:
@@ -1144,6 +1144,15 @@ MonoBehaviour:
   skillActiveSprite: {fileID: 21300000, guid: 43be78ea5be992d4c93474f00a8be9a2, type: 3}
   skillActiveColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   skillInactiveColor: {r: 1, g: 1, b: 1, a: 1}
+  bossLowHpPercentForSlashFx: 0.1
+  slashFxSprite: {fileID: 0}
+  slashFxLength: 15
+  slashFxWidth: 0.5
+  slashFxDuration: 0.25
+  slashFxCooldown: 0.08
+  slashFxSortingLayer: Default
+  slashFxSortingOrder: 50
+  slashFxColor: {r: 1, g: 1, b: 1, a: 1}
   resurrectionWaitTime: 1
   hasResurrection: 1
   sfxSource: {fileID: 0}
@@ -1170,7 +1179,6 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   energyFullSfx: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
   sfxVolume: 1
-  energyFullThreshold: 60
 --- !u!114 &492249290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1600,7 +1608,7 @@ MonoBehaviour:
   beatMap: {fileID: 11400000, guid: e68d2c03c11252841a04b6602300646b, type: 2}
   autoStart: 1
   waitForBgmStart: 1
-  startOffsetSeconds: -0.1
+  startOffsetSeconds: 0
   loop: 1
 --- !u!4 &539211590
 Transform:
@@ -1768,6 +1776,7 @@ MonoBehaviour:
   energyFullColor: {r: 0.8926574, g: 1, b: 0, a: 1}
   skillStatusIcon: {fileID: 0}
   skillStatusText: {fileID: 0}
+  skillEnergyCostText: {fileID: 0}
   damageFlashIcon: {fileID: 0}
   damageFlashColor: {r: 1, g: 0.2, b: 0.2, a: 1}
   damageFlashDuration: 0.15
@@ -4092,7 +4101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   beatMapPlayer: {fileID: 1360437821}
   bossBase: {fileID: 825278383}
-  sequenceConfig: {fileID: 11400000, guid: 16d50973b9868344f80e299104682a68, type: 2}
+  sequenceConfig: {fileID: 11400000, guid: 969ef13c9ea1edf43845906d696739cc, type: 2}
   enableMoveSequence: 1
   detachEmitters: 1
   showDebugLog: 0
@@ -4112,7 +4121,7 @@ MonoBehaviour:
   beatMap: {fileID: 11400000, guid: e3d575a9b55ed2b49b53c7dedf216552, type: 2}
   autoStart: 1
   waitForBgmStart: 1
-  startOffsetSeconds: -0.3
+  startOffsetSeconds: 0
   loop: 1
 --- !u!4 &1360437822
 Transform:
@@ -4590,7 +4599,7 @@ MonoBehaviour:
   beatMap: {fileID: 11400000, guid: 42c02bd4f09fc184c8ba42d625c29713, type: 2}
   autoStart: 1
   waitForBgmStart: 1
-  startOffsetSeconds: -0.3
+  startOffsetSeconds: 0
   loop: 1
 --- !u!4 &1501667420
 Transform:
