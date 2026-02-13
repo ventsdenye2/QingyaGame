@@ -4754,7 +4754,6 @@ GameObject:
   - component: {fileID: 1032029083}
   - component: {fileID: 1032029085}
   - component: {fileID: 1032029084}
-  - component: {fileID: 1032029086}
   m_Layer: 0
   m_Name: Level3
   m_TagString: Untagged
@@ -4795,8 +4794,7 @@ MonoBehaviour:
   - branchName: "\u901A\u5173Level3"
     requiredLevelId: level_3
     triggerIfIncomplete: 0
-    requiredFlags:
-    - 
+    requiredFlags: []
     stages:
     - stageName: Won_Meet
       dialogueConfig: {fileID: 11400000, guid: 3fdb8a68c376132489436438542fa824, type: 2}
@@ -4849,43 +4847,7 @@ MonoBehaviour:
           m_Calls: []
       onDialogueFinish:
         m_PersistentCalls:
-          m_Calls:
-          - m_Target: {fileID: 2112440414}
-            m_TargetAssemblyTypeName: DodgeDots.UI.EndingFlowTrigger, Assembly-CSharp
-            m_MethodName: StartEndingTransition
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-          - m_Target: {fileID: 1032029084}
-            m_TargetAssemblyTypeName: DodgeDots.Dialogue.GeneralInteraction, Assembly-CSharp
-            m_MethodName: DisableInteractionForever
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
-          - m_Target: {fileID: 1032029084}
-            m_TargetAssemblyTypeName: DodgeDots.Dialogue.GeneralInteraction, Assembly-CSharp
-            m_MethodName: SetGameFlag
-            m_Mode: 5
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: Boss_3_Beat
-              m_BoolArgument: 0
-            m_CallState: 2
+          m_Calls: []
     loopLastDialogue: 0
     currentIndex: 0
   - branchName: "\u672A\u901A\u5173Level3"
@@ -4973,22 +4935,6 @@ MonoBehaviour:
   enterHint: {fileID: 824133156}
   outlineMaterial: {fileID: 2100000, guid: a83cae9b5e0abce41944be3f25af4171, type: 2}
   interactRangeExpand: 0.4
---- !u!114 &1032029086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1032029082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e02111be5eea6442a4c0b670e6983d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultState: 0
-  showIfFlag: 
-  hideIfFlag: Boss_3_Beat
-  targetObject: {fileID: 1032029082}
 --- !u!1 &1048728676
 GameObject:
   m_ObjectHideFlags: 0
