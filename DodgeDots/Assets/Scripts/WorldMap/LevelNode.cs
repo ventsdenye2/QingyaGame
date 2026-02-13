@@ -87,7 +87,6 @@ namespace DodgeDots.WorldMap
         private void Update()
         {
             if (_isForceDisabled || _currentState == LevelNodeState.Locked) return;
-            if (_currentState == LevelNodeState.Locked) return;
 
             if (!_isPlayerNear)
             {
@@ -212,7 +211,7 @@ namespace DodgeDots.WorldMap
             _isPlayerNear = false;
             if (enterHint != null) enterHint.SetActive(false);
             ToggleHighlight(false);
-            // ÉõÖÁ¿ÉÒÔ°Ñ×´Ì¬Éè»Ø Locked ÒÔ·ÀÖ¹ÈÎºÎ½»»¥
+            // å¯ä»¥é€‰æ‹©æŠŠçŠ¶æ€è®¾ä¸ºLockedä»¥é˜²æ­¢ä»»ä½•äº¤äº’
             _currentState = LevelNodeState.Locked;
         }
         public void OnPointerClick(PointerEventData eventData) => EnterLevel();
