@@ -122,10 +122,17 @@ namespace DodgeDots.Player
             CacheBossReference();
         }
 
+        private bool _inputLocked = false;
+
+        public void SetInputLocked(bool locked)
+        {
+            _inputLocked = locked;
+        }
+
         private void Update()
         {
-            // 教程/暂停期间不允许释放技能（避免消耗能量或改变游戏状态）
-            if (Time.timeScale <= 0f)
+            // 外部锁定输入
+            if (_inputLocked)
             {
                 return;
             }
