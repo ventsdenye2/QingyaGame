@@ -231,6 +231,7 @@ namespace DodgeDots.Dialogue
             if (targetLevelNode != null)
             {
                 targetLevelNode.SetPlayerNear(false);
+                targetLevelNode.ForceDisableNode();
             }
 
             HideInteractionPrompt();

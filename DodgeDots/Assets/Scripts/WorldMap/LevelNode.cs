@@ -33,6 +33,7 @@ namespace DodgeDots.WorldMap
         private bool _isPlayerNear = false;
         private Material _defaultMaterial; // 鐢ㄦ潵瀛?Unity 榛樿鏉愯川
         private Transform _playerTransform;
+        private bool _isForceDisabled = false;
 
         // 鍏紑灞炴�?
         public LevelNodeData NodeData => nodeData;
@@ -85,6 +86,7 @@ namespace DodgeDots.WorldMap
 
         private void Update()
         {
+            if (_isForceDisabled || _currentState == LevelNodeState.Locked) return;
             if (_currentState == LevelNodeState.Locked) return;
 
             if (!_isPlayerNear)
@@ -178,7 +180,15 @@ namespace DodgeDots.WorldMap
                 ToggleHighlight(_isPlayerNear);
             }
         }
-
+        public void ForceDisableNode()
+        {
+            _isForceDisabled = true;
+            _isPlayerNear = false;
+            if (enterHint != null) enterHint.SetActive(false);
+            ToggleHighlight(false);
+            // 甚至可以把状态设回 Locked 以防止任何交互
+            _currentState = LevelNodeState.Locked;
+        }
         public void OnPointerClick(PointerEventData eventData) => EnterLevel();
         public void OnPointerEnter(PointerEventData eventData) => SetPlayerNear(true);
         public void OnPointerExit(PointerEventData eventData) => SetPlayerNear(false);
