@@ -11,7 +11,6 @@ namespace DodgeDots.UI
     {
         [Header("Scene")]
         [SerializeField] private string worldMapSceneName = "WorldMap";
-        [SerializeField] private string introSceneName = "IntroScene";
 
         [Header("UI Layout")]
         [SerializeField] private Vector2 panelSize = new Vector2(420f, 320f);
@@ -171,14 +170,13 @@ namespace DodgeDots.UI
             if (SaveSystem.HasSave)
             {
                 SaveSystem.Load();
-                DodgeDots.UI.LoadingManager.Instance.LoadScene(worldMapSceneName);
             }
             else
             {
                 SaveSystem.NewGame();
                 SaveSystem.Save();
-                DodgeDots.UI.LoadingManager.Instance.LoadScene(introSceneName);
             }
+            DodgeDots.UI.LoadingManager.Instance.LoadScene(worldMapSceneName);
         }
 
         private void OnLoadGame()
@@ -193,7 +191,7 @@ namespace DodgeDots.UI
             SaveSystem.Clear();
             SaveSystem.NewGame();
             SaveSystem.Save();
-            DodgeDots.UI.LoadingManager.Instance.LoadScene(introSceneName);
+            DodgeDots.UI.LoadingManager.Instance.LoadScene(worldMapSceneName);
         }
 
         private void OnQuitGame()

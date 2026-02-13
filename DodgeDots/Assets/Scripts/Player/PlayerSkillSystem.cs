@@ -12,7 +12,6 @@ namespace DodgeDots.Player
     /// </summary>
     public class PlayerSkillSystem : MonoBehaviour
     {
-        private bool _inputLocked = false;
         [Header("攻击技能")]
         [SerializeField] private float skillDuration = 3f;             // 技能持续时间（秒）
         [SerializeField] private float skillDamage = 30f;              // 技能对Boss的伤害
@@ -39,6 +38,17 @@ namespace DodgeDots.Player
         [SerializeField] private Sprite skillActiveSprite;
         [SerializeField] private Color skillActiveColor = Color.yellow;
         [SerializeField] private Color skillInactiveColor = Color.white;
+
+        [Header("低血量斩击特效")]
+        [SerializeField, Range(0f, 1f)] private float bossLowHpPercentForSlashFx = 0.1f;
+        [SerializeField] private Sprite slashFxSprite;
+        [SerializeField] private float slashFxLength = 15f;
+        [SerializeField] private float slashFxWidth = 0.5f;
+        [SerializeField] private float slashFxDuration = 0.25f;
+        [SerializeField] private float slashFxCooldown = 0.08f;
+        [SerializeField] private string slashFxSortingLayer = "Default";
+        [SerializeField] private int slashFxSortingOrder = 50;
+        [SerializeField] private Color slashFxColor = Color.white;
 
         [Header("复活技能")]
         [SerializeField] private float resurrectionWaitTime = 1f;     // 复活等待时间（秒）
@@ -69,6 +79,8 @@ namespace DodgeDots.Player
         private bool _resurrectionUsed = false; // 本关卡复活是否已使用
         private Coroutine _resurrectionCoroutine; // 复活协程
 
+        private float _lastSlashFxTime = -999f;
+
         private enum SkillType
         {
             None,
@@ -79,6 +91,8 @@ namespace DodgeDots.Player
         }
 
         public bool IsSkillActive => _isAttackActive || _isShieldActive;
+        public float AttackEnergyCost => skillEnergyCost;
+        public float ShieldEnergyCost => shieldEnergyCost;
 
         public event Action OnSkillStarted;
         public event Action OnSkillEnded;
@@ -123,11 +137,17 @@ namespace DodgeDots.Player
             CacheBossReference();
         }
 
+        private bool _inputLocked = false;
+
+        public void SetInputLocked(bool locked)
+        {
+            _inputLocked = locked;
+        }
+
         private void Update()
         {
-            if (_inputLocked) return;
-            // 教程/暂停期间不允许释放技能（避免消耗能量或改变游戏状态）
-            if (Time.timeScale <= 0f)
+            // 外部锁定输入
+            if (_inputLocked)
             {
                 return;
             }
@@ -421,6 +441,12 @@ namespace DodgeDots.Player
                         // 对Boss造成伤害
                         boss.TakeDamage(skillDamage, gameObject);
                         Debug.Log($"技能命中Boss！造成 {skillDamage} 点伤害，Boss血量: {boss.CurrentHealth}/{boss.MaxHealth}");
+
+                        TryPlayLowHpSlashFx(boss);
+
+
+                        TryPlayLowHpSlashFx(boss);
+
                     }
                     else
                     {
@@ -643,6 +669,70 @@ namespace DodgeDots.Player
         }
 
         /// <summary>
+        /// 尝试在 Boss 血量较低且被近战击中时播放斩击特效
+        /// </summary>
+        private void TryPlayLowHpSlashFx(Enemy.BossBase boss)
+        {
+            if (boss == null || slashFxSprite == null) return;
+
+            // 1. 检查血量阈值 (<= 10%)
+            float healthPercent = boss.CurrentHealth / boss.MaxHealth;
+            if (healthPercent > bossLowHpPercentForSlashFx) return;
+
+            // 2. 检查冷却
+            if (Time.time - _lastSlashFxTime < slashFxCooldown) return;
+            _lastSlashFxTime = Time.time;
+
+            // 3. 计算方向：玩家划过 Boss 的方向
+            // 使用玩家上一帧到这一帧的位移作为划过方向
+            Vector2 slashDir = ((Vector2)transform.position - _lastFramePosition).normalized;
+            
+            // 如果玩家没动，则使用玩家指向 Boss 的方向作为兜底
+            if (slashDir.sqrMagnitude < 0.001f)
+            {
+                slashDir = ((Vector2)boss.transform.position - (Vector2)transform.position).normalized;
+            }
+
+            // 4. 执行特效表现
+            StartCoroutine(SlashFxRoutine(boss.transform.position, slashDir));
+        }
+
+        private IEnumerator SlashFxRoutine(Vector2 center, Vector2 dir)
+        {
+            // 创建临时特效物体
+            GameObject fxGo = new GameObject("SlashFx_Runtime");
+            fxGo.transform.position = center;
+            
+            // 设置朝向
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            fxGo.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            // 添加 SpriteRenderer
+            SpriteRenderer sr = fxGo.AddComponent<SpriteRenderer>();
+            sr.sprite = slashFxSprite;
+            sr.color = slashFxColor;
+            sr.sortingLayerName = slashFxSortingLayer;
+            sr.sortingOrder = slashFxSortingOrder;
+
+            // 设置初始缩放 (长条形)
+            Vector3 targetScale = new Vector3(slashFxLength, slashFxWidth, 1f);
+            fxGo.transform.localScale = targetScale;
+
+            // 渐隐动画
+            float elapsed = 0f;
+            while (elapsed < slashFxDuration)
+            {
+                elapsed += Time.deltaTime;
+                float alpha = 1f - (elapsed / slashFxDuration);
+                sr.color = new Color(slashFxColor.r, slashFxColor.g, slashFxColor.b, alpha);
+                yield return null;
+            }
+
+            // 销毁
+            Destroy(fxGo);
+        }
+
+        /// <summary>
         /// 通知战斗关卡玩家已复活
         /// </summary>
         private void NotifyBattleResumed()
@@ -689,9 +779,9 @@ namespace DodgeDots.Player
             return !_resurrectionUsed && hasResurrection && HasSkill(PlayerSkillType.Resurrection);
         }
 
-        public void SetInputLocked(bool locked)
+        public int GetResurrectionUsedCount()
         {
-            _inputLocked = locked;
+            return _resurrectionUsed ? 1 : 0;
         }
 
         private bool HasSkill(PlayerSkillType skillType)

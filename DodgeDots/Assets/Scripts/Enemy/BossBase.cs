@@ -41,7 +41,7 @@ namespace DodgeDots.Enemy
         public Sprite damageSpriteA;   // 受击图 A
         public Sprite damageSpriteB;   // 受击图 B
         public Sprite deathSprite;     // 死亡图
-        [SerializeField] private float damageVisualDuration = 0.5f; // 受击图回正延迟
+        [SerializeField] private float damageVisualDuration = 0.5f; // 受击图展示时长
 
         protected float _currentHealth;
         protected BossState _currentState;

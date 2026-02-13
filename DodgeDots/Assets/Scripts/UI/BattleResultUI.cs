@@ -212,7 +212,13 @@ namespace DodgeDots.UI
                 float maxHp = battleLevel.PlayerMaxHp;
                 if (maxHp > 0f)
                 {
-                    hpText.text = $"剩余生命: {hp:F0} / {maxHp:F0}";
+                    int resurrectCount = 0;
+                    var skillSystem = FindFirstObjectByType<DodgeDots.Player.PlayerSkillSystem>();
+                    if (skillSystem != null)
+                    {
+                        resurrectCount = skillSystem.GetResurrectionUsedCount();
+                    }
+                    hpText.text = $"剩余生命: {hp:F0}（复活{resurrectCount}次）";
                 }
                 else
                 {

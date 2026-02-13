@@ -38,8 +38,8 @@ namespace DodgeDots.Player
         [SerializeField] private AudioClip energyFullSfx;
         [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
 
-        [Header("能量提示")]
-        [SerializeField] private float energyFullThreshold = 60f;
+        private PlayerEnergy _playerEnergy; // 注意：此处原代码可能存在冗余引用，已清理
+
 
         private void Awake()
         {
@@ -153,10 +153,9 @@ namespace DodgeDots.Player
             _currentEnergy -= amount;
             OnEnergyChanged?.Invoke(_currentEnergy, maxEnergy);
             OnSkillCasted?.Invoke();
-            if (_currentEnergy < energyFullThreshold)
-            {
-                _energyFullTriggered = false;
-            }
+            
+            // 能量只要被消耗，就重置回满触发标志
+            _energyFullTriggered = false;
 
             return true;
         }
@@ -204,11 +203,18 @@ namespace DodgeDots.Player
         private void CheckAndTriggerEnergyFull(bool fromStart)
         {
             if (_energyFullTriggered) return;
-            if (_currentEnergy >= energyFullThreshold)
+
+            // 只有在能量真正达到或超过最大值时才触发
+            if (_currentEnergy >= maxEnergy)
             {
                 _energyFullTriggered = true;
-                OnEnergyFull?.Invoke();
-                PlayEnergyFullSfx();
+                
+                // 如果不是刚开场，则播放音效和事件
+                if (!fromStart)
+                {
+                    OnEnergyFull?.Invoke();
+                    PlayEnergyFullSfx();
+                }
             }
         }
     }
