@@ -33,6 +33,7 @@ namespace DodgeDots.WorldMap
         private bool _isPlayerNear = false;
         private Material _defaultMaterial; // ç”¨æ¥å­˜Unityé»˜è®¤æè´¨
         private Transform _playerTransform;
+        private bool _isForceDisabled = false;
 
         // å…¬å¼€å±žæ€§
         public LevelNodeData NodeData => nodeData;
@@ -85,6 +86,7 @@ namespace DodgeDots.WorldMap
 
         private void Update()
         {
+            if (_isForceDisabled || _currentState == LevelNodeState.Locked) return;
             if (_currentState == LevelNodeState.Locked) return;
 
             if (!_isPlayerNear)
@@ -204,7 +206,15 @@ namespace DodgeDots.WorldMap
                 ToggleHighlight(_isPlayerNear);
             }
         }
-
+        public void ForceDisableNode()
+        {
+            _isForceDisabled = true;
+            _isPlayerNear = false;
+            if (enterHint != null) enterHint.SetActive(false);
+            ToggleHighlight(false);
+            // ÉõÖÁ¿ÉÒÔ°Ñ×´Ì¬Éè»Ø Locked ÒÔ·ÀÖ¹ÈÎºÎ½»»¥
+            _currentState = LevelNodeState.Locked;
+        }
         public void OnPointerClick(PointerEventData eventData) => EnterLevel();
         public void OnPointerEnter(PointerEventData eventData) => SetPlayerNear(true);
         public void OnPointerExit(PointerEventData eventData) => SetPlayerNear(false);

@@ -127,6 +127,8 @@ namespace DodgeDots.UI
             if (_isShowing) return;
             _isShowing = true;
 
+            EnsureEventSystem();
+
             if (resultText != null)
             {
                 resultText.text = text;
@@ -149,6 +151,29 @@ namespace DodgeDots.UI
             if (pauseOnShow)
             {
                 Time.timeScale = 0f;
+            }
+        }
+
+        private void EnsureEventSystem()
+        {
+            if (UnityEngine.EventSystems.EventSystem.current == null)
+            {
+                var esGo = new GameObject("EventSystem_AutoCreated");
+                esGo.AddComponent<UnityEngine.EventSystems.EventSystem>();
+                esGo.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+                Debug.Log("检测到关卡缺少 EventSystem，已按照 Level1 标准自动修复。");
+            }
+            else
+            {
+                // 强制确保 EventSystem 及其 Module 是启用状态
+                var es = UnityEngine.EventSystems.EventSystem.current;
+                if (!es.gameObject.activeInHierarchy) es.gameObject.SetActive(true);
+                
+                var module = es.GetComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+                if (module != null && !module.enabled) module.enabled = true;
+
+                // 清除当前选中，防止按钮点击状态被锁定
+                es.SetSelectedGameObject(null);
             }
         }
 

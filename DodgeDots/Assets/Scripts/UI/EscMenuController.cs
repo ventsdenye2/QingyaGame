@@ -49,7 +49,17 @@ namespace DodgeDots.UI
 
         private void Awake()
         {
-            // 确保 SaveSystem.Current 有值，避免按钮里 Save() 时为 null
+            Debug.Log($"[ESC_Debug] {gameObject.name} Awake in scene: {SceneManager.GetActiveScene().name}");
+            
+            // 确保只有一个实例，或者至少能被找到
+            if (menuRoot == null)
+            {
+                // 尝试查找名为 "MenuRoot" 的子物体作为兜底
+                var found = transform.Find("MenuRoot");
+                if (found != null) menuRoot = found.gameObject;
+            }
+
+            // 确保 SaveSystem.Current 有值
             SaveSystem.LoadOrCreate();
 
             // 开场默认关闭
@@ -118,6 +128,17 @@ namespace DodgeDots.UI
         {
             _isOpen = open;
 
+            if (open)
+            {
+                EnsureEventSystem();
+                // 确保 Canvas 排序最高
+                var canvas = GetComponentInParent<Canvas>();
+                if (canvas != null)
+                {
+                    canvas.sortingOrder = 999;
+                }
+            }
+
             if (dimBackground != null)
             {
                 var c = dimBackground.color;
@@ -162,6 +183,13 @@ namespace DodgeDots.UI
                 }
             }
 
+            // 同步控制 BeatMapPlayer 的暂停/恢复，确保节拍不会在暂停期间推进
+            var beatPlayers = FindObjectsOfType<DodgeDots.Audio.BeatMapPlayer>();
+            foreach (var bp in beatPlayers)
+            {
+                bp.SetPaused(open);
+            }
+
             // 在关卡场景中打开 ESC 菜单时，额外暂停 / 恢复 BGM
             if (pauseBgmWhenOpenInLevelScenes)
             {
@@ -184,6 +212,29 @@ namespace DodgeDots.UI
                         }
                     }
                 }
+            }
+        }
+
+        private void EnsureEventSystem()
+        {
+            if (UnityEngine.EventSystems.EventSystem.current == null)
+            {
+                var esGo = new GameObject("EventSystem_AutoCreated");
+                esGo.AddComponent<UnityEngine.EventSystems.EventSystem>();
+                esGo.AddComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+                Debug.Log("检测到关卡缺少 EventSystem，已按照 Level1 标准自动修复。");
+            }
+            else
+            {
+                // 强制确保 EventSystem 及其 Module 是启用状态
+                var es = UnityEngine.EventSystems.EventSystem.current;
+                if (!es.gameObject.activeInHierarchy) es.gameObject.SetActive(true);
+                
+                var module = es.GetComponent<UnityEngine.EventSystems.StandaloneInputModule>();
+                if (module != null && !module.enabled) module.enabled = true;
+
+                // 清除当前选中，防止按钮点击状态被锁定
+                es.SetSelectedGameObject(null);
             }
         }
 
