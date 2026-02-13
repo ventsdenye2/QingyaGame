@@ -1325,7 +1325,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -2554, y: 0}
+  m_AnchoredPosition: {x: -1400, y: -64}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &692187051
@@ -1824,7 +1824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1000
-  bossName: "Boss\uFF01\uFF01\uFF01"
+  bossName: "\u795E\u79D8\u54C8\u57FA\u7C73"
   phaseHealthThresholds:
   - 0.7
   - 0.4
@@ -1832,9 +1832,9 @@ MonoBehaviour:
   sfxSource: {fileID: 0}
   damageSfx: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   sfxVolume: 1
-  damageSpriteA: {fileID: 0}
-  damageSpriteB: {fileID: 0}
-  deathSprite: {fileID: 0}
+  damageSpriteA: {fileID: 21300000, guid: 83a1f7aa0a272ea45b241da00263fffb, type: 3}
+  damageSpriteB: {fileID: 21300000, guid: 83a1f7aa0a272ea45b241da00263fffb, type: 3}
+  deathSprite: {fileID: 21300000, guid: 83a1f7aa0a272ea45b241da00263fffb, type: 3}
   damageVisualDuration: 0.5
   phase0Controllers:
   - {fileID: 129132313}
@@ -3356,10 +3356,10 @@ MonoBehaviour:
   autoStartBattle: 1
   battleStartDelay: 1
   playerDeathDelay: 2
+  allowBossBattle: 1
   enableBulletPreload: 1
   preloadSeconds: 5
   fastForwardSpeed: 3
-  allowBossBattle: 1
 --- !u!4 &1336664141
 Transform:
   m_ObjectHideFlags: 0

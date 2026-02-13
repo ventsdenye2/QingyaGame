@@ -1985,8 +1985,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Big boss\uFF01"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 52e3dbcf76ae04347a9ef9a4287d82a9, type: 2}
-  m_sharedMaterial: {fileID: 6783018975884615457, guid: 52e3dbcf76ae04347a9ef9a4287d82a9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8a940975567f8854fad115ef7a196271, type: 2}
+  m_sharedMaterial: {fileID: 6783018975884615457, guid: 8a940975567f8854fad115ef7a196271, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2076,7 +2076,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -2554, y: 0}
+  m_AnchoredPosition: {x: -1485, y: 0}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &692187051
@@ -2765,7 +2765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 1000
-  bossName: Oven
+  bossName: "\u5FAE\u6CE2\u7089\u7089"
   phaseHealthThresholds:
   - 0.7
   - 0.4
@@ -4411,10 +4411,10 @@ MonoBehaviour:
   autoStartBattle: 1
   battleStartDelay: 1
   playerDeathDelay: 2
+  allowBossBattle: 1
   enableBulletPreload: 1
   preloadSeconds: 10
   fastForwardSpeed: 3
-  allowBossBattle: 1
 --- !u!4 &1336664141
 Transform:
   m_ObjectHideFlags: 0
