@@ -39,6 +39,8 @@ namespace DodgeDots.Level
         [Tooltip("快进倍速")]
         [SerializeField] private float fastForwardSpeed = 3f;
 
+        public bool allowBossBattle = true; // 教程期间可设为 false
+
         private bool _battleStarted;
         private bool _battleEnded;
         private Coroutine _deathCheckCoroutine;
@@ -180,12 +182,12 @@ namespace DodgeDots.Level
             OnBattleStart?.Invoke();
 
             // 启动Boss战斗
-            if (boss != null)
+            if (boss != null && allowBossBattle)
             {
                 boss.StartBattle();
             }
 
-            Debug.Log("Boss战开始！");
+            Debug.Log(allowBossBattle ? "Boss战开始！" : "Boss战已记录开始，但Boss行为被锁定（教程中）");
         }
 
         /// <summary>

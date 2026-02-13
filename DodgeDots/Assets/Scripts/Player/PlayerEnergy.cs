@@ -204,12 +204,17 @@ namespace DodgeDots.Player
         {
             if (_energyFullTriggered) return;
 
-            // 只在能量回满(>=maxEnergy)时触发一次
+            // 只有在能量真正达到或超过最大值时才触发
             if (_currentEnergy >= maxEnergy)
             {
                 _energyFullTriggered = true;
-                OnEnergyFull?.Invoke();
-                PlayEnergyFullSfx();
+                
+                // 如果不是刚开场，则播放音效和事件
+                if (!fromStart)
+                {
+                    OnEnergyFull?.Invoke();
+                    PlayEnergyFullSfx();
+                }
             }
         }
     }

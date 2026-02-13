@@ -41,7 +41,7 @@ namespace DodgeDots.Enemy
         public Sprite damageSpriteA;   // 受击图 A
         public Sprite damageSpriteB;   // 受击图 B
         public Sprite deathSprite;     // 死亡图
-        [SerializeField] private float damageVisualDuration = 0.5f; // 受击图回正延迟
+        [SerializeField] private float damageVisualDuration = 0.5f; // 受击图展示时长
 
         protected float _currentHealth;
         protected BossState _currentState;
@@ -61,7 +61,7 @@ namespace DodgeDots.Enemy
         public float CurrentHealth => _currentHealth;
         public float MaxHealth => maxHealth;
         public bool IsAlive => _currentHealth > 0;
-        public bool CanTakeDamage => _currentState == BossState.Fighting;
+        public bool CanTakeDamage => _currentState == BossState.Fighting || _currentState == BossState.Idle; // 允许在空闲（教程）态受击
         public BossState CurrentState => _currentState;
         public int CurrentPhase => _currentPhase;
         public string BossName => bossName;

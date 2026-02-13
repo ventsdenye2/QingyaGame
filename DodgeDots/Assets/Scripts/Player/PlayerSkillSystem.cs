@@ -137,10 +137,17 @@ namespace DodgeDots.Player
             CacheBossReference();
         }
 
+        private bool _inputLocked = false;
+
+        public void SetInputLocked(bool locked)
+        {
+            _inputLocked = locked;
+        }
+
         private void Update()
         {
-            // 教程/暂停期间不允许释放技能（避免消耗能量或改变游戏状态）
-            if (Time.timeScale <= 0f)
+            // 外部锁定输入
+            if (_inputLocked)
             {
                 return;
             }
@@ -434,6 +441,9 @@ namespace DodgeDots.Player
                         // 对Boss造成伤害
                         boss.TakeDamage(skillDamage, gameObject);
                         Debug.Log($"技能命中Boss！造成 {skillDamage} 点伤害，Boss血量: {boss.CurrentHealth}/{boss.MaxHealth}");
+
+                        TryPlayLowHpSlashFx(boss);
+
 
                         TryPlayLowHpSlashFx(boss);
 
