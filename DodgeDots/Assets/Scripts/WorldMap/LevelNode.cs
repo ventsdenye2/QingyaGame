@@ -17,11 +17,7 @@ namespace DodgeDots.WorldMap
         [Header("关卡数据")]
         [SerializeField] private LevelNodeData nodeData;
 
-        [Header("解锁控制 (新增)")]
-        [Tooltip("勾选后，即使前置关卡已完成，此节点也不会自动解锁。\n必须等待外部事件调用 UnlockSelf() 才能解锁。")]
-        [SerializeField] private bool manualUnlockOnly = false;
-
-        [Header("相邻节点")]
+        [Header("相邻节点 (仅作数据引用)")]
         [SerializeField] private LevelNode[] nextNodes;
 
         [Header("视觉组件")]
@@ -55,53 +51,36 @@ namespace DodgeDots.WorldMap
             if (backgroundRenderer != null) _defaultMaterial = backgroundRenderer.sharedMaterial;
             if (enterHint != null) enterHint.SetActive(false);
 
-            // 初始化状态逻辑
+            // 初始化状态逻辑：完全依赖 Manager (存档) 的状态
             if (WorldMapManager.Instance != null)
             {
                 bool isCompleted = WorldMapManager.Instance.IsLevelCompleted(LevelId);
-                // 只有当 manualUnlockOnly 为 false 时，才听取 MapManager 的解锁建议
-                bool isUnlockedByManager = WorldMapManager.Instance.IsLevelUnlocked(LevelId);
+                bool isUnlocked = WorldMapManager.Instance.IsLevelUnlocked(LevelId);
 
                 if (isCompleted)
                 {
-                    // 如果已经打过了，无视手动锁，直接显示完成
                     SetState(LevelNodeState.Completed);
+                }
+                else if (isUnlocked)
+                {
+                    SetState(LevelNodeState.Unlocked);
                 }
                 else
                 {
-                    // 核心修改逻辑：
-                    // 如果 manualUnlockOnly 为 true，我们强制忽略 MapManager 的解锁状态
-                    // 除非我们在代码里稍后调用 UnlockSelf
-                    bool shouldUnlock = false;
-
-                    if (!manualUnlockOnly)
-                    {
-                        // 只有在非手动模式下，才检查 MapManager 或默认解锁配置
-                        if (isUnlockedByManager)
-                        {
-                            shouldUnlock = true;
-                        }
-                        else if (nodeData != null && nodeData.unlockedByDefault)
-                        {
-                            shouldUnlock = true;
-                        }
-                    }
-
-                    // 应用状态
-                    SetState(shouldUnlock ? LevelNodeState.Unlocked : LevelNodeState.Locked);
+                    // 默认为锁定，必须通过 UnlockSelf() 或读取到已解锁存档才能打开
+                    SetState(LevelNodeState.Locked);
                 }
             }
             else
             {
-                // 如果没有 Manager，默认全锁，或者根据默认配置
-                bool defaultUnlock = !manualUnlockOnly && nodeData != null && nodeData.unlockedByDefault;
-                SetState(defaultUnlock ? LevelNodeState.Unlocked : LevelNodeState.Locked);
+                // 没有 Manager 时默认为锁定
+                SetState(LevelNodeState.Locked);
             }
 
             // 再次强制刷新视觉（双重保险）
             UpdateVisuals();
 
-            var playerController = FindFirstObjectByType<PlayerWorldMapController>(); // Unity 2023+ 写法，旧版用 FindObjectOfType
+            var playerController = FindFirstObjectByType<PlayerWorldMapController>();
             if (playerController != null) _playerTransform = playerController.transform;
         }
 
@@ -127,6 +106,7 @@ namespace DodgeDots.WorldMap
 
         /// <summary>
         /// 外部调用此方法解锁关卡
+        /// 这是目前唯一的解锁入口
         /// </summary>
         public void UnlockSelf()
         {

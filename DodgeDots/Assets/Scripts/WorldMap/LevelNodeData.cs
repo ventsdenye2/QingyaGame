@@ -39,13 +39,6 @@ namespace DodgeDots.WorldMap
         [TextArea(2, 4)]
         public string description = "";
 
-        [Header("解锁条件")]
-        [Tooltip("前置关卡ID列表（需要完成这些关卡才能解锁）")]
-        public string[] prerequisiteLevelIds;
-
-        [Tooltip("是否默认解锁")]
-        public bool unlockedByDefault = false;
-
         [Header("难度设置")]
         [Tooltip("关卡难度（1-5星）")]
         [Range(1, 5)]

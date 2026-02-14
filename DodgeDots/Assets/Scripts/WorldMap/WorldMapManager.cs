@@ -8,7 +8,7 @@ namespace DodgeDots.WorldMap
 {
     /// <summary>
     /// 世界地图管理器
-    /// 管理关卡节点状态、解锁逻辑和进度保存
+    /// 仅负责管理状态数据的存取，不再负责自动解锁逻辑
     /// </summary>
     public class WorldMapManager : MonoBehaviour
     {
@@ -60,7 +60,7 @@ namespace DodgeDots.WorldMap
 
             foreach (var node in levelNodesInScene)
             {
-                // 增加判空保护，防止配置了空数据报错
+                // 增加判空保护
                 if (node != null && node.NodeData != null && !string.IsNullOrEmpty(node.LevelId))
                 {
                     if (!_nodeDict.ContainsKey(node.LevelId))
@@ -77,9 +77,6 @@ namespace DodgeDots.WorldMap
             }
         }
 
-        /// <summary>
-        /// 加载进度
-        /// </summary>
         /// <summary>
         /// 加载进度
         /// </summary>
@@ -107,17 +104,14 @@ namespace DodgeDots.WorldMap
                 }
             }
 
-            // 3. 确保初始关卡解锁
-            if (mapConfig != null && !string.IsNullOrEmpty(mapConfig.initialUnlockedLevelId))
-            {
-                UnlockLevel(mapConfig.initialUnlockedLevelId);
-            }
-
-            // 4. 把所有“已完成”的也合并进“已解锁” (兜底逻辑)
+            // 3. 将所有“已完成”的也合并进“已解锁” (兜底逻辑)
             foreach (var levelId in _completedLevels)
             {
                 _unlockedLevels.Add(levelId);
             }
+
+            // 注意：此处已移除 initialUnlockedLevelId 的自动解锁逻辑
+            // 如果是新游戏，所有关卡默认为锁定，除非外部脚本调用了 UnlockLevel
 
             UpdateAllNodeStates();
         }
@@ -135,15 +129,14 @@ namespace DodgeDots.WorldMap
             // 加载关卡场景
             if (!string.IsNullOrEmpty(node.NodeData.sceneName))
             {
-                // 离开大世界前强制存档 ---
+                // 离开大世界前强制存档
                 SaveProgress();
-                // 使用加载管理器进行异步跳转
                 DodgeDots.UI.LoadingManager.Instance.LoadScene(node.NodeData.sceneName);
             }
         }
 
         /// <summary>
-        /// 解锁关卡
+        /// 仅记录解锁状态，不包含任何逻辑判断
         /// </summary>
         public void UnlockLevel(string levelId)
         {
@@ -157,6 +150,9 @@ namespace DodgeDots.WorldMap
             {
                 node.SetState(LevelNodeState.Unlocked);
             }
+
+            // 状态变更后立即保存，防止丢失
+            SaveProgress();
         }
 
         /// <summary>
@@ -171,42 +167,20 @@ namespace DodgeDots.WorldMap
             _unlockedLevels.Add(levelId); // 完成了自然算解锁
             OnLevelCompleted?.Invoke(levelId);
 
-            // 设置关卡专用标记（与BossBattleLevel保持一致）
+            // 保留核心SaveSystem标志位设置，但移除了解锁其他Level的逻辑
             if (levelId == "level_2")
             {
                 SaveSystem.SetFlag("Boss_2_Beat");
-                // 通关level_2后解锁level_hajimi
-                if (!_unlockedLevels.Contains("level_hajimi"))
-                {
-                    UnlockLevel("level_hajimi");
-                    Debug.Log("[WorldMapManager] level_2完成，已解锁level_hajimi");
-                }
             }
             else if (levelId == "level_3")
             {
                 SaveSystem.SetFlag("Boss_3_Beat");
-                Debug.Log("[WorldMapManager] level_3完成，设置Boss_3_Beat标志");
             }
 
             // 更新节点状态
             if (_nodeDict.TryGetValue(levelId, out var node))
             {
                 node.SetState(LevelNodeState.Completed);
-
-                // 注释掉自动解锁下一关的逻辑
-                // 由 GeneralInteraction 控制，这里就不要了
-                /*
-                if (node.NextNodes != null)
-                {
-                    foreach (var nextNode in node.NextNodes)
-                    {
-                        if (nextNode != null)
-                        {
-                            UnlockLevel(nextNode.LevelId);
-                        }
-                    }
-                }
-                */
             }
 
             SaveProgress();
@@ -226,14 +200,13 @@ namespace DodgeDots.WorldMap
             SaveSystem.Current.completedLevels.Clear();
             SaveSystem.Current.completedLevels.AddRange(_completedLevels);
 
-            // 【关键修复】保存已解锁列表
+            // 保存已解锁列表
             SaveSystem.Current.unlockedLevels.Clear();
             SaveSystem.Current.unlockedLevels.AddRange(_unlockedLevels);
 
             SaveSystem.Current.lastScene = SceneManager.GetActiveScene().name;
 
-            // --- 保存玩家精确坐标 ---
-            // 尝试在场景中找到玩家控制器
+            // 保存玩家精确坐标
             var playerController = FindFirstObjectByType<PlayerWorldMapController>();
             if (playerController != null)
             {
@@ -242,34 +215,8 @@ namespace DodgeDots.WorldMap
                 SaveSystem.Current.playerPosY = pos.y;
                 SaveSystem.Current.playerPosZ = pos.z;
                 SaveSystem.Current.hasSavedPosition = true;
-
-                Debug.Log($"[WorldMapManager] 已保存玩家坐标: {pos}");
             }
             SaveSystem.Save();
-        }
-
-        private void RebuildUnlocksFromCompleted()
-        {
-            foreach (var levelId in _completedLevels)
-            {
-                if (string.IsNullOrEmpty(levelId)) continue;
-
-                _unlockedLevels.Add(levelId);
-
-                // 加载存档时也不要自动推导下一关
-                /*
-                if (_nodeDict.TryGetValue(levelId, out var node) && node != null && node.NextNodes != null)
-                {
-                    foreach (var nextNode in node.NextNodes)
-                    {
-                        if (nextNode != null)
-                        {
-                            UnlockLevel(nextNode.LevelId);
-                        }
-                    }
-                }
-                */
-            }
         }
 
         /// <summary>
@@ -297,17 +244,11 @@ namespace DodgeDots.WorldMap
             }
         }
 
-        /// <summary>
-        /// 检查关卡是否已完成
-        /// </summary>
         public bool IsLevelCompleted(string levelId)
         {
             return _completedLevels.Contains(levelId);
         }
 
-        /// <summary>
-        /// 检查关卡是否已解锁
-        /// </summary>
         public bool IsLevelUnlocked(string levelId)
         {
             return _unlockedLevels.Contains(levelId);
@@ -323,47 +264,26 @@ namespace DodgeDots.WorldMap
 
         private void Update()
         {
-            // 测试专用：按下 'C' 键直接完成 level_1
+            // 测试代码保留
             if (Input.GetKeyDown(KeyCode.C))
             {
                 Debug.Log("【测试】强制完成 level_1");
-                CompleteLevel("level_1"); // 关卡ID，默认是 level_1
+                CompleteLevel("level_1");
             }
-            // 测试专用：按下 'V' 键直接完成 level_2
             if (Input.GetKeyDown(KeyCode.V))
             {
-                LevelNode nearNode = null;
-                if (levelNodesInScene != null)
-                {
-                    foreach (var node in levelNodesInScene)
-                    {
-                        if (node != null && node.IsPlayerNear && node.CurrentState != LevelNodeState.Locked)
-                        {
-                            nearNode = node;
-                            break;
-                        }
-                    }
-                }
-
-                if (nearNode != null)
-                {
-                    Debug.Log($"【测试】强制完成 {nearNode.LevelId}");
-                    CompleteLevel(nearNode.LevelId);
-                }
+                Debug.Log("【测试】强制完成 level_2");
+                CompleteLevel("level_2");
             }
-
-            // 测试专用：按下 'B' 键直接完成 level_3
             if (Input.GetKeyDown(KeyCode.B))
             {
                 Debug.Log("【测试】强制完成 level_3");
-                CompleteLevel("level_3"); // 关卡ID，默认是 level_1
+                CompleteLevel("level_3");
             }
-
-            // 测试专用：按下 'N' 键直接完成 level_beginner
             if (Input.GetKeyDown(KeyCode.N))
             {
-                Debug.Log("【测试】强制完成 level_beginner");
-                CompleteLevel("level_beginner"); // 关卡ID，默认是 level_1
+                Debug.Log("【测试】强制完成 level_1");
+                CompleteLevel("level_beginner");
             }
         }
     }
