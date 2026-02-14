@@ -15,6 +15,10 @@ namespace DodgeDots.Save
 
         public static void LoadOrCreate()
         {
+            // 修复逻辑：如果内存里已经有数据了 (_current != null)，就不要去读硬盘了！
+            // 这能保护 NewGame() 创建的空白数据不被后续的 Start() 顶掉。
+            if (_current != null) return;
+
             if (HasSave)
             {
                 Load();
@@ -26,6 +30,7 @@ namespace DodgeDots.Save
         public static void NewGame()
         {
             _current = new SaveData();
+            Save();
         }
 
         public static void Load()

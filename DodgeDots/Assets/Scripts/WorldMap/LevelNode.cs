@@ -17,6 +17,10 @@ namespace DodgeDots.WorldMap
         [Header("关卡数据")]
         [SerializeField] private LevelNodeData nodeData;
 
+        [Header("解锁控制 (新增)")]
+        [Tooltip("勾选后，即使前置关卡已完成，此节点也不会自动解锁。\n必须等待外部事件调用 UnlockSelf() 才能解锁。")]
+        [SerializeField] private bool manualUnlockOnly = false;
+
         [Header("相邻节点")]
         [SerializeField] private LevelNode[] nextNodes;
 
@@ -51,36 +55,53 @@ namespace DodgeDots.WorldMap
             if (backgroundRenderer != null) _defaultMaterial = backgroundRenderer.sharedMaterial;
             if (enterHint != null) enterHint.SetActive(false);
 
-            // 初始化时主动同步状态
-            // 无论是由NPC解锁还是自动解锁，存档里都会有记录
-            // 这里必须读取记录，否则节点永远是Locked，F键就不会响应
+            // 初始化状态逻辑
             if (WorldMapManager.Instance != null)
             {
                 bool isCompleted = WorldMapManager.Instance.IsLevelCompleted(LevelId);
-                bool isUnlocked = WorldMapManager.Instance.IsLevelUnlocked(LevelId);
+                // 只有当 manualUnlockOnly 为 false 时，才听取 MapManager 的解锁建议
+                bool isUnlockedByManager = WorldMapManager.Instance.IsLevelUnlocked(LevelId);
 
                 if (isCompleted)
                 {
+                    // 如果已经打过了，无视手动锁，直接显示完成
                     SetState(LevelNodeState.Completed);
-                }
-                else if (isUnlocked)
-                {
-                    SetState(LevelNodeState.Unlocked);
                 }
                 else
                 {
-                    // 检查是否配置为默认解锁
-                    if (nodeData != null && nodeData.unlockedByDefault)
-                        SetState(LevelNodeState.Unlocked);
-                    else
-                        SetState(LevelNodeState.Locked);
+                    // 核心修改逻辑：
+                    // 如果 manualUnlockOnly 为 true，我们强制忽略 MapManager 的解锁状态
+                    // 除非我们在代码里稍后调用 UnlockSelf
+                    bool shouldUnlock = false;
+
+                    if (!manualUnlockOnly)
+                    {
+                        // 只有在非手动模式下，才检查 MapManager 或默认解锁配置
+                        if (isUnlockedByManager)
+                        {
+                            shouldUnlock = true;
+                        }
+                        else if (nodeData != null && nodeData.unlockedByDefault)
+                        {
+                            shouldUnlock = true;
+                        }
+                    }
+
+                    // 应用状态
+                    SetState(shouldUnlock ? LevelNodeState.Unlocked : LevelNodeState.Locked);
                 }
+            }
+            else
+            {
+                // 如果没有 Manager，默认全锁，或者根据默认配置
+                bool defaultUnlock = !manualUnlockOnly && nodeData != null && nodeData.unlockedByDefault;
+                SetState(defaultUnlock ? LevelNodeState.Unlocked : LevelNodeState.Locked);
             }
 
             // 再次强制刷新视觉（双重保险）
             UpdateVisuals();
 
-            var playerController = FindFirstObjectByType<PlayerWorldMapController>();
+            var playerController = FindFirstObjectByType<PlayerWorldMapController>(); // Unity 2023+ 写法，旧版用 FindObjectOfType
             if (playerController != null) _playerTransform = playerController.transform;
         }
 
@@ -104,11 +125,23 @@ namespace DodgeDots.WorldMap
             ToggleHighlight(_isPlayerNear);
         }
 
+        /// <summary>
+        /// 外部调用此方法解锁关卡
+        /// </summary>
         public void UnlockSelf()
         {
+            // 只有当前是锁定状态才执行解锁
             if (_currentState == LevelNodeState.Locked)
             {
-                WorldMapManager.Instance.UnlockLevel(LevelId);
+                // 1. 通知数据层解锁 (写入存档)
+                if (WorldMapManager.Instance != null)
+                {
+                    WorldMapManager.Instance.UnlockLevel(LevelId);
+                }
+
+                // 2. 立即更新视觉状态为解锁
+                SetState(LevelNodeState.Unlocked);
+                Debug.Log($"[LevelNode] 关卡 {LevelId} 已手动解锁");
             }
         }
 
@@ -116,7 +149,15 @@ namespace DodgeDots.WorldMap
         {
             _currentState = newState;
             UpdateVisuals();
-            if (_isPlayerNear) ToggleHighlight(true);
+            // 如果玩家刚好在旁边，状态改变后需要刷新一下高亮
+            if (_isPlayerNear && _currentState != LevelNodeState.Locked)
+            {
+                ToggleHighlight(true);
+            }
+            else if (_currentState == LevelNodeState.Locked)
+            {
+                ToggleHighlight(false);
+            }
         }
 
         private void EnterLevel()
@@ -124,7 +165,6 @@ namespace DodgeDots.WorldMap
             if (_currentState == LevelNodeState.Locked) return;
             OnNodeClicked?.Invoke(this);
         }
-
 
         private void UpdateVisuals()
         {
@@ -134,7 +174,7 @@ namespace DodgeDots.WorldMap
             if (iconRenderer != null && nodeData.nodeIcon != null)
                 iconRenderer.sprite = nodeData.nodeIcon;
 
-            // 删除了所有状态下的颜色切换
+            // 更新背景颜色
             if (backgroundRenderer != null)
             {
                 backgroundRenderer.color = nodeData.nodeColor;
@@ -161,7 +201,7 @@ namespace DodgeDots.WorldMap
             }
         }
 
-        // 鼠标交互
+        // 鼠标交互 & 范围检测
         private void TryUpdatePlayerNearFallback()
         {
             if (_playerTransform == null) return;
@@ -205,15 +245,16 @@ namespace DodgeDots.WorldMap
                 ToggleHighlight(_isPlayerNear);
             }
         }
+
         public void ForceDisableNode()
         {
             _isForceDisabled = true;
             _isPlayerNear = false;
             if (enterHint != null) enterHint.SetActive(false);
             ToggleHighlight(false);
-            // 可以选择把状态设为Locked以防止任何交互
             _currentState = LevelNodeState.Locked;
         }
+
         public void OnPointerClick(PointerEventData eventData) => EnterLevel();
         public void OnPointerEnter(PointerEventData eventData) => SetPlayerNear(true);
         public void OnPointerExit(PointerEventData eventData) => SetPlayerNear(false);

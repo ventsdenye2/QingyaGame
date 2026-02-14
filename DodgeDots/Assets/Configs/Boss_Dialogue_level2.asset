@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 440175c534e054944a674770e1f118ff, type: 3}
   m_Name: Boss_Dialogue_level2
   m_EditorClassIdentifier: 
-  configName: Boss Dialogue Config
+  configName: Boss Dialogue Config level2
   phaseDialogues:
   - phaseId: 2
     phaseName: "\u6700\u7EC8\u9636\u6BB5"

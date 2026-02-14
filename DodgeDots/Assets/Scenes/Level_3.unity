@@ -4711,7 +4711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b06c6f022de50f4f88149d0717757fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevelId: level_1
+  currentLevelId: level_3
   boss: {fileID: 825278383}
   player: {fileID: 2083919312}
   playerHealth: {fileID: 2083919315}

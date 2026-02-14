@@ -387,6 +387,7 @@ GameObject:
   - component: {fileID: 66244883}
   - component: {fileID: 66244885}
   - component: {fileID: 66244884}
+  - component: {fileID: 66244886}
   m_Layer: 0
   m_Name: Levelhajimi
   m_TagString: Untagged
@@ -424,13 +425,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionID: level_hajimi
   branches:
-  - branchName: "\u89E3\u9501UnlockBoss_hajimi"
+  - branchName: Unlock_hajimi
     requiredLevelId: level_2
     triggerIfIncomplete: 0
     requiredFlags:
     - UnlockBoss_hajimi
     stages:
-    - stageName: Meet_1
+    - stageName: unlock_meet
       dialogueConfig: {fileID: 11400000, guid: f85de4fb4088f7d4fae3432812f80220, type: 2}
       onDialogueStart:
         m_PersistentCalls:
@@ -450,14 +451,14 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
-    loopLastDialogue: 1
+    loopLastDialogue: 0
     currentIndex: 0
-  - branchName: "\u901A\u5173Level2"
+  - branchName: lock_hajimi
     requiredLevelId: level_2
     triggerIfIncomplete: 0
     requiredFlags: []
     stages:
-    - stageName: Meet_1
+    - stageName: lock_meet
       dialogueConfig: {fileID: 11400000, guid: b6e07de5ae29a4847b42ffd2dff4fc39, type: 2}
       onDialogueStart:
         m_PersistentCalls:
@@ -486,6 +487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeData: {fileID: 11400000, guid: 9f68a5ea9ad996642b5664206a9cdf29, type: 2}
+  manualUnlockOnly: 1
   nextNodes:
   - {fileID: 0}
   iconRenderer: {fileID: 0}
@@ -493,6 +495,19 @@ MonoBehaviour:
   enterHint: {fileID: 2046804389}
   outlineMaterial: {fileID: 2100000, guid: a83cae9b5e0abce41944be3f25af4171, type: 2}
   interactRangeExpand: 0.4
+--- !u!114 &66244886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66244882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e8a9b2363be39499c8bdf4d2533571, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugKey: 293
 --- !u!1 &77749081
 GameObject:
   m_ObjectHideFlags: 0
@@ -2021,6 +2036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeData: {fileID: 11400000, guid: d7534a290ce97d14ca5b4001c8f0440e, type: 2}
+  manualUnlockOnly: 1
   nextNodes:
   - {fileID: 0}
   iconRenderer: {fileID: 0}
@@ -4895,18 +4911,6 @@ MonoBehaviour:
               m_StringArgument: 
               m_BoolArgument: 0
             m_CallState: 2
-          - m_Target: {fileID: 0}
-            m_TargetAssemblyTypeName: DodgeDots.WorldMap.MapUnlockableObject, Assembly-CSharp
-            m_MethodName: Unlock
-            m_Mode: 1
-            m_Arguments:
-              m_ObjectArgument: {fileID: 0}
-              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-              m_IntArgument: 0
-              m_FloatArgument: 0
-              m_StringArgument: 
-              m_BoolArgument: 0
-            m_CallState: 2
     loopLastDialogue: 1
     currentIndex: 0
   interactionKey: 101
@@ -4928,6 +4932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeData: {fileID: 11400000, guid: 937bd67dfb1b7bf4cbfc8ee9d7ae8398, type: 2}
+  manualUnlockOnly: 1
   nextNodes:
   - {fileID: 0}
   iconRenderer: {fileID: 0}
@@ -5403,6 +5408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeData: {fileID: 11400000, guid: 3df9eaa53b62b4148825dcd2ccf4120e, type: 2}
+  manualUnlockOnly: 1
   nextNodes:
   - {fileID: 0}
   iconRenderer: {fileID: 0}
@@ -6541,6 +6547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeData: {fileID: 11400000, guid: bf49c79f4f40a744bb37bd0746e15cc2, type: 2}
+  manualUnlockOnly: 1
   nextNodes:
   - {fileID: 0}
   iconRenderer: {fileID: 0}
@@ -9510,10 +9517,6 @@ PrefabInstance:
     - target: {fileID: 1528930953953527586, guid: e89768b2f9eb7d346bc34d23a64658ce, type: 3}
       propertyPath: m_Name
       value: OptionButton_Prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 1528930953953527586, guid: e89768b2f9eb7d346bc34d23a64658ce, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
